@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="33" failures="0" name="br.com.contmatic.empresa.EmpresaTest" time="0.031" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_221\jre\bin"/>
+    <property name="java.vm.version" value="25.221-b11"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\andre.souza\Desktop\prova_3\Empresa_prova_3"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="BR"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\andre.souza\Desktop\prova_3\Empresa_prova_3"/>
+    <property name="java.runtime.version" value="1.8.0_221-b11"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_221\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\ANDRE~1.SOU\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="classworlds.conf" value="C:\Users\andre.souza\Documents\empresaProvaTres\.metadata\.plugins\org.eclipse.m2e.launching\launches\m2conf8240206679178349363.tmp"/>
+    <property name="jansi.force" value="true"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_221\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_221/bin/server;C:/Program Files/Java/jre1.8.0_221/bin;C:/Program Files/Java/jre1.8.0_221/lib/amd64;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\andre.souza\AppData\Local\Continuum\anaconda3;C:\Users\andre.souza\AppData\Local\Continuum\anaconda3\Library\mingw-w64\bin;C:\Users\andre.souza\AppData\Local\Continuum\anaconda3\Library\usr\bin;C:\Users\andre.souza\AppData\Local\Continuum\anaconda3\Library\bin;C:\Users\andre.souza\AppData\Local\Continuum\anaconda3\Scripts;C:\Users\andre.souza\AppData\Local\Microsoft\WindowsApps;C:\Users\andre.souza\Desktop\spring-tool-suite-3.9.9.RELEASE-e4.12.0-win32-x86_64\sts-bundle\sts-3.9.9.RELEASE;;."/>
+    <property name="jansi.passthrough" value="true"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.0"/>
+    <property name="user.home" value="C:\Users\andre.souza"/>
+    <property name="user.timezone" value="America/Sao_Paulo"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="andre.souza"/>
+    <property name="java.class.path" value="C:\Users\andre.souza\Desktop\spring-tool-suite-3.9.9.RELEASE-e4.12.0-win32-x86_64\sts-bundle\sts-3.9.9.RELEASE\plugins\org.eclipse.m2e.maven.runtime_1.12.0.20190529-1915\jars\plexus-classworlds-2.6.0.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_221\jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install -Dstyle.color=always"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="pt"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_221"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.8.0_221\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_221\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_221\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_221\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_221\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_221\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_221\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_221\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_221\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Users\andre.souza\Desktop\prova_3\Empresa_prova_3\EMBEDDED"/>
+    <property name="style.color" value="always"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="a_deve_aceitar_empresa_valida" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="b_nao_deve_aceitar_cnpj_nulo" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="c_nao_deve_aceitar_cnpj_menor_14_caracteres" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="d_nao_deve_aceitar_cnpj_maior_14_caracteres" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="deve_respeitar_o_get_set_cnpj" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="deve_respeitar_o_get_set_razao_social" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="f_nao_deve_aceitar_cnpj_com_letras" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="g_nao_deve_aceitar_cnpj_com_caracter_especial" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="h_nao_deve_aceitar_caracter_com_espaco" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="j_deve_aceitar_razao_social_valida" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="k_nao_deve_aceitar_razao_social_nula" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="m_deve_aceitar_data_abertura_valida" time="0.016"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="n_nao_deve_aceitar_data_abertura_nula" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="nao_deve_aceitar_data_posterior_data_atual" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="u_deve_aceitar_capital_social_valido_" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="v_nao_deve_aceitar_capital_social_zero" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="w_nao_deve_aceitar_capital_social_negativo" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="x_deve_respeitar_o_get_set_capital_social" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="y_deve_aceitar_endereco_valido" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z00_deve_respeitar_o_get_set_endereco" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z01_deve_aceitar_funcionarios_valido" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z02_nao_deve_aceitarfuncionarios_null" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z03_deve_respeitar_o_get_set_funcionarios" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z04_equals_deve_ser_true_cnpj_igual" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z05_equals_da_false_se_objetos_forem_de_classes_diferentes" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z06_equals_deve_ser_false_cnpj_diferente" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z07_testar_hashcode_diferente" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z07_testar_hashcode_igual" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z08_to_string_deve_conter_razao_social" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z09_to_string_deve_conter_cnpj" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z10_atesta_que_cnpj_do_construtor_e_recebido" time="0.015"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z11_mostra_que_tamanho_da_lista_funcionarios_esta_correto" time="0"/>
+  <testcase classname="br.com.contmatic.empresa.EmpresaTest" name="z_nao_deve_aceitar_endereco_nulo" time="0"/>
+</testsuite>

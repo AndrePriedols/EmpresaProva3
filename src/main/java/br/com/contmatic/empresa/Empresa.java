@@ -1,6 +1,10 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.br.CNPJ;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
@@ -12,47 +16,44 @@ public class Empresa {
 	public static final int EXTENSAO_OBRIGATORIA_DATA_ABERTURA = 8;
 
 	private static final int VALOR_CAPITAL_SOCIAL_ZERO = 0;
-
+	
+	@NotNull(message = "ID não pode ser nulo.")
+    private int id; 
+	
+    @CNPJ
+    @NotNull(message = "CNPJ não pode ser nulo.")
 	private String cnpj;
 
+    @Size(max = 70)
+    @NotNull(message = "Razão Social não pode ser nula.")
 	private String razaoSocial;
 
+    @NotNull(message = "Data Abertura não pode ser nula.")
 	private DateTime dataAbertura;
 
+    @NotNull(message = "Capital Social não pode ser nulo.")
 	private double capitalSocial;
 
+    @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 
+    @NotNull(message = "Lista Funcionários não pode ser nula.")
 	private Funcionario[] listaFuncionarios;
 
 	public Empresa(String cnpj) {
 		setCnpj(cnpj);
 	}
+	
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
 	public void setCnpj(String cnpj) {
-		impedeCnpjNulo(cnpj);
-		verificaTamanhoCnpj14Digitos(cnpj);
-		impedeCaracteresNaoNumericosCnpj(cnpj);
 		this.cnpj = cnpj;
-	}
-
-	private void impedeCaracteresNaoNumericosCnpj(String cnpj) {
-		char[] cnpjComoArrayChars = cnpj.toCharArray();
-		for (char caracterCnpj : cnpjComoArrayChars) {
-			if (!Character.isDigit(caracterCnpj))  {
-				throw new IllegalArgumentException("Cnpj apenas com Números.");
-			}
-		}		
-	}
-
-	private void verificaTamanhoCnpj14Digitos(String cnpj) {
-		if (cnpj.length() != EXTENSAO_OBRIGATORIA_CNPJ) {
-			throw new IllegalArgumentException("Cnpj deve ter " + EXTENSAO_OBRIGATORIA_CNPJ + " digitos.");
-		}
-	}
-
-	private void impedeCnpjNulo(String cnpj) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(cnpj), "CNPJ não pode ser nulo");
 	}
 
 	public String getCnpj() {
@@ -60,45 +61,23 @@ public class Empresa {
 	}
 
 	public void setRazaoSocial(String razaoSocial) {
-		impedeRazaoSocialNula(razaoSocial);
 		this.razaoSocial = razaoSocial;
 	}
-
-	private void impedeRazaoSocialNula(String razaoSocial) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(razaoSocial), "Razão Social não pode ser nula");
-	}
-
+	
 	public String getRazaoSocial() {
 		return this.razaoSocial;
 	}
 
 	public void setDataAbertura(DateTime dataAbertura) {
-		impedeDataAberturaNula(dataAbertura);
-		impedeDataAberturaPosteriorDataAtual(dataAbertura);
 	    this.dataAbertura = dataAbertura;
 	}
 
-    private void impedeDataAberturaPosteriorDataAtual(DateTime dataAbertura) {
-        Preconditions.checkArgument(dataAbertura.isBeforeNow(), "Data abertura não pode ser posteior à atual.");
-    }
-
-	private void impedeDataAberturaNula(DateTime dataAbertura) {
-		Preconditions.checkNotNull(dataAbertura, "Data abertura não pode ser nulo");
-	}
-	
 	public DateTime getDataAbertura() {
 		return this.dataAbertura;
 	}
 
 	public void setCapitalSocial(double capitalSocial) {
-		verificaCapitalSocialPositivo(capitalSocial);
 		this.capitalSocial = capitalSocial;
-	}
-
-	private void verificaCapitalSocialPositivo(double capitalSocial) {
-		if (capitalSocial <= VALOR_CAPITAL_SOCIAL_ZERO) {
-			throw new IllegalArgumentException("Capital Social deve ser maior que " + VALOR_CAPITAL_SOCIAL_ZERO + ".");
-		}
 	}
 
 	public double getCapitalSocial() {
@@ -106,12 +85,7 @@ public class Empresa {
 	}
 
 	public void setEndereco(Endereco endereco) {
-		impedeEnderecoNulo(endereco);
 		this.endereco = endereco;
-	}
-
-	private void impedeEnderecoNulo(Endereco endereco) {
-		Preconditions.checkNotNull(endereco, "Endereço não pode ser nulo");
 	}
 
 	public Endereco getEndereco() {
@@ -119,12 +93,7 @@ public class Empresa {
 	}
 
 	public void setFuncionarios(Funcionario[] listaFuncionarios) {
-		impedeListaFuncionariosNula(listaFuncionarios);
 		this.listaFuncionarios = listaFuncionarios;
-	}
-
-	private void impedeListaFuncionariosNula(Funcionario[] listaFuncionarios) {
-		Preconditions.checkNotNull(listaFuncionarios, "Lista funcionários não pode ser nulo");
 	}
 
 	public Funcionario[] getFuncionarios() {

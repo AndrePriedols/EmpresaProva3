@@ -1,8 +1,12 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.base.Preconditions;
+
+import br.com.contmatic.enums.EnumNomeSetor;
 
 public class Setor {
 
@@ -10,29 +14,43 @@ public class Setor {
 
 	private static final int PRIMEIRO_DIGITO_RESPONSAVEL = 0;
 	
-	private String nome;
+	@NotNull(message = "ID não pode ser nulo.")
+    private int id; 
+	
+    @NotNull(message = "Nome Setor não pode ser nulo.")
+	private EnumNomeSetor nomeSetor;
 
+    @NotNull(message = "Ramal não pode ser nulo.")
 	private String ramal;
 
+    @NotNull(message = "Responsável não pode ser nulo.")
 	private String responsavel;
 
 	private int quantidadeFuncionarios;
 
-	public Setor(String nome) {
-		setNome(nome);
+	public Setor(EnumNomeSetor nomeSetor) {
+		setNome(nomeSetor);
+	}
+	
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+	public void setNome(EnumNomeSetor nomeSetor) {
+		impedeNomeNulo(nomeSetor);
+		this.nomeSetor = nomeSetor;
 	}
 
-	public void setNome(String nome) {
-		impedeNomeNulo(nome);
-		this.nome = nome;
+	private void impedeNomeNulo(EnumNomeSetor nomeSetor) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(nomeSetor.toString()), "Nome Setor não pode ser nulo");
 	}
 
-	private void impedeNomeNulo(String nome) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(nome), "Nome Setor não pode ser nulo");
-	}
-
-	public String getNome() {
-		return this.nome;
+	public EnumNomeSetor getNome() {
+		return this.nomeSetor;
 	}
 
 	public void setRamal(String ramal) {
@@ -100,7 +118,7 @@ public class Setor {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((nomeSetor == null) ? 0 : nomeSetor.hashCode());
 		return result;
 	}
 
@@ -113,17 +131,17 @@ public class Setor {
 		if (getClass() != obj.getClass())
 			return false;
 		Setor other = (Setor) obj;
-		if (nome == null) {
-			if (other.nome != null)
+		if (nomeSetor == null) {
+			if (other.nomeSetor != null)
 				return false;
-		} else if (!nome.equals(other.nome))
+		} else if (!nomeSetor.equals(other.nomeSetor))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Setor [" + (nome != null ? "nome =" + nome + ", " : "") + (ramal != null ? "ramal=" + ramal + ", " : "")
+		return "Setor [" + (nomeSetor != null ? "nome setor =" + nomeSetor + ", " : "") + (ramal != null ? "ramal=" + ramal + ", " : "")
 				+ (responsavel != null ? "responsavel=" + responsavel : "") + "]";
 	}
 

@@ -20,7 +20,7 @@ public class ClienteTest {
     public static void chama_template_loader() {
         new TemplateLoader().load();
     }
-    
+
     Cliente clienteTeste = Fixture.from(Cliente.class).gimme("clienteValido");
 
     @Test
@@ -83,57 +83,7 @@ public class ClienteTest {
     @Test(expected = IllegalArgumentException.class)
     public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
         clienteTeste.setCpf("11111111111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_onze_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11111111112");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_dez_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11111111121");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_nove_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11111111211");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_oito_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11111112111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_sete_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11111121111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_seis_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11111211111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_cinco_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11112111111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_quatro_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11121111111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_tres_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("11211111111");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void digito_dois_diferente_nao_anula_a_priori() {
-        clienteTeste.setCpf("12111111111");
-    }
+    }  
 
     @Test
     public void deve_aceitar_nome_valido() {
@@ -142,10 +92,9 @@ public class ClienteTest {
             assertNotNull("Nome deve ser válido", clienteTeste.getNome());
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nao_deve_aceitar_nome_cliente_nulo() {
         clienteTeste.setNome(null);
-        assertNull(clienteTeste.getNome());
     }
 
     @Test
@@ -160,7 +109,7 @@ public class ClienteTest {
 
     @Test
     public void deve_respeitar_o_get_set_endereco_cliente() {
-        Endereco enderecoTeste = new Endereco();
+        Endereco enderecoTeste = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
         clienteTeste.setEndereco(enderecoTeste);
         assertTrue(clienteTeste.getEndereco().equals(enderecoTeste));
     }
@@ -175,13 +124,12 @@ public class ClienteTest {
     public void nao_deve_aceitar_email_cliente_nulo() {
         clienteTeste.setEmailCliente(null);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void nao_deve_aceitar_email_mais_de_uma_arroba() {
         clienteTeste.setEmailCliente("@geovanemacuser@apple.com");
         assertNull(clienteTeste.getEmailCliente());
-  }
-
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void nao_deve_aceitar_email_iniciando_arroba() {

@@ -2,7 +2,6 @@ package br.com.contmatic.empresa.utilidades;
 
 import org.joda.time.DateTime;
 
-
 import br.com.contmatic.empresa.Cliente;
 import br.com.contmatic.empresa.Empresa;
 import br.com.contmatic.empresa.Endereco;
@@ -10,6 +9,9 @@ import br.com.contmatic.empresa.Fornecedor;
 import br.com.contmatic.empresa.Funcionario;
 import br.com.contmatic.empresa.Pedido;
 import br.com.contmatic.empresa.Setor;
+import br.com.contmatic.enums.EnumNomeSetor;
+import br.com.contmatic.enums.EnumTipoLogradouro;
+import br.com.contmatic.enums.EnumUF;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 
@@ -19,10 +21,13 @@ public class TemplateLoader implements br.com.six2six.fixturefactory.loader.Temp
 
         Fixture.of(Endereco.class).addTemplate("enderecoValido", new Rule() {
             {
+                add("tipoLogradouro", random(EnumTipoLogradouro.AVENIDA, EnumTipoLogradouro.PRACA));
                 add("logradouro", random("Rua Antonio", "Rua José"));
                 add("numero", random("10", "39"));
                 add("complemento", random("ap 23", "casa 2"));
                 add("bairro", random("Jd. Angela", "Vila Mariana"));
+                add("cidade", random("São Paulo", "Macapá"));
+                add("UF", random(EnumUF.SP, EnumUF.AP));
                 add("cep", random("02039020", "030492030"));
             }
         });
@@ -42,7 +47,7 @@ public class TemplateLoader implements br.com.six2six.fixturefactory.loader.Temp
                 add("nome", random("André", "José"));
                 add("dataNascimento", random(new DateTime()));
                 add("endereco", (Fixture.from(Endereco.class).gimme("enderecoValido")));
-                add("setor", random("Desenvolvimento", "Consultoria"));
+                add("setor", random(EnumNomeSetor.FINANCEIRO, EnumNomeSetor.RECURSOS_HUMANOS));
                 add("cargo", random("Estagiário", "Gerente"));
                 add("salario", random(Double.class, range(100, 500)));
             }
@@ -84,7 +89,7 @@ public class TemplateLoader implements br.com.six2six.fixturefactory.loader.Temp
 
         Fixture.of(Setor.class).addTemplate("setorValido", new Rule() {
             {
-                add("nome", random("Recursos Humanos", "Financeiro"));
+                add("nome", random(EnumNomeSetor.COMERCIAL, EnumNomeSetor.DESENVOLVIMENTO));
                 add("ramal", random("12", "45"));
                 add("responsavel", random("Antônia", "Gertrudes"));
                 add("quantidadeFuncionarios", random(1, 30));

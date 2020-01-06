@@ -1,9 +1,15 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
+
+import br.com.contmatic.enums.EnumNomeSetor;
+import br.com.contmatic.enums.EnumTipoEstadoCivil;
 
 public class Funcionario {
 		
@@ -47,27 +53,47 @@ public class Funcionario {
 	
 	private static final int SALARIO_ZERO = 0;
 
+	@NotNull(message = "ID não pode ser nulo.")
+    private int id; 
+	
+    @CPF
+    @NotNull(message = "CPF não pode ser nulo.")
 	private String cpf;
 
+    @NotNull(message = "Nome não pode ser nulo.")
 	private String nome;
 
+    @NotNull(message = "Data Nascimento não pode ser nula.")
 	private DateTime dataNascimento;
 
-	private TipoEstadoCivil estadoCivil;
+    @NotNull(message = "Estado Civil não pode ser nulo.")
+	private EnumTipoEstadoCivil estadoCivil;
 	
+    @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 
+    @NotNull(message = "Data Contratação não pode ser nula.")
 	private DateTime dataContratacao;
 	
-	private String setor;
+    @NotNull(message = "Setor não pode ser nulo.")
+	private Setor setor;
 
+    @NotNull(message = "Cargo não pode ser nulo.")
 	private String cargo;
 
-	private double salario;
+    private double salario;
 
 	public Funcionario(String cpf) {
 		setCpf(cpf);
 	}
+	
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 	
 	public void setCpf(String cpf) {
 		impedeCpfNulo(cpf);
@@ -192,11 +218,11 @@ public class Funcionario {
 		return this.dataNascimento;
 	}
 
-	public void setEstadoCivil (TipoEstadoCivil estadoCivil) {
+	public void setEstadoCivil (EnumTipoEstadoCivil estadoCivil) {
 		this.estadoCivil = estadoCivil; 
 	}
 	
-	public TipoEstadoCivil getEstadoCivil () {
+	public EnumTipoEstadoCivil getEstadoCivil () {
 		return this.estadoCivil;
 	}
 	
@@ -231,16 +257,16 @@ public class Funcionario {
         return this.dataContratacao;
     }
 
-	public void setSetor(String setor) {
+	public void setSetor(Setor setor) {
 		impedeSetorNulo(setor);
 		this.setor = setor;
 	}
 
-	private void impedeSetorNulo(String setor) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(setor), "Setor não pode ser nulo");
+	private void impedeSetorNulo(Setor setor) {
+		Preconditions.checkNotNull(setor, "Nome do setor não pode ser nulo.");
 	}
 
-	public String getSetor() {
+	public Setor getSetor() {
 		return this.setor;
 	}
 

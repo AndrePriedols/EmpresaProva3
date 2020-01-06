@@ -1,5 +1,7 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
@@ -8,11 +10,14 @@ import com.google.common.base.Preconditions;
 public class Pedido {
     
     private static final double VALOR_PEDIDO_ZERO = 0;
-
-    private String idPedido;
     
+    @NotNull(message = "ID Pedido não pode ser nulo.")
+    private String id;
+    
+    @NotNull(message = "Data Pedido não pode ser nula.")
     private DateTime dataPedido;
     
+    @NotNull(message = "Data Entrega não pode ser nula.")
     private DateTime dataEntrega;
     
     private double valor;
@@ -20,23 +25,23 @@ public class Pedido {
     public Pedido (String idPedido) {
         setIdPedido(idPedido);
     }
-    
+        
     public void setIdPedido(String idPedido) {
         impedeIdPedidoNulo(idPedido);
         permiteApenasCaracteresNumericosNoIdPedido(idPedido);
-        this.idPedido = idPedido;
+        this.id = idPedido;
     }
 
-    private void permiteApenasCaracteresNumericosNoIdPedido(String idPedido) {
-        Preconditions.checkArgument(StringUtils.isNumeric(idPedido), "Apenas números no ID Pedido");
+    private void permiteApenasCaracteresNumericosNoIdPedido(String id) {
+        Preconditions.checkArgument(StringUtils.isNumeric(id), "Apenas números no ID Pedido");
     }
 
-    private void impedeIdPedidoNulo(String idPedido) {
-        Preconditions.checkNotNull(idPedido, "ID do Pedido não pode ser nulo");
+    private void impedeIdPedidoNulo(String id) {
+        Preconditions.checkNotNull(id, "ID do Pedido não pode ser nulo");
     }
     
-    public String getIdPedido() {
-        return this.idPedido;
+    public String getId() {
+        return this.id;
     }
     
     public void setDataPedido(DateTime dataPedido) {
@@ -94,7 +99,7 @@ public class Pedido {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((idPedido == null) ? 0 : idPedido.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -107,17 +112,17 @@ public class Pedido {
         if (getClass() != obj.getClass())
             return false;
         Pedido other = (Pedido) obj;
-        if (idPedido == null) {
-            if (other.idPedido != null)
+        if (id == null) {
+            if (other.id!= null)
                 return false;
-        } else if (!idPedido.equals(other.idPedido))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Pedido [idPedido=" + idPedido + ", dataPedido=" + dataPedido + ", valor=" + valor + "]";
+        return "Pedido [id =" + id + ", dataPedido=" + dataPedido + ", valor=" + valor + "]";
     }  
 
  }

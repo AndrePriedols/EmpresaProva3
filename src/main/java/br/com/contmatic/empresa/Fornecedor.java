@@ -3,22 +3,34 @@ package br.com.contmatic.empresa;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.validator.constraints.br.CNPJ;
 
 import com.google.common.base.Preconditions;
 
 public class Fornecedor {
 	
 	public static final int EXTENSAO_OBRIGATORIA_CNPJ = 14;
-
+	
+	@NotNull(message = "ID não pode ser nulo.")
+    private int id;
+	
+    @CNPJ
+    @NotNull(message = "CNPJ não pode ser nulo.")
 	private String cnpj;
 
+    @NotNull(message = "Razão Social não pode ser nula.")
 	private String razaoSocial;
 
+    @NotNull(message = "Email não pode ser nulo.")
 	private String email;
 
+    @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 
+    @NotNull(message = "Pedidos não pode ser nulo.")
 	private Pedido[] pedidos;
 
 	public Fornecedor(String cnpj) {
@@ -27,6 +39,14 @@ public class Fornecedor {
 	
     Utilitarios util = new Utilitarios();
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
 	public void setCnpj(String cnpj) {
 		impedeCnpjNulo(cnpj);
 		verificaTamanhoCnpj14Digitos(cnpj);

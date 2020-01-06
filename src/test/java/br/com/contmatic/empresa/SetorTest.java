@@ -13,9 +13,12 @@ import org.junit.Test;
 
 import br.com.contmatic.empresa.Setor;
 import br.com.contmatic.empresa.utilidades.TemplateLoader;
+import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class SetorTest {
+    
+    EnumNomeSetor nomeSetorTeste = EnumNomeSetor.COMERCIAL;
     
     @BeforeClass
     public static void chama_template_loader() {
@@ -36,8 +39,8 @@ public class SetorTest {
 
 	@Test
 	public void deve_respeitar_o_get_set_nome_setor() {
-	    Setor setorTeste = new Setor("Recursos Humanos");
-	    assertTrue("Get e Set Cnpj deve funcionar.", setorTeste.getNome().equals("Recursos Humanos"));
+	    Setor setorTeste = new Setor(nomeSetorTeste);
+	    assertTrue("Get e Set Cnpj deve funcionar.", setorTeste.getNome().equals("Comercial"));
 	}
 
 	@Test
@@ -113,8 +116,8 @@ public class SetorTest {
 
 	@Test
 	public void equals_deve_ser_true_nome_setor_igual() {
-		Setor setorTeste2 = new Setor("Recursos Humanos");
-		Setor setorTeste = new Setor("Recursos Humanos");
+		Setor setorTeste2 = new Setor(nomeSetorTeste);
+		Setor setorTeste = new Setor(nomeSetorTeste);
 		boolean a = setorTeste.equals(setorTeste2);
 		assertTrue("Nome igual representa Setor igual", a);
 	}
@@ -126,27 +129,27 @@ public class SetorTest {
 
 	@Test
 	public void equals_deve_ser_false_nome_setor_diferente() {
-		Setor setor2 = new Setor("Manutenção");
+		Setor setor2 = new Setor(EnumNomeSetor.COMPRAS);
 		assertNotEquals("Cpf diferente representa Cliente diferente", setorTeste, setor2);
 	}
 
 	@Test
 	public void testar_hashcode_igual() {
-		Setor setorTeste2 = new Setor("Recursos Humanos");
-		Setor setorTeste = new Setor("Recursos Humanos");
+		Setor setorTeste2 = new Setor(nomeSetorTeste);
+		Setor setorTeste = new Setor(nomeSetorTeste);
 		assertTrue(setorTeste.hashCode() == setorTeste2.hashCode());
 	}
 
 	@Test
 	public void testar_hashcode_diferente() {
-		Setor setorTeste2 = new Setor("Limpeza");
+		Setor setorTeste2 = new Setor(EnumNomeSetor.DESENVOLVIMENTO);
 		assertFalse(setorTeste.hashCode() == setorTeste2.hashCode());
 	}
 
 	@Test
 	public void to_string_deve_conter_nome_setor() {
-		setorTeste.setNome("Recursos Humanos");
-		assertTrue("Confere se Nome Setor está no toString", setorTeste.toString().contains(setorTeste.getNome()));
+		setorTeste.setNome(nomeSetorTeste);
+		assertTrue("Confere se Nome Setor está no toString", setorTeste.toString().contains(nomeSetorTeste.toString()));
 	}
 
 	@Test

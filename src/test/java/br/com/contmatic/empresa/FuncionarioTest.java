@@ -12,16 +12,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.TemplateLoader;
+import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class FuncionarioTest {
-
-    Funcionario funca1 = new Funcionario("65528642051");
+    
+    Setor setorTeste = new Setor(EnumNomeSetor.COMPRAS);
 
     @BeforeClass
     public static void chama_template_loader() {
         new TemplateLoader().load();
      }
+    
+    Funcionario funca1 = Fixture.from(Funcionario.class).gimme("funcionarioValido");
     
     @Test
     public void deve_aceitar_cpf_valido() throws Exception {
@@ -164,6 +167,11 @@ public class FuncionarioTest {
         funca1.setDataNascimento(dateTime);
         assertNotNull(funca1.getDataNascimento());
     }
+    
+    @Test 
+    public void deve_aceitar_estado_civil_valido() {
+        assertNotNull(funca1.getEstadoCivil());
+    }
 
     @Test
     public void deve_aceitar_endereco_valido() {
@@ -213,7 +221,8 @@ public class FuncionarioTest {
 
     @Test
     public void deve_aceitar_setor_valido() {
-        funca1.setSetor("Desenvolvimento");
+        Setor setorTeste = new Setor(EnumNomeSetor.COMPRAS);
+        funca1.setSetor(setorTeste);
         assertNotNull("Deve aceitar setor válido", funca1.getSetor());
     }
 
@@ -224,9 +233,8 @@ public class FuncionarioTest {
 
     @Test
     public void deve_respeitar_o_get_set_setor() {
-        String setor = "Desenvolvimento";
-        funca1.setSetor(setor);
-        boolean a = funca1.getSetor() == setor;
+        funca1.setSetor(setorTeste);
+        boolean a = funca1.getSetor() == setorTeste;
         assertTrue("Get e Set Setor deve funcionar.", a);
     }
 
@@ -313,7 +321,7 @@ public class FuncionarioTest {
     @Test
     public void to_string_deve_conter_nome() {
         funca1.setNome("José");
-        funca1.setSetor("Desenvolvimento");
+        funca1.setSetor(setorTeste);
         funca1.setCargo("Estagiário");
         assertTrue("Confere se nome está no toString", funca1.toString().contains(funca1.getNome()));
     }
@@ -321,7 +329,7 @@ public class FuncionarioTest {
     @Test
     public void to_string_deve_conter_cpf() {
         funca1.setNome("José");
-        funca1.setSetor("Desenvolvimento");
+        funca1.setSetor(setorTeste);
         funca1.setCargo("Estagiário");
         assertTrue("Confere se Cpf está no toString", funca1.toString().contains(funca1.getCpf()));
     }
@@ -329,15 +337,15 @@ public class FuncionarioTest {
     @Test
     public void to_string_deve_conter_setor() {
         funca1.setNome("José");
-        funca1.setSetor("Desenvolvimento");
+        funca1.setSetor(setorTeste);
         funca1.setCargo("Estagiário");
-        assertTrue("Confere se Setor está no toString", funca1.toString().contains(funca1.getSetor()));
+        assertTrue("Confere se Setor está no toString", funca1.toString().contains("Comercial"));
     }
 
     @Test
     public void to_string_deve_conter_cargo() {
         funca1.setNome("José");
-        funca1.setSetor("Desenvolvimento");
+        funca1.setSetor(setorTeste);
         funca1.setCargo("Estagiário");
         assertTrue("Confere se Cargo está no toString", funca1.toString().contains(funca1.getCargo()));
     }
@@ -345,7 +353,7 @@ public class FuncionarioTest {
     @Test
     public void to_string_dando_erro_por_nao_conter_nome_cpf_setor_cargo() {
         funca1.setNome("André");
-        funca1.setSetor("Desenvolvimento");
+        funca1.setSetor(setorTeste);
         funca1.setCargo("Estagiário");
         String a = "Funcionário: José, 65528642051, Desenvolvimento, Estagiário";
         assertNotEquals(a, funca1.toString());
