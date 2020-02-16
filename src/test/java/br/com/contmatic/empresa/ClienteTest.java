@@ -20,7 +20,6 @@ public class ClienteTest {
     public static void chama_template_loader() {
         new BaseTemplateLoader().load();
     }
-
     Cliente clienteTeste = Fixture.from(Cliente.class).gimme("clienteValido");
 
     @Test
