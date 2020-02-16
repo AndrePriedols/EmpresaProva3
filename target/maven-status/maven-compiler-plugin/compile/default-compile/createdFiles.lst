@@ -1,0 +1,12 @@
+br/com/contmatic/empresa/Fornecedor.class
+br/com/contmatic/empresa/Cliente.class
+br/com/contmatic/empresa/Utilitarios.class
+br/com/contmatic/empresa/Setor.class
+br/com/contmatic/empresa/Empresa.class
+br/com/contmatic/enums/EnumTipoEstadoCivil.class
+br/com/contmatic/empresa/Endereco.class
+br/com/contmatic/enums/EnumTipoLogradouro.class
+br/com/contmatic/enums/EnumNomeSetor.class
+br/com/contmatic/empresa/Pedido.class
+br/com/contmatic/enums/EnumUF.class
+br/com/contmatic/empresa/Funcionario.class

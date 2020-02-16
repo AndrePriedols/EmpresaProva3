@@ -3,6 +3,7 @@ package br.com.contmatic.empresa;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
 public class Cliente {
@@ -11,7 +12,7 @@ public class Cliente {
     private int id; 
 
     @CPF
-    @NotNull(message = "CPF não pode ser nulo.")
+    @NotEmpty(message = "CPF não pode ser nulo.")
     private String cpf;
 
     @Size(max = 70)
