@@ -3,102 +3,96 @@ package br.com.contmatic.empresa;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
 public class Cliente {
-    
-    @NotNull(message = "ID não pode ser nulo.")
-    private int id; 
 
-    @CPF
-    @NotEmpty(message = "CPF não pode ser nulo.")
-    private String cpf;
+	@NotNull(message = "ID não pode ser nulo.")
+	private int id;
 
-    @Size(max = 70)
-    @NotNull(message = "Nome não pode ser nulo.")
-    private String nome;
+	@CPF
+	@NotEmpty(message = "CPF não pode ser nulo.")
+	private String cpf;
 
-    @NotNull(message = "Endereço não pode ser nulo.")
-    private Endereco endereco;
+	@Size(max = 70)
+	@NotNull(message = "Nome não pode ser nulo.")
+	private String nome;
 
-    @NotNull(message = "Email não pode ser nulo.")
-    private String emailCliente;
+	@NotNull(message = "Endereço não pode ser nulo.")
+	private Endereco endereco;
 
-    public Cliente(String cpf) {
-        setCpf(cpf);
-    }
+	@NotNull(message = "Email não pode ser nulo.")
+	private String emailCliente;
 
-    Utilitarios util = new Utilitarios();
+	public Cliente(String cpf) {
+		setCpf(cpf);
+	}
 
-    public int getId() {
-        return id;
-    }
+	Utilitarios util = new Utilitarios();
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getCpf() {
-        return this.cpf;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    public String getNome() {
-        return this.nome;
-    }
+	public String getCpf() {
+		return this.cpf;
+	}
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public Endereco getEndereco() {
-        return this.endereco;
-    }
+	public String getNome() {
+		return this.nome;
+	}
 
-    public void setEmailCliente(String emailCliente) {
-        this.emailCliente = emailCliente;
-    }
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
 
-    public String getEmailCliente() {
-        return this.emailCliente;
-    }
+	public Endereco getEndereco() {
+		return this.endereco;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
-        return result;
-    }
+	public void setEmailCliente(String emailCliente) {
+		this.emailCliente = emailCliente;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Cliente other = (Cliente) obj;
-        if (cpf == null) {
-            if (other.cpf != null)
-                return false;
-        } else if (!cpf.equals(other.cpf))
-            return false;
-        return true;
-    }
+	public String getEmailCliente() {
+		return this.emailCliente;
+	}
 
-    @Override
-    public String toString() {
-        return "Cliente [" + (nome != null ? "nome=" + nome + ", " : "") + (cpf != null ? "cpf=" + cpf + ", " : "") + (emailCliente != null ? "emailCliente=" + emailCliente : "") + "]";
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	 public boolean equals(Object obj) {
+	    return EqualsBuilder.reflectionEquals(this, obj);
+	  }
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public static void main(String[] args) {
+		Cliente cliente = new Cliente("35819956893");
+		cliente.setNome("André");
+		System.out.println(cliente);
+	}
 
 }

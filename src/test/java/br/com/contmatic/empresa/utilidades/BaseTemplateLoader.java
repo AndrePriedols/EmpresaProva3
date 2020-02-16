@@ -15,8 +15,9 @@ import br.com.contmatic.enums.EnumUF;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.Rule;
 
-public class TemplateLoader implements br.com.six2six.fixturefactory.loader.TemplateLoader {
+public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.TemplateLoader {
 
+	@Override
     public void load() {
 
         Fixture.of(Endereco.class).addTemplate("enderecoValido", new Rule() {

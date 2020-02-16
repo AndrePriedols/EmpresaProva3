@@ -3,6 +3,9 @@ package br.com.contmatic.empresa;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
@@ -95,34 +98,19 @@ public class Pedido {
         return this.valor;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Pedido other = (Pedido) obj;
-        if (id == null) {
-            if (other.id!= null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
+	@Override
+	 public boolean equals(Object obj) {
+	    return EqualsBuilder.reflectionEquals(this, obj);
+	  }
 
-    @Override
-    public String toString() {
-        return "Pedido [id =" + id + ", dataPedido=" + dataPedido + ", valor=" + valor + "]";
-    }  
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	} 
 
  }

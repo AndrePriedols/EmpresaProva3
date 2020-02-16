@@ -10,14 +10,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import br.com.contmatic.empresa.utilidades.TemplateLoader;
+import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class FornecedorTest {
 
     @BeforeClass
     public static void chama_template_loader() {
-        new TemplateLoader().load();
+        new BaseTemplateLoader().load();
     }
 
     Fornecedor fornecedorTeste = Fixture.from(Fornecedor.class).gimme("fornecedorValido");

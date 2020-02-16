@@ -3,6 +3,9 @@ package br.com.contmatic.empresa;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.google.common.base.Preconditions;
 
@@ -116,33 +119,17 @@ public class Setor {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((nomeSetor == null) ? 0 : nomeSetor.hashCode());
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Setor other = (Setor) obj;
-		if (nomeSetor == null) {
-			if (other.nomeSetor != null)
-				return false;
-		} else if (!nomeSetor.equals(other.nomeSetor))
-			return false;
-		return true;
-	}
+	 public boolean equals(Object obj) {
+	    return EqualsBuilder.reflectionEquals(this, obj);
+	  }
 
 	@Override
 	public String toString() {
-		return "Setor [" + (nomeSetor != null ? "nome setor =" + nomeSetor + ", " : "") + (ramal != null ? "ramal=" + ramal + ", " : "")
-				+ (responsavel != null ? "responsavel=" + responsavel : "") + "]";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }
