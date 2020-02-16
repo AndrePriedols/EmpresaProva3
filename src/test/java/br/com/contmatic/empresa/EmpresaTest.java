@@ -17,7 +17,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import br.com.contmatic.empresa.utilidades.TemplateLoader;
+import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.six2six.fixturefactory.Fixture;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -26,7 +26,7 @@ public class EmpresaTest {
 
     @BeforeClass
     public static void chama_template_loader() {
-        new TemplateLoader().load();
+        new BaseTemplateLoader().load();
     }
     
     Empresa empresaTeste = Fixture.from(Empresa.class).gimme("empresaValida");

@@ -3,6 +3,9 @@ package br.com.contmatic.empresa;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.DateTime;
 
@@ -300,31 +303,17 @@ public class Funcionario {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Funcionario other = (Funcionario) obj;
-		if (cpf == null) {
-			if (other.cpf != null)
-				return false;
-		} else if (!cpf.equals(other.cpf))
-			return false;
-		return true;
-	}
+	 public boolean equals(Object obj) {
+	    return EqualsBuilder.reflectionEquals(this, obj);
+	  }
 
+	@Override
 	public String toString() {
-		return "Funcionário: " + nome + ", " + cpf + ", " + setor + ", " + cargo;
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

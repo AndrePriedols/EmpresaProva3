@@ -4,6 +4,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.joda.time.DateTime;
 
@@ -102,31 +105,17 @@ public class Empresa {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cnpj == null) ? 0 : cnpj.hashCode());
-		return result;
+		return HashCodeBuilder.reflectionHashCode(this);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Empresa other = (Empresa) obj;
-		if (cnpj == null) {
-			if (other.cnpj != null)
-				return false;
-		} else if (!cnpj.equals(other.cnpj))
-			return false;
-		return true;
-	}
+	 public boolean equals(Object obj) {
+	    return EqualsBuilder.reflectionEquals(this, obj);
+	  }
 
+	@Override
 	public String toString() {
-		return "Empresa: " + razaoSocial + ", " + "Cnpj número " + cnpj + ".";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

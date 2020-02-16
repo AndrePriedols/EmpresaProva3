@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.Setor;
-import br.com.contmatic.empresa.utilidades.TemplateLoader;
+import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.six2six.fixturefactory.Fixture;
 
@@ -22,7 +22,7 @@ public class SetorTest {
     
     @BeforeClass
     public static void chama_template_loader() {
-        new TemplateLoader().load();
+        new BaseTemplateLoader().load();
     }   
     
     Setor setorTeste = Fixture.from(Setor.class).gimme("setorValido");
