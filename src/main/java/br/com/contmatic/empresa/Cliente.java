@@ -15,17 +15,17 @@ public class Cliente {
 	private int id;
 
 	@CPF
-	@NotEmpty(message = "CPF não pode ser nulo.")
+	@NotEmpty(message = "CPF não pode ser nulo ou vazio.")
 	private String cpf;
 
 	@Size(max = 70)
-	@NotNull(message = "Nome não pode ser nulo.")
+	@NotEmpty(message = "Nome não pode ser nulo ou vazio.")
 	private String nome;
 
 	@NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 
-	@NotNull(message = "Email não pode ser nulo.")
+	@NotEmpty(message = "Email não pode ser nulo ou vazio.")
 	private String emailCliente;
 
 	public Cliente(String cpf) {
@@ -87,12 +87,6 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public static void main(String[] args) {
-		Cliente cliente = new Cliente("35819956893");
-		cliente.setNome("André");
-		System.out.println(cliente);
 	}
 
 }

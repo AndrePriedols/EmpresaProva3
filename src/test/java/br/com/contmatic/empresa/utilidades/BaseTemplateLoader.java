@@ -1,5 +1,7 @@
 package br.com.contmatic.empresa.utilidades;
 
+import java.util.Random;
+
 import org.joda.time.DateTime;
 
 import br.com.contmatic.empresa.Cliente;
@@ -22,14 +24,14 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 
         Fixture.of(Endereco.class).addTemplate("enderecoValido", new Rule() {
             {
-                add("tipoLogradouro", random(EnumTipoLogradouro.AVENIDA, EnumTipoLogradouro.PRACA));
-                add("logradouro", random("Rua Antonio", "Rua José"));
+            	add("tipoLogradouro", EnumTipoLogradouro.values() [new Random().nextInt(EnumTipoLogradouro.values().length - 1)]);
+            	add("logradouro", random("Rua Antonio", "Rua José"));
                 add("numero", random("10", "39"));
                 add("complemento", random("ap 23", "casa 2"));
                 add("bairro", random("Jd. Angela", "Vila Mariana"));
                 add("cidade", random("São Paulo", "Macapá"));
-                add("UF", random(EnumUF.SP, EnumUF.AP));
-                add("cep", random("02039020", "030492030"));
+                add("UF", EnumUF.values() [new Random().nextInt(EnumUF.values().length - 1)]);
+                add("cep", random("02039020", "03049030"));
             }
         });
 
