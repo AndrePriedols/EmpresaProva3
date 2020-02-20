@@ -32,7 +32,7 @@ public class SetorTest {
 		assertNotNull(setorTeste);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void nao_deve_aceitar_setor_nulo() {
 		new Setor(null);
 	}
@@ -40,7 +40,7 @@ public class SetorTest {
 	@Test
 	public void deve_respeitar_o_get_set_nome_setor() {
 	    Setor setorTeste = new Setor(nomeSetorTeste);
-	    assertTrue("Get e Set Cnpj deve funcionar.", setorTeste.getNome().equals("Comercial"));
+	    assertTrue("Get e Set Nome Setor deve funcionar.", setorTeste.getNome().equals("Comercial"));
 	}
 
 	@Test

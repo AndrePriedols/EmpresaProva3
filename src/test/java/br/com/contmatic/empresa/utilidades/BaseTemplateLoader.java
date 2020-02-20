@@ -1,7 +1,5 @@
 package br.com.contmatic.empresa.utilidades;
 
-import java.util.Random;
-
 import org.joda.time.DateTime;
 
 import br.com.contmatic.empresa.Cliente;
@@ -21,25 +19,27 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 
 	@Override
     public void load() {
-
-        Fixture.of(Endereco.class).addTemplate("enderecoValido", new Rule() {
-            {
-            	add("tipoLogradouro", EnumTipoLogradouro.values() [new Random().nextInt(EnumTipoLogradouro.values().length - 1)]);
-            	add("logradouro", random("Rua Antonio", "Rua José"));
-                add("numero", random("10", "39"));
-                add("complemento", random("ap 23", "casa 2"));
-                add("bairro", random("Jd. Angela", "Vila Mariana"));
-                add("cidade", random("São Paulo", "Macapá"));
-                add("UF", EnumUF.values() [new Random().nextInt(EnumUF.values().length - 1)]);
-                add("cep", random("02039020", "03049030"));
-            }
-        });
+			
+		Fixture.of(Endereco.class).addTemplate("enderecoValido", new Rule() {
+			{
+				add("tipoLogradouro", random(EnumTipoLogradouro.ALAMEDA, EnumTipoLogradouro.CAMPO));
+				add("logradouro", random("Marquês", "Antônio"));
+				add("numero", random("23", "34"));
+				add("complemento", random("casa 2", "apartamento 5"));
+				add("bairro", random("Jardim Carlu", "Jardim Itália"));
+				add("cidade", random("São Paulo", "Vinhedo"));
+				add("UF", random(EnumUF.AC, EnumUF.BA));
+				add("cep", random("02423030", "02039020"));
+			}
+		});
+		
+		Endereco endereco = Fixture.from(Endereco.class).gimme("enderecoValido");
 
         Fixture.of(Cliente.class).addTemplate("clienteValido", new Rule() {
             {
                 add("cpf", random("19963288081", "12519409002"));
                 add("nome", random("Anitta", "Ludmila"));
-                add("endereco", (Fixture.from(Endereco.class).gimme("enderecoValido")));
+                add("endereco", (endereco));
                 add("emailCliente", random("anitta@universalmusic.com", "ludmila@bmg.com"));
             }
         });
@@ -49,14 +49,12 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
                 add("cpf", random("35819956893", "66356679034"));
                 add("nome", random("André", "José"));
                 add("dataNascimento", random(new DateTime()));
-                add("endereco", (Fixture.from(Endereco.class).gimme("enderecoValido")));
+                add("endereco", (endereco));
                 add("setor", random(EnumNomeSetor.FINANCEIRO, EnumNomeSetor.RECURSOS_HUMANOS));
                 add("cargo", random("Estagiário", "Gerente"));
                 add("salario", random(Double.class, range(100, 500)));
             }
         });
-
-        final Funcionario[] funcas = {};
 
         Fixture.of(Empresa.class).addTemplate("empresaValida", new Rule() {
             {
@@ -64,8 +62,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
                 add("razaoSocial", random("Serviços Ltda", "Assessoria Ltda."));
                 add("dataAbertura", random(new DateTime()));
                 add("capitalSocial", random(Double.class, range(1, 30000)));
-                add("endereco", (Fixture.from(Endereco.class).gimme("enderecoValido")));
-                add("listaFuncionarios", (funcas));
+                add("endereco", (endereco));         
             }
         });
 
@@ -85,7 +82,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
                 add("cnpj", random("12345678901234", "12345678904321"));
                 add("razaoSocial", random("Serviços Ltda", "Assessoria Ltda."));
                 add("email", random("anitta@universalmusic.com", "ludmila@bmg.com"));
-                add("endereco", (Fixture.from(Endereco.class).gimme("enderecoValido")));
+                add("endereco", (endereco));
                 add("pedidos", (pedidos));
             }
         });

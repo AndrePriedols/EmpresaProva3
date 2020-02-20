@@ -40,9 +40,6 @@ public class Empresa {
     @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 
-    @NotNull(message = "Lista Funcionários não pode ser nula.")
-	private Funcionario[] listaFuncionarios;
-
 	public Empresa(String cnpj) {
 		setCnpj(cnpj);
 	}
@@ -93,14 +90,6 @@ public class Empresa {
 
 	public Endereco getEndereco() {
 		return this.endereco;
-	}
-
-	public void setFuncionarios(Funcionario[] listaFuncionarios) {
-		this.listaFuncionarios = listaFuncionarios;
-	}
-
-	public Funcionario[] getFuncionarios() {
-		return this.listaFuncionarios;
 	}
 
 	@Override

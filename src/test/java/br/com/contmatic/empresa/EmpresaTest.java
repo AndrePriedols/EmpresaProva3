@@ -151,30 +151,6 @@ public class EmpresaTest {
 	}
 
 	@Test
-	public void z01_deve_aceitar_funcionarios_valido() {
-		Funcionario funca1 = new Funcionario("65528642051");
-		Funcionario funca2 = new Funcionario("02094485048");
-		Funcionario[] funcas = { funca1, funca2 };
-		empresaTeste.setFuncionarios(funcas);
-		assertNotNull("Funcionários deve ser válido.", empresaTeste.getFuncionarios());
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void z02_nao_deve_aceitarfuncionarios_null() {
-		empresaTeste.setFuncionarios(null);
-	}
-
-	@Test
-	public void z03_deve_respeitar_o_get_set_funcionarios() {
-		Funcionario funca1 = new Funcionario("65528642051");
-		Funcionario funca2 = new Funcionario("02094485048");
-		Funcionario[] funcas = { funca1, funca2 };
-		empresaTeste.setFuncionarios(funcas);
-		boolean a = empresaTeste.getFuncionarios() == funcas;
-		assertTrue("Get e Set Funcionários deve funcionar.", a);
-	}
-
-	@Test
 	public void z04_equals_deve_ser_true_cnpj_igual() {
 		Empresa empresaTeste2 = new Empresa("12345678901234");
 		Empresa empresaTeste = new Empresa("12345678901234");
@@ -222,15 +198,6 @@ public class EmpresaTest {
 	public void z10_atesta_que_cnpj_do_construtor_e_recebido() {
 	    Empresa empresaTeste = new Empresa("12345678901234");
 		assertThat(empresaTeste.getCnpj(), is("12345678901234"));
-	}
-
-	@Test
-	public void z11_mostra_que_tamanho_da_lista_funcionarios_esta_correto() {
-		Funcionario funca1 = new Funcionario("65528642051");
-		Funcionario funca2 = new Funcionario("02094485048");
-		Funcionario[] funcas = { funca1, funca2 };
-		empresaTeste.setFuncionarios(funcas);
-		assertThat(funcas.length, is(2));
 	}
 
 }
