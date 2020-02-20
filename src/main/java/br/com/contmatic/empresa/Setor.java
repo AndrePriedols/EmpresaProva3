@@ -35,6 +35,10 @@ public class Setor {
 		setNome(nomeSetor);
 	}
 	
+	public Setor() {
+		
+	}
+	
 	public int getId() {
         return id;
     }
@@ -130,6 +134,6 @@ public class Setor {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
-	}
+	}	
 
 }

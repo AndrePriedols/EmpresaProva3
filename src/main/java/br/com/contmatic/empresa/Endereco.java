@@ -1,8 +1,5 @@
 package br.com.contmatic.empresa;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,40 +9,71 @@ import br.com.contmatic.enums.EnumUF;
 
 public class Endereco {
 
-    @NotNull(message = "ID não pode ser nulo.")
+    //@NotNull(message = "ID não pode ser nulo.")
     private int id;
     
+    //@NotEmpty
     private EnumTipoLogradouro tipoLogradouro;
 
-    @Size(max = 70)
-    @NotNull(message = "Logradouro não pode ser nulo.")
+    //@Size(max = 70)
+    //@NotNull(message = "Logradouro não pode ser nulo.")
     private String logradouro;
 
-    @NotNull(message = "Número não pode ser nulo.")
+    //@NotNull(message = "Número não pode ser nulo.")
     private String numero;
 
-    @NotNull(message = "Complemento não pode ser nulo.")
+    //@NotNull(message = "Complemento não pode ser nulo.")
     private String complemento;
 
-    @NotNull(message = "Bairro não pode ser nulo.")
+    //@NotNull(message = "Bairro não pode ser nulo.")
     private String bairro;
 
-    @NotNull(message = "Cidade não pode ser nulo.")
+    //@NotNull(message = "Cidade não pode ser nulo.")
     private String cidade;
 
-    @NotNull(message = "UF não pode ser nulo.")
+    //@NotNull(message = "UF não pode ser nulo.")
     private EnumUF UF;
 
-    @NotNull(message = "CEP não pode ser nulo.")
+    //@NotNull(message = "CEP não pode ser nulo.")
     private String cep;
 
-    Endereco(String logradouro, String numero, String complemento, String bairro, String cep) {
-        setLogradouro(logradouro);
+    Endereco(EnumTipoLogradouro tipoLogradouro, String logradouro, String numero, String complemento, String bairro, String cidade, EnumUF uf, String cep) {
+        setTipoLogradouro(tipoLogradouro);
+    	setLogradouro(logradouro);
         setNumero(numero);
         setComplemento(complemento);
         setBairro(bairro);
-        setCep(cep);
+        setCidade(cidade);
+        setUF(uf);
+        setCep(cep);        
     }
+    
+    Endereco(String logradouro, String numero, String complemento, String bairro, String cep) {
+    	setLogradouro(logradouro);
+        setNumero(numero);
+        setComplemento(complemento);
+        setBairro(bairro);
+        setCep(cep);        
+    }
+    
+	public Endereco() {    	
+    }
+    
+    public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public EnumUF getUF() {
+		return UF;
+	}
+
+	public void setUF(EnumUF uF) {
+		UF = uF;
+	}
 
     public int getId() {
         return id;
