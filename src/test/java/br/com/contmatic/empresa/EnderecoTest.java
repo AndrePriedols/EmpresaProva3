@@ -170,100 +170,100 @@ public class EnderecoTest {
 
     @Test
     public void equals_deve_ser_true_logradouro_numero_complemento_cep_iguais() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
-        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 1", "02039020");
+        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 1", "02039020");
         assertEquals("Endereços iguais para logradouros/números/complementos/ceps iguais", endereco1, endereco2);
     }
 
     @Test
     public void equals_da_false_se_objetos_forem_de_classes_diferentes() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 1", "02039020");
         assertNotEquals("Equals dá false se forem objetos de classes diferentes", endereco1, new String());
     }
 
     @Test
     public void not_equals_se_houver_logradouro_diferente() {
-        Endereco endereco1 = new Endereco("Rua 2", "12", "casa 2", "jd Miriam", "02039020");
-        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039020");
+        Endereco endereco1 = new Endereco("Rua 2", "12", "casa 2", "02039020");
+        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "02039020");
         assertNotEquals("Endereços diferentes, pois logradouros diferentes", endereco1, endereco2);
     }
 
     @Test
     public void not_equals_se_houver_numero_diferente() {
-        Endereco endereco1 = new Endereco("Rua 2", "10", "casa 2", "jd Miriam", "02039020");
-        Endereco endereco2 = new Endereco("Rua 2", "12", "casa 2", "jd Miriam", "02039020");
+        Endereco endereco1 = new Endereco("Rua 2", "10", "casa 2", "02039020");
+        Endereco endereco2 = new Endereco("Rua 2", "12", "casa 2", "02039020");
         assertNotEquals("Endereços diferentes, pois numeros diferentes", endereco1, endereco2);
     }
 
     @Test
     public void not_equals_se_houver_complemento_diferente() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039020");
-        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039020");
+        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 1", "02039020");
         assertNotEquals("Endereços diferentes, pois complementos diferentes", endereco1, endereco2);
     }
 
     @Test
     public void not_equals_se_houver_cep_diferente() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
-        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039020");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2",  "02039021");
+        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2",  "02039020");
         assertNotEquals("Endereços diferentes, pois ceps diferentes", endereco1, endereco2);
     }
 
     @Test
     public void testa_hashcode_igual() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
-        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
+        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         assertTrue(endereco1.hashCode() == endereco2.hashCode());
     }
 
     @Test
     public void testa_hashcode_diferente() {
-        Endereco endereco1 = new Endereco("Rua 2", "13", "casa 4", "jd Angela", "02039020");
-        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 2", "13", "casa 4", "02039020");
+        Endereco endereco2 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         assertFalse(endereco1.hashCode() == endereco2.hashCode());
     }
 
     @Test
     public void to_string_deve_conter_logradouro() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         assertTrue("Confere se Logradouro está no toString", endereco1.toString().contains(endereco1.getLogradouro()));
     }
 
     @Test
     public void to_string_deve_conter_numero() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         assertTrue("Confere se Número está no toString", endereco1.toString().contains(endereco1.getNumero()));
     }
 
     @Test
     public void to_string_deve_conter_complemento() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         ;
         assertTrue("Confere se Complemento está no toString", endereco1.toString().contains(endereco1.getComplemento()));
     }
 
     @Test
     public void to_string_deve_conter_bairro() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         assertTrue("Confere se Bairro está no toString", endereco1.toString().contains(endereco1.getBairro()));
     }
 
     @Test
     public void to_string_deve_conter_cep() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
         assertTrue("Confere se Cep está no toString", endereco1.toString().contains(endereco1.getCep()));
     }
 
     @Test
     public void atesta_que_logradouro_contem_ce_cedilha() {
-        Endereco endereco1 = new Endereco("Rua dos Caiçaras", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua dos Caiçaras", "12", "casa 2", "02039021");
         assertTrue("Logradouro contém ç", endereco1.getLogradouro().contains("ç"));
     }
 
     @Ignore
     @Test
     public void atesta_que_logradouro_nao_contem_ce_cedilha() {
-        Endereco endereco1 = new Endereco("Rua dos Pescadores", "12", "casa 2", "jd Miriam", "02039021");
+        Endereco endereco1 = new Endereco("Rua dos Pescadores", "12", "casa 2", "02039021");
         assertFalse("Logradouro não contém ç", endereco1.getLogradouro().contains("ç"));
     }
 

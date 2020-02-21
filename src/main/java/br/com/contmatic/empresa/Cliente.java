@@ -6,8 +6,11 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
+
+import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class Cliente {
 
@@ -24,6 +27,13 @@ public class Cliente {
 
 	@NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
+	
+	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
+	private EnumTipoTelefone tipoTelefone;
+	
+	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
+	@NotEmpty(message = "Telefone não pode ser vazio.")
+	private String telefone;
 
 	@NotEmpty(message = "Email não pode ser nulo ou vazio.")
 	private String emailCliente;
@@ -32,14 +42,8 @@ public class Cliente {
 		setCpf(cpf);
 	}
 
-	Utilitarios util = new Utilitarios();
-
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setCpf(String cpf) {
@@ -64,6 +68,22 @@ public class Cliente {
 
 	public Endereco getEndereco() {
 		return this.endereco;
+	}
+	
+	public EnumTipoTelefone getTipoTelefone() {
+		return tipoTelefone;
+	}
+
+	public void setTipoTelefone(EnumTipoTelefone tipoTelefone) {
+		this.tipoTelefone = tipoTelefone;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	public void setEmailCliente(String emailCliente) {

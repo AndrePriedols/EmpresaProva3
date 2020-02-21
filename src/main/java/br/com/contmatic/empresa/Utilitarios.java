@@ -6,7 +6,7 @@ public class Utilitarios {
 
     private static final String REGEX_NOME_VALIDO = "/ˆ[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ'\\s\\-]+$/";
     
-    private static final String REGEX_RAZAO_SOCIAL_VALIDA = "";
+    private static final String REGEX_RAZAO_SOCIAL_VALIDA = "/ˆ[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ'0-9\\s\\-]+$/";
     
     public Utilitarios() {
     }

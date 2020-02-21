@@ -132,7 +132,7 @@ public class EmpresaTest {
 
 	@Test
 	public void y_deve_aceitar_endereco_valido() {
-		Endereco endereco1 = new Endereco("Rua 1", "408", "Ap 2", "Jd Ângela", "02030040");
+		Endereco endereco1 = new Endereco("Rua 1", "408", "Ap 2", "02030040");
 		empresaTeste.setEndereco(endereco1);
 		assertNotNull("Endereço deve ser válido.", empresaTeste.getEndereco());
 	}
@@ -144,7 +144,7 @@ public class EmpresaTest {
 
 	@Test(timeout = 100)
 	public void z00_deve_respeitar_o_get_set_endereco() {
-		Endereco endereco1 = new Endereco("Rua 1", "408", "Ap 2", "Jd Ângela", "02030040");
+		Endereco endereco1 = new Endereco("Rua 1", "408", "Ap 2", "02030040");
 		empresaTeste.setEndereco(endereco1);
 		boolean a = empresaTeste.getEndereco() == endereco1;
 		assertTrue("Get e Set Endereço deve funcionar.", a);

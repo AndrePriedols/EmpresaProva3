@@ -175,7 +175,7 @@ public class FuncionarioTest {
 
     @Test
     public void deve_aceitar_endereco_valido() {
-        Endereco endereco1 = new Endereco("Rua 1", "408", "casa 2", "Jd Ângela", "02030040");
+        Endereco endereco1 = new Endereco("Rua 1", "408", "casa 2", "02030040");
         funca1.setEndereco(endereco1);
         assertNotNull("Endereço deve ser válido.", funca1.getEndereco());
     }
@@ -194,7 +194,7 @@ public class FuncionarioTest {
 
     @Test
     public void deve_respeitar_o_get_set_endereco() {
-        Endereco endereco1 = new Endereco("Rua 1", "408", "casa 2", "Jd Ângela", "02030040");
+        Endereco endereco1 = new Endereco("Rua 1", "408", "casa 2", "02030040");
         funca1.setEndereco(endereco1);
         boolean a = funca1.getEndereco() == endereco1;
         assertTrue("Get e Set Endereço deve funcionar.", a);

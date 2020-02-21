@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class PedidoTest {
     
-    Pedido pedidoTeste = new Pedido("1");
+    Pedido pedidoTeste = new Pedido();
     
     @Test
     public void deve_aceitar_pedido_valido() {
@@ -17,7 +17,7 @@ public class PedidoTest {
     
     @Test(expected = NullPointerException.class)
     public void nao_deve_aceitar_id_pedido_nulo() {
-        pedidoTeste.setIdPedido(null);
+        pedidoTeste.getId();
     }
      
 }

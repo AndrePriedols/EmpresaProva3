@@ -6,6 +6,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.DateTime;
 
@@ -13,6 +15,7 @@ import com.google.common.base.Preconditions;
 
 import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.contmatic.enums.EnumTipoEstadoCivil;
+import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class Funcionario {
 		
@@ -83,6 +86,9 @@ public class Funcionario {
 
     @NotNull(message = "Cargo não pode ser nulo.")
 	private String cargo;
+    
+    @NotNull(message = "ID Empresa não pode ser nulo.")
+    private int idEmpresa;
 
     private double salario;
 
@@ -92,10 +98,6 @@ public class Funcionario {
 	
 	public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 	
 	public void setCpf(String cpf) {
@@ -241,6 +243,37 @@ public class Funcionario {
 	public Endereco getEndereco() {
 		return this.endereco;
 	}
+	
+	public EnumTipoTelefone getTipoTelefone() {
+		return tipoTelefone;
+	}
+
+	public void setTipoTelefone(EnumTipoTelefone tipoTelefone) {
+		this.tipoTelefone = tipoTelefone;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public int getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(int idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+
+	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
+	private EnumTipoTelefone tipoTelefone;
+	
+	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
+	@NotEmpty(message = "Telefone não pode ser vazio.")
+	private String telefone;
 	
 	public void setDataContratacao(DateTime dataContratacao) {
         impedeDataContratacaoNula(dataContratacao);

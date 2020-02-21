@@ -1,63 +1,67 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import br.com.contmatic.enums.EnumTipoEndereco;
 import br.com.contmatic.enums.EnumTipoLogradouro;
 import br.com.contmatic.enums.EnumUF;
 
 public class Endereco {
 
-    //@NotNull(message = "ID não pode ser nulo.")
+    @NotNull(message = "ID não pode ser nulo.")
     private int id;
     
-    //@NotEmpty
+    @NotNull(message = "Tipo Endereço não pode ser nulo.")
+    private EnumTipoEndereco tipoEndereco;
+ 
+	@NotEmpty(message = "Tipo Logradouro não pode ser vazio.")
     private EnumTipoLogradouro tipoLogradouro;
 
-    //@Size(max = 70)
-    //@NotNull(message = "Logradouro não pode ser nulo.")
+    @Size(max = 70)
+    @NotNull(message = "Logradouro não pode ser nulo.")
     private String logradouro;
 
-    //@NotNull(message = "Número não pode ser nulo.")
+    @NotNull(message = "Número não pode ser nulo.")
     private String numero;
 
-    //@NotNull(message = "Complemento não pode ser nulo.")
+    @NotNull(message = "Complemento não pode ser nulo.")
     private String complemento;
 
-    //@NotNull(message = "Bairro não pode ser nulo.")
+    @NotNull(message = "Bairro não pode ser nulo.")
     private String bairro;
 
-    //@NotNull(message = "Cidade não pode ser nulo.")
+    @NotNull(message = "Cidade não pode ser nulo.")
     private String cidade;
 
-    //@NotNull(message = "UF não pode ser nulo.")
+    @NotNull(message = "UF não pode ser nulo.")
     private EnumUF UF;
 
-    //@NotNull(message = "CEP não pode ser nulo.")
+    @NotNull(message = "CEP não pode ser nulo.")
     private String cep;
 
-    Endereco(EnumTipoLogradouro tipoLogradouro, String logradouro, String numero, String complemento, String bairro, String cidade, EnumUF uf, String cep) {
-        setTipoLogradouro(tipoLogradouro);
+    Endereco(String logradouro, String numero, String complemento, String cep) {
     	setLogradouro(logradouro);
         setNumero(numero);
         setComplemento(complemento);
-        setBairro(bairro);
-        setCidade(cidade);
-        setUF(uf);
-        setCep(cep);        
-    }
-    
-    Endereco(String logradouro, String numero, String complemento, String bairro, String cep) {
-    	setLogradouro(logradouro);
-        setNumero(numero);
-        setComplemento(complemento);
-        setBairro(bairro);
         setCep(cep);        
     }
     
 	public Endereco() {    	
     }
+		   
+    public EnumTipoEndereco getTipoEndereco() {
+		return tipoEndereco;
+	}
+
+	public void setTipoEndereco(EnumTipoEndereco tipoEndereco) {
+		this.tipoEndereco = tipoEndereco;
+	}
     
     public String getCidade() {
 		return cidade;
@@ -79,10 +83,6 @@ public class Endereco {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    
     public EnumTipoLogradouro getTipoLogradouro() {
         return tipoLogradouro;
     }

@@ -119,7 +119,7 @@ public class FornecedorTest {
 
     @Test
     public void deve_aceitar_endereco_fornecedor_valido() {
-        Endereco enderecoFornecedorTeste = new Endereco("Rua 1", "408", "Ap 2", "Jd Ângela", "02030040");
+        Endereco enderecoFornecedorTeste = new Endereco("Rua 1", "408", "Ap 2", "02030040");
         fornecedorTeste.setEndereco(enderecoFornecedorTeste);
         assertNotNull("Endereço deve ser válido.", fornecedorTeste.getEndereco());
     }
@@ -131,24 +131,10 @@ public class FornecedorTest {
 
     @Test
     public void deve_respeitar_o_get_set_endereco_fornecedor() {
-        Endereco enderecoTeste = new Endereco("Rua 1", "408", "Ap 2", "Jd Ângela", "02030040");
-        Endereco enderecoTesteComparacao = new Endereco("Rua 1", "408", "Ap 2", "Jd Ângela", "02030040");
+        Endereco enderecoTeste = new Endereco("Rua 1", "408", "Ap 2", "02030040");
+        Endereco enderecoTesteComparacao = new Endereco("Rua 1", "408", "Ap 2", "02030040");
         fornecedorTeste.setEndereco(enderecoTeste);
         assertTrue("Get e Set Cnpj deve funcionar.", fornecedorTeste.getEndereco().equals(enderecoTesteComparacao));
-    }
-
-    @Test
-    public void deve_aceitar_pedidos_fornecedor_valido() {
-        Pedido pedido1 = new Pedido("1");
-        Pedido pedido2 = new Pedido("2");
-        Pedido[] pedidos = { pedido1, pedido2 };
-        fornecedorTeste.setPedidos(pedidos);
-        assertNotNull("Pedidos Fornecedor deve ser válido.", fornecedorTeste.getPedidos());
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void nao_deve_aceitar_pedidos_fornecedor_nulo() {
-        fornecedorTeste.setPedidos(null);
     }
 
     @Test

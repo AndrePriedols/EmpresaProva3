@@ -9,9 +9,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import com.google.common.base.Preconditions;
+
+import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class Fornecedor {
 	
@@ -32,9 +36,13 @@ public class Fornecedor {
 
     @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
-
-    @NotNull(message = "Pedidos não pode ser nulo.")
-	private Pedido[] pedidos;
+    
+	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
+	private EnumTipoTelefone tipoTelefone;
+	
+	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
+	@NotEmpty(message = "Telefone não pode ser vazio.")
+	private String telefone;
 
 	public Fornecedor(String cnpj) {
 		setCnpj(cnpj);
@@ -46,10 +54,6 @@ public class Fornecedor {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    
 	public void setCnpj(String cnpj) {
 		impedeCnpjNulo(cnpj);
 		verificaTamanhoCnpj14Digitos(cnpj);
@@ -127,17 +131,20 @@ public class Fornecedor {
 		return this.endereco;
 	}
 
-	public void setPedidos(Pedido[] pedidos) {
-		impedePedidosNula(pedidos);
-		this.pedidos = pedidos;
+	public EnumTipoTelefone getTipoTelefone() {
+		return tipoTelefone;
 	}
 
-	private void impedePedidosNula(Pedido[] pedidos) {
-		Preconditions.checkNotNull(pedidos, "Pedidos não pode ser nulo");
+	public void setTipoTelefone(EnumTipoTelefone tipoTelefone) {
+		this.tipoTelefone = tipoTelefone;
 	}
 
-	public Pedido[] getPedidos() {
-		return this.pedidos;
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	@Override

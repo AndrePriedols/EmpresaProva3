@@ -7,10 +7,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
+
+import br.com.contmatic.enums.EnumTipoTelefone;
 
 public class Empresa {
 	
@@ -46,10 +50,6 @@ public class Empresa {
 	
 	public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
 	public void setCnpj(String cnpj) {
@@ -91,6 +91,29 @@ public class Empresa {
 	public Endereco getEndereco() {
 		return this.endereco;
 	}
+	
+	public EnumTipoTelefone getTipoTelefone() {
+		return tipoTelefone;
+	}
+
+	public void setTipoTelefone(EnumTipoTelefone tipoTelefone) {
+		this.tipoTelefone = tipoTelefone;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
+	private EnumTipoTelefone tipoTelefone;
+	
+	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
+	@NotEmpty(message = "Telefone não pode ser vazio.")
+	private String telefone;
 
 	@Override
 	public int hashCode() {

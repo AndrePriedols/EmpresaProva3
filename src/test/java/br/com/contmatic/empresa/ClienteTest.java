@@ -109,7 +109,7 @@ public class ClienteTest {
 
     @Test
     public void deve_respeitar_o_get_set_endereco_cliente() {
-        Endereco enderecoTeste = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
+        Endereco enderecoTeste = new Endereco("Rua 1", "12", "casa 1", "02039020");
         clienteTeste.setEndereco(enderecoTeste);
         assertTrue(clienteTeste.getEndereco().equals(enderecoTeste));
     }
