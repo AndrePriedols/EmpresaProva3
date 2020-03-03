@@ -43,19 +43,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
                 add("emailCliente", random("anitta@universalmusic.com", "ludmila@bmg.com"));
             }
         });
-
-        Fixture.of(Funcionario.class).addTemplate("funcionarioValido", new Rule() {
-            {
-                add("cpf", random("35819956893", "66356679034"));
-                add("nome", random("André", "José"));
-                add("dataNascimento", random(new DateTime()));
-                add("endereco", (endereco));
-                add("setor", random(EnumNomeSetor.FINANCEIRO, EnumNomeSetor.RECURSOS_HUMANOS));
-                add("cargo", random("Estagiário", "Gerente"));
-                add("salario", random(Double.class, range(100, 500)));
-            }
-        });
-
+   
         Fixture.of(Empresa.class).addTemplate("empresaValida", new Rule() {
             {
                 add("cnpj", random("76225927000191", "62199190000175"));
@@ -89,10 +77,24 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 
         Fixture.of(Setor.class).addTemplate("setorValido", new Rule() {
             {
-                add("nome", random(EnumNomeSetor.COMERCIAL, EnumNomeSetor.DESENVOLVIMENTO));
+                add("nomeSetor", random(EnumNomeSetor.COMERCIAL, EnumNomeSetor.DESENVOLVIMENTO));
                 add("ramal", random("12", "45"));
                 add("responsavel", random("Antônia", "Gertrudes"));
                 add("quantidadeFuncionarios", random(1, 30));
+            }
+        });
+        
+        Setor setor = Fixture.from(Setor.class).gimme("setorValido");
+        
+        Fixture.of(Funcionario.class).addTemplate("funcionarioValido", new Rule() {
+            {
+                add("cpf", random("35819956893", "66356679034"));
+                add("nome", random("André", "José"));
+                add("dataNascimento", random(new DateTime()));
+                add("endereco", (endereco));
+                add("setor", random(setor));
+                add("cargo", random("Estagiário", "Gerente"));
+                add("salario", random(Double.class, range(100, 500)));
             }
         });
     }
