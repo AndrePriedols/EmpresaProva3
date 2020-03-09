@@ -1,5 +1,8 @@
 package br.com.contmatic.empresa;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -14,7 +17,9 @@ import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
 
+import br.com.contmatic.enums.EnumTipoEndereco;
 import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.contmatic.utils.Regex;
 
 public class Empresa {
 	
@@ -43,6 +48,16 @@ public class Empresa {
 
     @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
+    
+	@NotNull(message="Telefone não pode ser nulo.")
+	private Telefone telefone;
+	
+	@NotNull(message="Email não pode ser nulo.")
+	private String email;
+
+	public String getEmail() {
+		return email;
+	}
 
 	public Empresa(String cnpj) {
 		setCnpj(cnpj);
@@ -61,11 +76,23 @@ public class Empresa {
 	}
 
 	public void setRazaoSocial(String razaoSocial) {
+		impedeRazaoSocialNula(razaoSocial);
+		impedeRazaoSocialInvalida(razaoSocial);		
 		this.razaoSocial = razaoSocial;
 	}
 	
+	private void impedeRazaoSocialInvalida(String razaoSocial) {
+	    Pattern pattern = Pattern.compile(util.getRegexRazaoSocial());
+        Matcher matcher = pattern.matcher(razaoSocial);
+        Preconditions.checkArgument(matcher.find(), "Razão Social em formato inválido");
+	}
+
+	private void impedeRazaoSocialNula(String razaoSocial) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(razaoSocial), "Razão Social não pode ser nulo");
+	}
+	
 	public String getRazaoSocial() {
-		return this.razaoSocial;
+		return razaoSocial;
 	}
 
 	public void setDataAbertura(DateTime dataAbertura) {
@@ -100,20 +127,35 @@ public class Empresa {
 		this.tipoTelefone = tipoTelefone;
 	}
 
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
+	}
+	
+    Regex util = new Regex();
+	
+	public void setEmail(String email) {
+		impedeEmailNulo(email);
+		impedeEmailInvalido(email);
+		this.email = email;
+	}
+
+	private void impedeEmailInvalido(String email) {
+	    Pattern pattern = Pattern.compile(util.getRegexValidacaoEmail());
+        Matcher matcher = pattern.matcher(email);
+        Preconditions.checkArgument(matcher.find(), "Email em formato inválido");
+	}
+
+
+	private void impedeEmailNulo(String email) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(email), "Email não pode ser nulo");
 	}
 
 	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
 	private EnumTipoTelefone tipoTelefone;
-	
-	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
-	@NotEmpty(message = "Telefone não pode ser vazio.")
-	private String telefone;
 
 	@Override
 	public int hashCode() {

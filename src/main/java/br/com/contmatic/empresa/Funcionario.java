@@ -1,5 +1,8 @@
 package br.com.contmatic.empresa;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +19,7 @@ import com.google.common.base.Preconditions;
 import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.contmatic.enums.EnumTipoEstadoCivil;
 import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.contmatic.utils.Regex;
 
 public class Funcionario {
 		
@@ -77,6 +81,12 @@ public class Funcionario {
 	
     @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
+    
+	@NotNull(message="Telefone não pode ser nulo.")
+	private Telefone telefone;
+	
+	@NotNull(message="Email não pode ser nulo.")
+	private String email;
 
     @NotNull(message = "Data Contratação não pode ser nula.")
 	private DateTime dataContratacao;
@@ -194,11 +204,18 @@ public class Funcionario {
 
 	public void setNome(String nome) {
 		impedeNomeNulo(nome);
+		impedeNomeInvalido(nome);		
 		this.nome = nome;
 	}
 	
+	private void impedeNomeInvalido(String nome) {
+	    Pattern pattern = Pattern.compile(util.getRegexNome());
+        Matcher matcher = pattern.matcher(nome);
+        Preconditions.checkArgument(matcher.find(), "Nome em formato inválido");
+	}
+
 	private void impedeNomeNulo(String nome) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(nome), "Nome não pode ser nulo");
+		Preconditions.checkArgument(StringUtils.isNotEmpty(email), "Nome não pode ser nulo");
 	}
 
 	public String getNome() {
@@ -252,12 +269,34 @@ public class Funcionario {
 		this.tipoTelefone = tipoTelefone;
 	}
 
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
+	}
+	
+    Regex util = new Regex();
+    
+    public String getEmail() {
+    	return email;
+    }
+	
+	public void setEmail(String email) {
+		impedeEmailNulo(email);
+		impedeEmailInvalido(email);
+		this.email = email;
+	}
+
+	private void impedeEmailInvalido(String email) {
+	    Pattern pattern = Pattern.compile(util.getRegexValidacaoEmail());
+        Matcher matcher = pattern.matcher(email);
+        Preconditions.checkArgument(matcher.find(), "Email em formato inválido");
+	}
+
+	private void impedeEmailNulo(String email) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(email), "Email não pode ser nulo");
 	}
 
 	public int getIdEmpresa() {
@@ -270,10 +309,6 @@ public class Funcionario {
 
 	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
 	private EnumTipoTelefone tipoTelefone;
-	
-	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
-	@NotEmpty(message = "Telefone não pode ser vazio.")
-	private String telefone;
 	
 	public void setDataContratacao(DateTime dataContratacao) {
         impedeDataContratacaoNula(dataContratacao);

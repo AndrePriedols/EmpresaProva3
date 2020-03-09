@@ -1,6 +1,6 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.utils;
 
-public class Utilitarios {
+public class Regex {
 
     private static final String REGEX_VALIDACAO_EMAIL = "^[a-zA-Z0-9_-][a-zA-Z0-9._-]+@[a-zA-Z0_9][a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
 
@@ -8,7 +8,7 @@ public class Utilitarios {
     
     private static final String REGEX_RAZAO_SOCIAL_VALIDA = "/ˆ[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ'0-9\\s\\-]+$/";
     
-    public Utilitarios() {
+    public Regex() {
     }
 
     public String getRegexValidacaoEmail() {
@@ -21,7 +21,6 @@ public class Utilitarios {
     
     public String getRegexRazaoSocial() {
     	return REGEX_RAZAO_SOCIAL_VALIDA;
-    }
-    
+    }    
     
 }

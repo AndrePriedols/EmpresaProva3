@@ -21,7 +21,7 @@ public class Setor {
     private int id; 
 	
     @NotNull(message = "Nome Setor não pode ser nulo.")
-	private EnumNomeSetor nomeSetor;
+	private EnumNomeSetor nome;
 
     @NotNull(message = "Ramal não pode ser nulo.")
 	private String ramal;
@@ -31,8 +31,8 @@ public class Setor {
 
 	private int quantidadeFuncionarios;
 
-	public Setor(EnumNomeSetor nomeSetor) {
-		setNome(nomeSetor);
+	public Setor(EnumNomeSetor nome) {
+		setNome(nome);
 	}
 	
 	public Setor() {
@@ -43,17 +43,17 @@ public class Setor {
         return id;
     }
 
-	public void setNome(EnumNomeSetor nomeSetor) {
-		impedeNomeNulo(nomeSetor);
-		this.nomeSetor = nomeSetor;
+	public void setNome(EnumNomeSetor nome) {
+		impedeNomeNulo(nome);
+		this.nome = nome;
 	}
 
-	private void impedeNomeNulo(EnumNomeSetor nomeSetor) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(nomeSetor.toString()), "Nome Setor não pode ser nulo");
+	private void impedeNomeNulo(EnumNomeSetor nome) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(nome.toString()), "Nome Setor não pode ser nulo");
 	}
 
 	public EnumNomeSetor getNome() {
-		return this.nomeSetor;
+		return this.nome;
 	}
 
 	public void setRamal(String ramal) {

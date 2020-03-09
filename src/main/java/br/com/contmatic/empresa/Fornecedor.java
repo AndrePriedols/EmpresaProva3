@@ -16,6 +16,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import com.google.common.base.Preconditions;
 
 import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.contmatic.utils.Regex;
 
 public class Fornecedor {
 	
@@ -36,19 +37,15 @@ public class Fornecedor {
 
     @NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
-    
-	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
-	private EnumTipoTelefone tipoTelefone;
 	
-	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
-	@NotEmpty(message = "Telefone não pode ser vazio.")
-	private String telefone;
+	@NotNull(message="Telefone não pode ser nulo.")
+	private Telefone telefone;
 
 	public Fornecedor(String cnpj) {
 		setCnpj(cnpj);
 	}
 	
-    Utilitarios util = new Utilitarios();
+    Regex util = new Regex();
 
     public int getId() {
         return id;
@@ -86,15 +83,22 @@ public class Fornecedor {
 
 	public void setRazaoSocial(String razaoSocial) {
 		impedeRazaoSocialNula(razaoSocial);
+		impedeRazaoSocialInvalida(razaoSocial);		
 		this.razaoSocial = razaoSocial;
+	}
+	
+	private void impedeRazaoSocialInvalida(String razaoSocial) {
+	    Pattern pattern = Pattern.compile(util.getRegexRazaoSocial());
+        Matcher matcher = pattern.matcher(razaoSocial);
+        Preconditions.checkArgument(matcher.find(), "Razão Social em formato inválido");
 	}
 
 	private void impedeRazaoSocialNula(String razaoSocial) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(razaoSocial), "Razão Social não pode ser nula.");
+		Preconditions.checkArgument(StringUtils.isNotEmpty(razaoSocial), "Razão Social não pode ser nulo");
 	}
-
+	
 	public String getRazaoSocial() {
-		return this.razaoSocial;
+		return razaoSocial;
 	}
 
 	public void setEmail(String email) {
@@ -131,19 +135,11 @@ public class Fornecedor {
 		return this.endereco;
 	}
 
-	public EnumTipoTelefone getTipoTelefone() {
-		return tipoTelefone;
-	}
-
-	public void setTipoTelefone(EnumTipoTelefone tipoTelefone) {
-		this.tipoTelefone = tipoTelefone;
-	}
-
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
 

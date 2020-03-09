@@ -45,8 +45,6 @@ public class FuncionarioTest {
 	@Test
     public void deve_rejeitar_cpf_nulo() {
         funca1.setCpf(null);
-        String a = funca1.getCpf();
-        System.out.println(a);
 		Set<ConstraintViolation<Funcionario>> violations = validator.validate(funca1);
         assertFalse(violations.isEmpty());
     }

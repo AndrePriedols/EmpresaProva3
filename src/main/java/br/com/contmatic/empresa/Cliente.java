@@ -1,8 +1,12 @@
 package br.com.contmatic.empresa;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -10,9 +14,13 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
-import br.com.contmatic.enums.EnumTipoTelefone;
+import com.google.common.base.Preconditions;
 
-public class Cliente {
+import br.com.contmatic.enums.EnumTipoEndereco;
+import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.contmatic.utils.Regex;
+
+public class Cliente {	
 
 	@NotNull(message = "ID não pode ser nulo.")
 	private int id;
@@ -28,20 +36,18 @@ public class Cliente {
 	@NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 	
-	@NotNull(message = "Tipo de Telefone não pode ser nulo.")
-	private EnumTipoTelefone tipoTelefone;
-	
-	@Length(min=11, max=11, message="Telefone deve ter 11 dígitos")
-	@NotEmpty(message = "Telefone não pode ser vazio.")
-	private String telefone;
+	@NotNull(message="Telefone não pode ser nulo.")
+	private Telefone telefone;
 
 	@NotEmpty(message = "Email não pode ser nulo ou vazio.")
-	private String emailCliente;
+	private String email;
 
 	public Cliente(String cpf) {
 		setCpf(cpf);
-	}
-
+	}	
+	
+    Regex util = new Regex();
+	
 	public int getId() {
 		return id;
 	}
@@ -55,7 +61,19 @@ public class Cliente {
 	}
 
 	public void setNome(String nome) {
+		impedeNomeNulo(nome);
+		impedeNomeInvalido(nome);		
 		this.nome = nome;
+	}
+	
+	private void impedeNomeInvalido(String nome) {
+	    Pattern pattern = Pattern.compile(util.getRegexNome());
+        Matcher matcher = pattern.matcher(nome);
+        Preconditions.checkArgument(matcher.find(), "Nome em formato inválido");
+	}
+
+	private void impedeNomeNulo(String nome) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(email), "Nome não pode ser nulo");
 	}
 
 	public String getNome() {
@@ -69,29 +87,38 @@ public class Cliente {
 	public Endereco getEndereco() {
 		return this.endereco;
 	}
-	
-	public EnumTipoTelefone getTipoTelefone() {
-		return tipoTelefone;
-	}
 
-	public void setTipoTelefone(EnumTipoTelefone tipoTelefone) {
-		this.tipoTelefone = tipoTelefone;
-	}
-
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
 
 	public void setEmailCliente(String emailCliente) {
-		this.emailCliente = emailCliente;
+		this.email = emailCliente;
 	}
 
 	public String getEmailCliente() {
-		return this.emailCliente;
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		impedeEmailNulo(email);
+		impedeEmailInvalido(email);
+		this.email = email;
+	}
+
+	private void impedeEmailInvalido(String email) {
+	    Pattern pattern = Pattern.compile(util.getRegexValidacaoEmail());
+        Matcher matcher = pattern.matcher(email);
+        Preconditions.checkArgument(matcher.find(), "Email em formato inválido");
+	}
+
+
+	private void impedeEmailNulo(String email) {
+		Preconditions.checkArgument(StringUtils.isNotEmpty(email), "Email não pode ser nulo");
 	}
 
 	@Override
