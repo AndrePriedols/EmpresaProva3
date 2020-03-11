@@ -1,9 +1,10 @@
 package br.com.contmatic.empresa;
 
 import javax.annotation.Nonnegative;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -11,96 +12,109 @@ import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
 
+import br.com.contmatic.utils.Regex;
+
 public class Pedido {
 
-	private static final double VALOR_PEDIDO_ZERO = 0;
+    private static final double VALOR_PEDIDO_ZERO = 0;
 
-	@NotNull(message = "ID Pedido não pode ser nulo.")
-	private String id;
+    @NotNull(message = "ID Pedido não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    private String id;
 
-	@NotNull(message = "Data Pedido não pode ser nula.")
-	private DateTime dataPedido;
+    @NotNull(message = "Data Pedido não pode ser nula.")
+    @Size(max = 8, min = 8)
+    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    private DateTime dataPedido;
 
-	@NotNull(message = "Data Entrega não pode ser nula.")
-	private DateTime dataEntrega;
+    @Future(message = "Data Previsão deve ser data futura.")
+    @Size(max = 8, min = 8)
+    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    private DateTime previsaoEntrega;
 
-	@NotNull(message = "ID do Fornecedor não pode ser nulo.")
-	private int idFornecedor;
+    @NotNull(message = "Data Entrega não pode ser nula.")
+    @Size(max = 8, min = 8)
+    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    private DateTime dataEntrega;
 
-	@Nonnegative
-	private double valor;
+    @Nonnegative
+    private double valor;
 
-	public Pedido() {
-		
-	}
-	public String getId() {
-		return this.id;
-	}
+    public Pedido() {
+    }
 
-	public void setDataPedido(DateTime dataPedido) {
-		impedeDataPedidoNula(dataPedido);
-		impedeDataPedidoPosteriorDataAtual(dataPedido);
-		this.dataPedido = dataPedido;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	private void impedeDataPedidoPosteriorDataAtual(DateTime dataPedido) {
-		Preconditions.checkArgument(dataPedido.isBeforeNow(), "Data pedido não pode ser posteior à atual.");
-	}
+    public String getId() {
+        return this.id;
+    }
 
-	private void impedeDataPedidoNula(DateTime dataPedido) {
-		Preconditions.checkNotNull(dataPedido, "Data pedido não pode ser nula");
-	}
+    public void setDataPedido(DateTime dataPedido) {
+        impedeDataPedidoNula(dataPedido);
+        impedeDataPedidoPosteriorDataAtual(dataPedido);
+        this.dataPedido = dataPedido;
+    }
 
-	public DateTime getDataPedido() {
-		return this.dataPedido;
-	}
+    private void impedeDataPedidoPosteriorDataAtual(DateTime dataPedido) {
+        Preconditions.checkArgument(dataPedido.isBeforeNow(), "Data pedido não pode ser posteior à atual.");
+    }
 
-	public void setDataEntrega(DateTime dataEntrega) {
-		impedeDataEntregaNula(dataEntrega);
-		impedeDataEntregaPosteriorDataAtual(dataEntrega);
-		this.dataEntrega = dataEntrega;
-	}
+    private void impedeDataPedidoNula(DateTime dataPedido) {
+        Preconditions.checkNotNull(dataPedido, "Data pedido não pode ser nula");
+    }
 
-	private void impedeDataEntregaPosteriorDataAtual(DateTime dataEntrega) {
-		Preconditions.checkArgument(dataEntrega.isBeforeNow(), "Data Entrega não pode ser posteior à atual.");
-	}
+    public DateTime getDataPedido() {
+        return this.dataPedido;
+    }
 
-	private void impedeDataEntregaNula(DateTime dataEntrega) {
-		Preconditions.checkNotNull(dataEntrega, "Data Entrega não pode ser nula");
-	}
+    public void setDataEntrega(DateTime dataEntrega) {
+        impedeDataEntregaNula(dataEntrega);
+        impedeDataEntregaPosteriorDataAtual(dataEntrega);
+        this.dataEntrega = dataEntrega;
+    }
 
-	public DateTime getDataEntrega() {
-		return this.dataEntrega;
-	}
+    private void impedeDataEntregaPosteriorDataAtual(DateTime dataEntrega) {
+        Preconditions.checkArgument(dataEntrega.isBeforeNow(), "Data Entrega não pode ser posteior à atual.");
+    }
 
-	public void setValor(double valor) {
-		verificaValorPositivo(valor);
-		this.valor = valor;
-	}
+    private void impedeDataEntregaNula(DateTime dataEntrega) {
+        Preconditions.checkNotNull(dataEntrega, "Data Entrega não pode ser nula");
+    }
 
-	private void verificaValorPositivo(double valor) {
-		if (valor <= VALOR_PEDIDO_ZERO) {
-			throw new IllegalArgumentException("Valor deve ser maior que " + VALOR_PEDIDO_ZERO + ".");
-		}
-	}
+    public DateTime getDataEntrega() {
+        return this.dataEntrega;
+    }
 
-	public double getValor() {
-		return this.valor;
-	}
+    public void setValor(double valor) {
+        verificaValorPositivo(valor);
+        this.valor = valor;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    private void verificaValorPositivo(double valor) {
+        if (valor <= VALOR_PEDIDO_ZERO) {
+            throw new IllegalArgumentException("Valor deve ser maior que " + VALOR_PEDIDO_ZERO + ".");
+        }
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
+    public double getValor() {
+        return this.valor;
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }

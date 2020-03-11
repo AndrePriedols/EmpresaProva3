@@ -98,23 +98,6 @@ public class SetorTest {
 	}
 
 	@Test
-	public void deve_aceitar_quantidade_funcionarios_valido() {
-		setorTeste.setQuantidadeFuncionarios(5);
-		assertFalse(setorTeste.getQuantidadeFuncionarios() < 0);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_quantidade_funcionarios_negativa() throws ParseException {
-		setorTeste.setQuantidadeFuncionarios(-5);
-	}
-
-	@Test
-	public void deve_respeitar_o_get_set_quantidade_funcionarios() {
-		setorTeste.setQuantidadeFuncionarios(5);
-		assertTrue("Get e Set Cnpj deve funcionar.", setorTeste.getQuantidadeFuncionarios() == 5);
-	}
-
-	@Test
 	public void equals_deve_ser_true_nome_setor_igual() {
 		Setor setorTeste2 = new Setor(nomeSetorTeste);
 		Setor setorTeste = new Setor(nomeSetorTeste);

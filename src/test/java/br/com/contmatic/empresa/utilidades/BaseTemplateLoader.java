@@ -25,6 +25,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 			
 		Fixture.of(Endereco.class).addTemplate("enderecoValido", new Rule() {
 			{
+			    add("id", random("1", "4"));
 				add("tipoEndereco", random(EnumTipoEndereco.COMERCIAL, EnumTipoEndereco.CORRESPONDENCIA));
 				add("tipoLogradouro", random(EnumTipoLogradouro.ALAMEDA, EnumTipoLogradouro.CAMPO));
 				add("logradouro", random("Marquês", "Antônio"));
@@ -39,6 +40,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 		
 		Fixture.of(Telefone.class).addTemplate("telefoneValido", new Rule() {
 			{
+			    add("id", random("1", "4"));
 				add("tipoTelefone", random(EnumTipoTelefone.CELULAR, EnumTipoTelefone.RECADO));
 				add("ddd", random("11", "45"));
 				add("numeroTelefone", random("92345786", "154689758"));
@@ -50,6 +52,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 
         Fixture.of(Cliente.class).addTemplate("clienteValido", new Rule() {
             {
+                add("id", random("1", "4"));
                 add("cpf", random("19963288081", "12519409002"));
                 add("nome", random("Anitta", "Ludmila"));
                 add("endereco", (endereco));
@@ -60,6 +63,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
    
         Fixture.of(Empresa.class).addTemplate("empresaValida", new Rule() {
             {
+                add("id", random("1", "4"));
                 add("cnpj", random("76225927000191", "62199190000175"));
                 add("razaoSocial", random("Serviços Ltda", "Assessoria Ltda."));
                 add("dataAbertura", random(new DateTime()));
@@ -71,15 +75,17 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 
         Fixture.of(Pedido.class).addTemplate("pedidoValido", new Rule() {
             {
-                add("idPedido", random("1", "4"));
+                add("id", random("1", "4"));
                 add("dataPedido", random(new DateTime()));
                 add("dataEntrega", random(new DateTime()));
+                add("previsaoEntrega", random(new DateTime()));
                 add("valor", random(Double.class, range(1, 10000)));
             }
         });
 
         Fixture.of(Fornecedor.class).addTemplate("fornecedorValido", new Rule() {
             {
+                add("id", random("1", "4"));
                 add("cnpj", random("12345678901234", "12345678904321"));
                 add("razaoSocial", random("Serviços Ltda", "Assessoria Ltda."));
                 add("email", random("anitta@universalmusic.com", "ludmila@bmg.com"));
@@ -90,10 +96,10 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
 
         Fixture.of(Setor.class).addTemplate("setorValido", new Rule() {
             {
+                add("id", random("1", "4"));
                 add("nome", random(EnumNomeSetor.COMERCIAL, EnumNomeSetor.DESENVOLVIMENTO));
                 add("ramal", random("12", "45"));
-                add("responsavel", random("Antônia", "Gertrudes"));
-                add("quantidadeFuncionarios", random(1, 30));
+                add("responsavel", random("Antônia", "Gertrudes"));             
             }
         });
         
@@ -101,11 +107,12 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
         
         Fixture.of(Funcionario.class).addTemplate("funcionarioValido", new Rule() {
             {
+                add("id", random("1", "4"));
                 add("cpf", random("35819956893", "66356679034"));
                 add("nome", random("André", "José"));
                 add("dataNascimento", random(new DateTime()));
                 add("endereco", (endereco));
-                add("endereco", (telefone));
+                add("telefone", (telefone));
                 add("setor", random(setor));
                 add("cargo", random("Estagiário", "Gerente"));
                 add("salario", random(Double.class, range(100, 500)));

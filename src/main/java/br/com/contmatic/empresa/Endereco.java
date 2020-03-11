@@ -11,23 +11,27 @@ import org.hibernate.validator.constraints.NotEmpty;
 import br.com.contmatic.enums.EnumTipoEndereco;
 import br.com.contmatic.enums.EnumTipoLogradouro;
 import br.com.contmatic.enums.EnumUF;
+import br.com.contmatic.utils.Regex;
 
 public class Endereco {
 
     @NotNull(message = "ID não pode ser nulo.")
-    private int id;
-    
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    private String id;
+
     @NotNull(message = "Tipo Endereço não pode ser nulo.")
     private EnumTipoEndereco tipoEndereco;
- 
-	@NotEmpty(message = "Tipo Logradouro não pode ser vazio.")
+
+    @NotEmpty(message = "Tipo Logradouro não pode ser vazio.")
     private EnumTipoLogradouro tipoLogradouro;
 
-    @Size(max = 70)
     @NotNull(message = "Logradouro não pode ser nulo.")
+    @Size(max = 70, min = 1)
     private String logradouro;
 
     @NotNull(message = "Número não pode ser nulo.")
+    @Size(max = 10)
+    @javax.validation.constraints.Pattern(regexp="[0-9]")
     private String numero;
 
     @NotNull(message = "Complemento não pode ser nulo.")
@@ -43,43 +47,49 @@ public class Endereco {
     private EnumUF UF;
 
     @NotNull(message = "CEP não pode ser nulo.")
+    @Size(max = 8, min = 8)
+    @javax.validation.constraints.Pattern(regexp="[0-9]")
     private String cep;
 
     Endereco(String logradouro, String numero, String complemento, String cep) {
-    	setLogradouro(logradouro);
+        setLogradouro(logradouro);
         setNumero(numero);
         setComplemento(complemento);
-        setCep(cep);        
+        setCep(cep);
     }
-    
-	public Endereco() {    	
+
+    public Endereco() {
     }
-		   
+
     public EnumTipoEndereco getTipoEndereco() {
-		return tipoEndereco;
-	}
+        return tipoEndereco;
+    }
 
-	public void setTipoEndereco(EnumTipoEndereco tipoEndereco) {
-		this.tipoEndereco = tipoEndereco;
-	}
-    
+    public void setTipoEndereco(EnumTipoEndereco tipoEndereco) {
+        this.tipoEndereco = tipoEndereco;
+    }
+
     public String getCidade() {
-		return cidade;
-	}
+        return cidade;
+    }
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
 
-	public EnumUF getUF() {
-		return UF;
-	}
+    public EnumUF getUF() {
+        return UF;
+    }
 
-	public void setUF(EnumUF uF) {
-		UF = uF;
-	}
+    public void setUF(EnumUF uF) {
+        UF = uF;
+    }
 
-    public int getId() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
         return id;
     }
 
@@ -131,19 +141,19 @@ public class Endereco {
         return this.cep;
     }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	@Override
-	 public boolean equals(Object obj) {
-	    return EqualsBuilder.reflectionEquals(this, obj);
-	  }
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }

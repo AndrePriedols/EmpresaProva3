@@ -10,126 +10,112 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.google.common.base.Preconditions;
 
 import br.com.contmatic.enums.EnumNomeSetor;
+import br.com.contmatic.utils.Regex;
 
 public class Setor {
 
-	private static final int QUANTIDADE_FUNCIONARIOS_ZERO = 0;
+    private static final int PRIMEIRO_DIGITO_RESPONSAVEL = 0;
 
-	private static final int PRIMEIRO_DIGITO_RESPONSAVEL = 0;
-	
-	@NotNull(message = "ID não pode ser nulo.")
-    private int id; 
-	
+    @NotNull(message = "ID não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    private String id;
+
     @NotNull(message = "Nome Setor não pode ser nulo.")
-	private EnumNomeSetor nome;
+    private EnumNomeSetor nome;
 
     @NotNull(message = "Ramal não pode ser nulo.")
-	private String ramal;
+    private String ramal;
 
     @NotNull(message = "Responsável não pode ser nulo.")
-	private String responsavel;
+    private String responsavel;
 
-	private int quantidadeFuncionarios;
+    public Setor(EnumNomeSetor nome) {
+        setNome(nome);
+    }
 
-	public Setor(EnumNomeSetor nome) {
-		setNome(nome);
-	}
-	
-	public Setor() {
-		
-	}
-	
-	public int getId() {
+    public Setor() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
         return id;
     }
 
-	public void setNome(EnumNomeSetor nome) {
-		impedeNomeNulo(nome);
-		this.nome = nome;
-	}
+    public void setNome(EnumNomeSetor nome) {
+        impedeNomeNulo(nome);
+        this.nome = nome;
+    }
 
-	private void impedeNomeNulo(EnumNomeSetor nome) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(nome.toString()), "Nome Setor não pode ser nulo");
-	}
+    private void impedeNomeNulo(EnumNomeSetor nome) {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(nome.toString()), "Nome Setor não pode ser nulo");
+    }
 
-	public EnumNomeSetor getNome() {
-		return this.nome;
-	}
+    public EnumNomeSetor getNome() {
+        return this.nome;
+    }
 
-	public void setRamal(String ramal) {
-		impedeRamalNulo(ramal);
-		impedeCaracteresNaoNumericosRamal(ramal);
-		this.ramal = ramal;
+    public void setRamal(String ramal) {
+        impedeRamalNulo(ramal);
+        impedeCaracteresNaoNumericosRamal(ramal);
+        this.ramal = ramal;
 
-	}
+    }
 
-	private void impedeCaracteresNaoNumericosRamal(String ramal) {
-		char[] ramalComoArrayChars = ramal.toCharArray();
-		for (char caracterRamal: ramalComoArrayChars) {
-			if (!Character.isDigit(caracterRamal))  {
-				throw new IllegalArgumentException("Ramal apenas com Números.");
-			}
-		}		
-	}
+    private void impedeCaracteresNaoNumericosRamal(String ramal) {
+        char[] ramalComoArrayChars = ramal.toCharArray();
+        for(char caracterRamal : ramalComoArrayChars) {
+            if (!Character.isDigit(caracterRamal)) {
+                throw new IllegalArgumentException("Ramal apenas com Números.");
+            }
+        }
+    }
 
-	private void impedeRamalNulo(String ramal) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(ramal), "Ramal não pode ser nulo");
-	}
+    private void impedeRamalNulo(String ramal) {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(ramal), "Ramal não pode ser nulo");
+    }
 
-	public String getRamal() {
-		return this.ramal;
-	}
+    public String getRamal() {
+        return this.ramal;
+    }
 
-	public void setResponsavel(String responsavel) {
-		impedeResponsavelNulo(responsavel);
-		impedeCaracteresNumericosResponsavel(responsavel);
-		this.responsavel = responsavel;
-	}
+    public void setResponsavel(String responsavel) {
+        impedeResponsavelNulo(responsavel);
+        impedeCaracteresNumericosResponsavel(responsavel);
+        this.responsavel = responsavel;
+    }
 
-	private void impedeCaracteresNumericosResponsavel(String responsavel) {
-		for (int caracterResponsavel = PRIMEIRO_DIGITO_RESPONSAVEL; caracterResponsavel < responsavel.length(); caracterResponsavel++) {
-			if (Character.isDigit(responsavel.charAt(caracterResponsavel))) {
-				throw new IllegalArgumentException("Responsável não pode ter números.");
-			}
-		}
-	}
+    private void impedeCaracteresNumericosResponsavel(String responsavel) {
+        for(int caracterResponsavel = PRIMEIRO_DIGITO_RESPONSAVEL ; caracterResponsavel < responsavel.length() ; caracterResponsavel++) {
+            if (Character.isDigit(responsavel.charAt(caracterResponsavel))) {
+                throw new IllegalArgumentException("Responsável não pode ter números.");
+            }
+        }
+    }
 
-	private void impedeResponsavelNulo(String responsavel) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(responsavel), "Responsável não pode ser nulo");
-	}
+    private void impedeResponsavelNulo(String responsavel) {
+        Preconditions.checkArgument(StringUtils.isNotEmpty(responsavel), "Responsável não pode ser nulo");
+    }
 
-	public String getResponsavel() {
-		return this.responsavel;
-	}
+    public String getResponsavel() {
+        return this.responsavel;
+    }
 
-	public void setQuantidadeFuncionarios(int quantidadeFuncionarios) {
-		impedeQuantidadeFuncionariosNegativa(quantidadeFuncionarios);
-		this.quantidadeFuncionarios = quantidadeFuncionarios;
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	private void impedeQuantidadeFuncionariosNegativa(int quantidadeFuncionarios) {
-		if (quantidadeFuncionarios < QUANTIDADE_FUNCIONARIOS_ZERO) {
-			throw new IllegalArgumentException("Quantidade de Funcionários deve ser maior ou igual a " + QUANTIDADE_FUNCIONARIOS_ZERO + ".");
-		}
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	public int getQuantidadeFuncionarios() {
-		return this.quantidadeFuncionarios;
-	}
-
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
-
-	@Override
-	 public boolean equals(Object obj) {
-	    return EqualsBuilder.reflectionEquals(this, obj);
-	  }
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}	
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }
