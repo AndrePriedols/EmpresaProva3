@@ -25,12 +25,12 @@ public class Cliente {
     @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
     private String id;
 
-    @NotEmpty(message = "CPF não pode ser nulo ou vazio.")
-    @CPF
+    @NotNull(message = "CPF não pode ser nulo ou vazio.")
+    @CPF(message="CPF em formato inválido.")
     private String cpf;
 
     @NotEmpty(message = "Nome não pode ser nulo ou vazio.")
-    @Size(max = 70, min = 2)
+    @Size(max = 70, min = 2, message="Nome deve ter entre 70 e 2 caracteres.")
     @javax.validation.constraints.Pattern(regexp=Regex.REGEX_NOME_VALIDO, message="Nome com caracteres inválidos.")
     private String nome;
 

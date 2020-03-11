@@ -7,6 +7,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +22,22 @@ import org.junit.Test;
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.six2six.fixturefactory.Fixture;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
 public class ClienteTest {
+
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+
+    public Set<String> getErros(Cliente cliente) {
+        Set<String> erros = new HashSet<>();
+        for (ConstraintViolation<Cliente> constraintViolation : validator.validate(cliente)) {
+            erros.add(constraintViolation.getMessageTemplate());
+            System.out.println(constraintViolation.getMessageTemplate()); 
+        }
+        return erros;
+    }
 
     @BeforeClass
     public static void chama_template_loader() {
@@ -28,41 +51,46 @@ public class ClienteTest {
         assertNotNull(clienteTeste);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cpf_nulo() {
         new Cliente(null);
+        assertThat(getErros(clienteTeste), hasItem("CPF não pode ser nulo ou vazio."));
     }
 
     @Test
     public void deve_aceitar_cpf_valido_digito_zero() {
         clienteTeste.setCpf("46776847070");
-        assertNotNull("Cpf deve ser válido", clienteTeste.getCpf());
+        assertFalse(getErros(clienteTeste).contains("CPF em formato inválido."));
     }
 
     @Test
     public void deve_aceitar_cpf_valido_digito_zero_b() {
         clienteTeste.setCpf("82533451002");
-        assertNotNull("Cpf deve ser válido", clienteTeste.getCpf());
+        assertFalse(getErros(clienteTeste).contains("CPF em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cpf_invalido_digito_k() {
         clienteTeste.setCpf("65528642050");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cpf_invalido_digito_j() {
         clienteTeste.setCpf("65528642041");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cpf_maior_11_digitos() {
         clienteTeste.setCpf("1234567890123");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cpf_menor_11_digitos() {
-        clienteTeste.setCpf("1234567890");
+        clienteTeste.setCpf("1234567");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -83,7 +111,7 @@ public class ClienteTest {
     @Test(expected = IllegalArgumentException.class)
     public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
         clienteTeste.setCpf("11111111111");
-    }  
+    }
 
     @Test
     public void deve_aceitar_nome_valido() {

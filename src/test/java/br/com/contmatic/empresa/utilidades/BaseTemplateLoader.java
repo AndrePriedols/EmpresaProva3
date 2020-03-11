@@ -54,9 +54,9 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
             {
                 add("id", random("1", "4"));
                 add("cpf", random("19963288081", "12519409002"));
-                add("nome", random("Anitta", "Ludmila"));
+                add("nome", random("Anita", "Ludmila"));
                 add("endereco", (endereco));
-                add("endereco", (telefone));
+                add("telefone", (telefone));
                 add("email", random("anitta@universalmusic.com", "ludmila@bmg.com"));
             }
         });
