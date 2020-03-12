@@ -16,7 +16,7 @@ import br.com.contmatic.utils.Regex;
 public class Cliente {
 
     @NotNull(message = "ID não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
     @NotEmpty(message = "CPF não pode ser nulo ou vazio.")
