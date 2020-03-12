@@ -12,16 +12,16 @@ import br.com.contmatic.utils.Regex;
 
 public class Telefone {
 
-    @NotNull(message = "Id não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    @NotNull(message = "ID não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
     @NotNull(message = "Tipo telefone não pode ser nulo.")
     private EnumTipoTelefone tipoTelefone;
 
     @NotBlank(message = "DDD não pode ser deixado em branco.")
-    @Max(3)
-    @javax.validation.constraints.Pattern(regexp="[0-9]")
+    @Max(value=3, message="DDD no máximo com 3 dígitos.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_TELEFONE_DDD, message="DDD aceita apenas números.")
     private String ddd;
 
     @NotNull(message = "Telefone não pode ser nulo.")

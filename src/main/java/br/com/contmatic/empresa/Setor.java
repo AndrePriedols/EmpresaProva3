@@ -17,7 +17,7 @@ public class Setor {
     private static final int PRIMEIRO_DIGITO_RESPONSAVEL = 0;
 
     @NotNull(message = "ID não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
     @NotNull(message = "Nome Setor não pode ser nulo.")

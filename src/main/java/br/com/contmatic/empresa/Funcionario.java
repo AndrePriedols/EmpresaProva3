@@ -3,6 +3,7 @@ package br.com.contmatic.empresa;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -11,6 +12,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 import org.joda.time.DateTime;
 
@@ -63,11 +66,11 @@ public class Funcionario {
     private static final int SALARIO_ZERO = 0;
 
     @NotNull(message = "ID não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
-    @NotNull(message = "CPF não pode ser nulo.")
-    @CPF
+    @NotEmpty(message = "CPF não pode ser nulo ou vazio.")
+    @CPF(message="CPF em formato inválido.")
     private String cpf;
 
     @NotNull(message = "Nome não pode ser nulo.")
@@ -76,7 +79,7 @@ public class Funcionario {
 
     @NotNull(message = "Data Nascimento não pode ser nula.")
     @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
     private DateTime dataNascimento;
 
     @NotNull(message = "Estado Civil não pode ser nulo.")
@@ -88,14 +91,15 @@ public class Funcionario {
     @NotNull(message = "Telefone não pode ser nulo.")
     private Telefone telefone;
 
-    @NotNull(message = "Email não pode ser nulo.")
-    @Email
-    @javax.validation.constraints.Pattern(regexp="^[a-zA-Z0-9_-][a-zA-Z0-9._-]+@[a-zA-Z0_9][a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
+    @NotEmpty(message = "Email não pode ser nulo ou vazio.")
+    @Length(min=3)
+    @Email(message="Email em formato inválido.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_VALIDACAO_EMAIL, message="Email em formato inválido.")
     private String email;
 
     @NotNull(message = "Data Contratação não pode ser nula.")
     @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
     private DateTime dataContratacao;
 
     @NotNull(message = "Setor não pode ser nulo.")
@@ -104,6 +108,7 @@ public class Funcionario {
     @NotNull(message = "Cargo não pode ser nulo.")
     private String cargo;
 
+    @Min(value=1)
     private double salario;
 
     public Funcionario(String cpf) {

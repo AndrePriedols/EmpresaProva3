@@ -16,28 +16,30 @@ import br.com.contmatic.utils.Regex;
 public class Endereco {
 
     @NotNull(message = "ID não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
     @NotNull(message = "Tipo Endereço não pode ser nulo.")
     private EnumTipoEndereco tipoEndereco;
 
-    @NotEmpty(message = "Tipo Logradouro não pode ser vazio.")
+    @NotNull(message = "Tipo Logradouro não pode ser vazio.")
     private EnumTipoLogradouro tipoLogradouro;
 
     @NotNull(message = "Logradouro não pode ser nulo.")
-    @Size(max = 70, min = 1)
+    @Size(max = 70, min = 1, message="Logradouro deve ter entre 1 e 70 caracteres.")
     private String logradouro;
 
     @NotNull(message = "Número não pode ser nulo.")
-    @Size(max = 10)
-    @javax.validation.constraints.Pattern(regexp="[0-9]")
+    @Size(max = 10, message="Número só pode ter até 10 caracteres.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_NUMERO, message="Número só aceita caracteres numéricos.")
     private String numero;
 
     @NotNull(message = "Complemento não pode ser nulo.")
+    @Size(max=30, message="Complemento só pode ter até 30 caracteres.")
     private String complemento;
 
     @NotNull(message = "Bairro não pode ser nulo.")
+    @Size(max=30, message="Bairro só pode ter até 50 caracteres.")
     private String bairro;
 
     @NotNull(message = "Cidade não pode ser nulo.")
@@ -47,8 +49,8 @@ public class Endereco {
     private EnumUF UF;
 
     @NotNull(message = "CEP não pode ser nulo.")
-    @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp="[0-9]")
+    @Size(max = 8, min = 8, message="CEP deve ter 8 dígitos.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_CEP, message="CEP só aceita caracteres numéricos.")
     private String cep;
 
     Endereco(String logradouro, String numero, String complemento, String cep) {

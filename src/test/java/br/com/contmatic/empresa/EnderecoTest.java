@@ -1,18 +1,44 @@
 package br.com.contmatic.empresa;
 
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.contmatic.empresa.Endereco;
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class EnderecoTest {
+    
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+
+    public Set<String> getErros(Endereco endereco) {
+        Set<String> erros = new HashSet<>();
+        for(ConstraintViolation<Endereco> constraintViolation : validator.validate(endereco)) {
+            erros.add(constraintViolation.getMessageTemplate());
+            System.out.println(constraintViolation.getMessageTemplate());
+        }
+        return erros;
+    }
 
     @BeforeClass
     public static void chama_template_loader() {
@@ -38,17 +64,19 @@ public class EnderecoTest {
 
     @Test
     public void construtor_funciona_com_valores_validos() {
-        assertNotNull("Construtor cria Endereço se valores são válidos", enderecoTeste);
+        assertTrue(getErros(enderecoTeste).isEmpty());
     }
 
     @Test
-    public void deve_aceitar_logradouro_valido() {
-        assertNotNull("Aceitou Logradouro válido", enderecoTeste.getLogradouro());
+    public void deve_aceitar_logradouro_com_numero_caracteres_corretos() {
+        assertFalse(getErros(enderecoTeste).contains("Logradouro deve ter entre 1 e 70 caracteres."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_logradouro_nulo() {
         enderecoTeste.setLogradouro(null);
+        assertThat(getErros(enderecoTeste), hasItem("Logradouro não pode ser nulo."));
+
     }
 
     @Test
@@ -59,28 +87,43 @@ public class EnderecoTest {
     }
 
     @Test
-    public void deve_aceitar_numero_valido() {
-        assertNotNull("Deve aceitar Número válido", enderecoTeste.getNumero());
+    public void deve_aceitar_numero_quantidade_caracteres_correta() {
+        assertFalse(getErros(enderecoTeste).contains("Número só pode ter até 10 caracteres."));
     }
-
-    @Test(expected = IllegalArgumentException.class)
+    
+    @Test
+    public void nao_deve_aceitar_numero_quantidade_caracteres_incorreta() {
+        enderecoTeste.setNumero("99999999999");
+        assertThat(getErros(enderecoTeste), hasItem("Número só pode ter até 10 caracteres."));
+    }
+    
+    @Test
+    public void deve_aceitar_numero_apenas_caracteres_numericos() {
+        assertFalse(getErros(enderecoTeste).contains("Número só aceita caracteres numéricos."));
+    }
+    
+    @Test
     public void nao_deve_aceitar_numero_nulo() {
         enderecoTeste.setNumero(null);
+        assertThat(getErros(enderecoTeste), hasItem("Número não pode ser nulo."));
     }
-
-    @Test(expected = IllegalArgumentException.class)
+    
+    @Test
     public void nao_deve_aceitar_numero_com_letras() {
-        enderecoTeste.setNumero("12a");
+        enderecoTeste.setNumero("9a9c99");
+        assertThat(getErros(enderecoTeste), hasItem("Número só aceita caracteres numéricos."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_numero_com_caracteres_especiais() {
         enderecoTeste.setNumero("12@");
+        assertThat(getErros(enderecoTeste), hasItem("Número só aceita caracteres numéricos."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_numero_com_espaco() {
         enderecoTeste.setNumero("12 3");
+        assertThat(getErros(enderecoTeste), hasItem("Número só aceita caracteres numéricos."));
     }
 
     @Test
@@ -91,13 +134,20 @@ public class EnderecoTest {
     }
 
     @Test
-    public void deve_aceitar_complemento_valido() {
-        assertNotNull("Aceitou Logradouro válido", enderecoTeste.getComplemento());
+    public void deve_aceitar_complemento_com_extensao_correta() {
+        assertFalse(getErros(enderecoTeste).contains("Complemento só pode ter até 30 caracteres."));        
+    }
+    
+    @Test
+    public void nao_deve_aceitar_complemento_com_extensao_maior_que_permitido() {
+        enderecoTeste.setComplemento("casa amarela ao lado da padaria do Seo Joaquim.");
+        assertThat(getErros(enderecoTeste), hasItem("Complemento só pode ter até 30 caracteres."));        
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_complemento_nulo() {
         enderecoTeste.setComplemento(null);
+        assertThat(getErros(enderecoTeste), hasItem("Complemento não pode ser nulo."));
     }
 
     @Test
@@ -108,14 +158,14 @@ public class EnderecoTest {
     }
 
     @Test
-    public void deve_aceitar_bairro_valido() {
-        enderecoTeste.setBairro("Jd Miriam");
-        assertNotNull("Aceitou Logradouro válido", enderecoTeste.getBairro());
+    public void deve_aceitar_bairro_com_extensao_correta() {
+        assertFalse(getErros(enderecoTeste).contains("Bairro só pode ter até 30 caracteres."));        
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_bairro_nulo() {
         enderecoTeste.setBairro(null);
+        assertThat(getErros(enderecoTeste), hasItem("Bairro não pode ser nulo."));
     }
 
     @Test
@@ -128,37 +178,45 @@ public class EnderecoTest {
     @Test
     public void deve_aceitar_cep_valido() {
         enderecoTeste.setCep("02039020");
-        assertNotNull("Aceitou Cep válido", enderecoTeste.getCep());
+        assertFalse(getErros(enderecoTeste).contains("CEP não pode ser nulo."));
+        assertFalse(getErros(enderecoTeste).contains("CEP deve ter 8 dígitos."));
+        assertFalse(getErros(enderecoTeste).contains("CEP só aceita caracteres numéricos."));        
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cep_nulo() {
         enderecoTeste.setCep(null);
+        assertThat(getErros(enderecoTeste), hasItem("CEP não pode ser nulo."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cep_menor_8_digitos() {
         enderecoTeste.setCep("0203902");
+        assertThat(getErros(enderecoTeste), hasItem("CEP deve ter 8 dígitos."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cep_maior_8_digitos() {
         enderecoTeste.setCep("020390202");
+        assertThat(getErros(enderecoTeste), hasItem("CEP deve ter 8 dígitos."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cep_com_letras() {
         enderecoTeste.setCep("0203902a");
+        assertThat(getErros(enderecoTeste), hasItem("CEP só aceita caracteres numéricos."));        
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cep_com_caracteres_especiais() {
         enderecoTeste.setCep("0203902@");
+        assertThat(getErros(enderecoTeste), hasItem("CEP só aceita caracteres numéricos."));        
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_cep_com_espaco() {
         enderecoTeste.setCep("0203 020");
+        assertThat(getErros(enderecoTeste), hasItem("CEP só aceita caracteres numéricos."));        
     }
 
     @Test
@@ -225,33 +283,32 @@ public class EnderecoTest {
 
     @Test
     public void to_string_deve_conter_logradouro() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
-        assertTrue("Confere se Logradouro está no toString", endereco1.toString().contains(endereco1.getLogradouro()));
+        assertTrue("Confere se Logradouro está no toString", enderecoTeste.toString().contains(enderecoTeste.getLogradouro()));
+    }
+    
+    @Test
+    public void to_string_deve_conter_tipo_logradouro() {
+        assertTrue("Confere se Tipo Logradouro está no toString", enderecoTeste.toString().contains(enderecoTeste.getTipoLogradouro().toString()));
     }
 
     @Test
     public void to_string_deve_conter_numero() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
-        assertTrue("Confere se Número está no toString", endereco1.toString().contains(endereco1.getNumero()));
+        assertTrue("Confere se Número está no toString", enderecoTeste.toString().contains(enderecoTeste.getNumero()));
     }
 
     @Test
     public void to_string_deve_conter_complemento() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
-        ;
-        assertTrue("Confere se Complemento está no toString", endereco1.toString().contains(endereco1.getComplemento()));
+        assertTrue("Confere se Complemento está no toString", enderecoTeste.toString().contains(enderecoTeste.getComplemento()));
     }
 
     @Test
     public void to_string_deve_conter_bairro() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
-        assertTrue("Confere se Bairro está no toString", endereco1.toString().contains(endereco1.getBairro()));
+        assertTrue("Confere se Bairro está no toString", enderecoTeste.toString().contains(enderecoTeste.getBairro()));
     }
 
     @Test
     public void to_string_deve_conter_cep() {
-        Endereco endereco1 = new Endereco("Rua 1", "12", "casa 2", "02039021");
-        assertTrue("Confere se Cep está no toString", endereco1.toString().contains(endereco1.getCep()));
+        assertTrue("Confere se Cep está no toString", enderecoTeste.toString().contains(enderecoTeste.getCep()));
     }
 
     @Test
@@ -260,7 +317,7 @@ public class EnderecoTest {
         assertTrue("Logradouro contém ç", endereco1.getLogradouro().contains("ç"));
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void atesta_que_logradouro_nao_contem_ce_cedilha() {
         Endereco endereco1 = new Endereco("Rua dos Pescadores", "12", "casa 2", "02039021");

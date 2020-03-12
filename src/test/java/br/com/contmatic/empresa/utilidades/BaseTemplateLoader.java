@@ -54,7 +54,7 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
             {
                 add("id", random("1", "4"));
                 add("cpf", random("19963288081", "12519409002"));
-                add("nome", random("Anita", "Ludmila"));
+                add("nome", random("Anitta", "Ludmila"));
                 add("endereco", (endereco));
                 add("telefone", (telefone));
                 add("email", random("anitta@universalmusic.com", "ludmila@bmg.com"));
@@ -69,7 +69,9 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
                 add("dataAbertura", random(new DateTime()));
                 add("capitalSocial", random(Double.class, range(1, 30000)));
                 add("endereco", (endereco));
-                add("endereco", (telefone));
+                add("email", random("asc@lerolero.com.br","olar@tiroliro.com.ch"));
+                add("telefone", (telefone));
+                add("website",random("http://www.lerolero.com.br","http://www.tiroliro.com.ch"));
             }
         });
 
@@ -86,11 +88,12 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
         Fixture.of(Fornecedor.class).addTemplate("fornecedorValido", new Rule() {
             {
                 add("id", random("1", "4"));
-                add("cnpj", random("12345678901234", "12345678904321"));
+                add("cnpj", random("37601087000162", "01083704000138"));
                 add("razaoSocial", random("Serviços Ltda", "Assessoria Ltda."));
                 add("email", random("anitta@universalmusic.com", "ludmila@bmg.com"));
                 add("endereco", (endereco));
-                add("endereco", (telefone));
+                add("telefone", (telefone));
+                add("website", random("http://www.fornecedorlegal.com.br","http://www.outrofornecedorlegal.com.ar"));
             }
         });
 

@@ -18,23 +18,23 @@ public class Pedido {
 
     private static final double VALOR_PEDIDO_ZERO = 0;
 
-    @NotNull(message = "ID Pedido não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID)
+    @NotNull(message = "ID não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
     @NotNull(message = "Data Pedido não pode ser nula.")
     @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
     private DateTime dataPedido;
 
     @Future(message = "Data Previsão deve ser data futura.")
     @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
     private DateTime previsaoEntrega;
 
     @NotNull(message = "Data Entrega não pode ser nula.")
     @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp="[0-9]", message="Data aceita apenas números.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
     private DateTime dataEntrega;
 
     @Nonnegative
