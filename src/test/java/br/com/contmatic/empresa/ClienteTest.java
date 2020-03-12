@@ -45,6 +45,35 @@ public class ClienteTest {
     public void deve_aceitar_cliente_valido() {
         assertTrue(getErros(clienteTeste).isEmpty());
     }
+    
+    @Test
+    public void deve_aceitar_id_valido() {
+        assertFalse(getErros(clienteTeste).contains("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_invalido() {
+        clienteTeste.setId(null);
+        assertThat(getErros(clienteTeste), hasItem("ID não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_letras() {
+        clienteTeste.setId("a");
+        assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_caracter_especial() {
+        clienteTeste.setId("@");
+        assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_espaco() {
+        clienteTeste.setId("1 1");
+        assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
+    }
 
     @Test
     public void nao_deve_aceitar_cpf_nulo() {

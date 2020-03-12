@@ -66,6 +66,35 @@ public class EnderecoTest {
     public void construtor_funciona_com_valores_validos() {
         assertTrue(getErros(enderecoTeste).isEmpty());
     }
+    
+    @Test
+    public void deve_aceitar_id_valido() {
+        assertFalse(getErros(enderecoTeste).contains("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_invalido() {
+        enderecoTeste.setId(null);
+        assertThat(getErros(enderecoTeste), hasItem("ID não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_letras() {
+        enderecoTeste.setId("a");
+        assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_caracter_especial() {
+        enderecoTeste.setId("@");
+        assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_espaco() {
+        enderecoTeste.setId("1 1");
+        assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
+    }
 
     @Test
     public void deve_aceitar_logradouro_com_numero_caracteres_corretos() {

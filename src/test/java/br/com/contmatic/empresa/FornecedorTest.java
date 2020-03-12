@@ -48,7 +48,36 @@ public class FornecedorTest {
     public void deve_aceitar_fornecedor_valido() {
         assertTrue(getErros(fornecedorTeste).isEmpty());
     }
-
+   
+    @Test
+    public void deve_aceitar_id_valido() {
+        assertFalse(getErros(fornecedorTeste).contains("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_invalido() {
+        fornecedorTeste.setId(null);
+        assertThat(getErros(fornecedorTeste), hasItem("ID não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_letras() {
+        fornecedorTeste.setId("a");
+        assertThat(getErros(fornecedorTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_caracter_especial() {
+        fornecedorTeste.setId("@");
+        assertThat(getErros(fornecedorTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_espaco() {
+        fornecedorTeste.setId("1 1");
+        assertThat(getErros(fornecedorTeste), hasItem("ID só pode conter números."));
+    }
+    
     @Test
     public void nao_deve_aceitar_cnpj_nulo() {
         fornecedorTeste.setCnpj(null);

@@ -51,6 +51,35 @@ public class EmpresaTest {
     public void a_deve_aceitar_empresa_valida() {
         assertTrue(getErros(empresaTeste).isEmpty());
     }
+    
+    @Test
+    public void deve_aceitar_id_valido() {
+        assertFalse(getErros(empresaTeste).contains("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_invalido() {
+        empresaTeste.setId(null);
+        assertThat(getErros(empresaTeste), hasItem("ID não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_letras() {
+        empresaTeste.setId("a");
+        assertThat(getErros(empresaTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_caracter_especial() {
+        empresaTeste.setId("@");
+        assertThat(getErros(empresaTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_espaco() {
+        empresaTeste.setId("1 1");
+        assertThat(getErros(empresaTeste), hasItem("ID só pode conter números."));
+    }
 
     @Test
     public void nao_deve_aceitar_cnpj_nulo() {
