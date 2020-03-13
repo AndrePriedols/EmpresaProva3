@@ -1,5 +1,7 @@
 package br.com.contmatic.empresa;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
 
 import static org.junit.Assert.assertNotEquals;
@@ -7,6 +9,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,9 +26,19 @@ import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class SetorTest {
-    
-    EnumNomeSetor nomeSetorTeste = EnumNomeSetor.COMERCIAL;
-    
+	
+	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	Validator validator = factory.getValidator();
+
+	public Set<String> getErros(Setor setor) {
+		Set<String> erros = new HashSet<>();
+		for (ConstraintViolation<Setor> constraintViolation : validator.validate(setor)) {
+			erros.add(constraintViolation.getMessageTemplate());
+			System.out.println(constraintViolation.getMessageTemplate());
+		}
+		return erros;
+	}
+	
     @BeforeClass
     public static void chama_template_loader() {
         new BaseTemplateLoader().load();
@@ -27,10 +46,43 @@ public class SetorTest {
     
     Setor setorTeste = Fixture.from(Setor.class).gimme("setorValido");
 
+    EnumNomeSetor nomeSetorTeste = EnumNomeSetor.COMERCIAL;
+
 	@Test
 	public void deve_aceitar_nome_setor_valido() {
 		assertNotNull(setorTeste);
 	}
+	
+    
+    @Test
+    public void deve_aceitar_id_valido() {
+        assertFalse(getErros(setorTeste).contains("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_invalido() {
+        setorTeste.setId(null);
+        assertThat(getErros(setorTeste), hasItem("ID não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_letras() {
+        setorTeste.setId("a");
+        assertThat(getErros(setorTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_caracter_especial() {
+        setorTeste.setId("@");
+        assertThat(getErros(setorTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_espaco() {
+        setorTeste.setId("1 1");
+        assertThat(getErros(setorTeste), hasItem("ID só pode conter números."));
+    }
+
 
 	@Test(expected = NullPointerException.class)
 	public void nao_deve_aceitar_setor_nulo() {

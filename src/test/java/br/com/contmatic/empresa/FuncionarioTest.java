@@ -1,10 +1,10 @@
 package br.com.contmatic.empresa;
 
-import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
@@ -28,17 +28,17 @@ import javax.validation.ValidatorFactory;
 
 public class FuncionarioTest {
 
-    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-    Validator validator = factory.getValidator();
+	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	Validator validator = factory.getValidator();
 
-    public Set<String> getErros(Funcionario funcionario) {
-        Set<String> erros = new HashSet<>();
-        for(ConstraintViolation<Funcionario> constraintViolation : validator.validate(funcionario)) {
-            erros.add(constraintViolation.getMessageTemplate());
-            System.out.println(constraintViolation.getMessageTemplate());
-        }
-        return erros;
-    }
+	public Set<String> getErros(Funcionario funcionario) {
+		Set<String> erros = new HashSet<>();
+		for (ConstraintViolation<Funcionario> constraintViolation : validator.validate(funcionario)) {
+			erros.add(constraintViolation.getMessageTemplate());
+			System.out.println(constraintViolation.getMessageTemplate());
+		}
+		return erros;
+	}
 
 	Setor setorTeste = new Setor(EnumNomeSetor.COMPRAS);
 
@@ -54,171 +54,125 @@ public class FuncionarioTest {
 	}
 
 	Funcionario funcionarioTeste = Fixture.from(Funcionario.class).gimme("funcionarioValido");
-	
-	   @Test
-	    public void deve_aceitar_id_valido() {
-	        assertFalse(getErros(funcionarioTeste).contains("ID só pode conter números."));
-	    }
-	    
-	    @Test
-	    public void nao_deve_aceitar_id_invalido() {
-	        funcionarioTeste.setId(null);
-	        assertThat(getErros(funcionarioTeste), hasItem("ID não pode ser nulo."));
-	    }
-	    
-	    @Test
-	    public void nao_deve_aceitar_id_com_letras() {
-	        funcionarioTeste.setId("a");
-	        assertThat(getErros(funcionarioTeste), hasItem("ID só pode conter números."));
-	    }
-	    
-	    @Test
-	    public void nao_deve_aceitar_id_com_caracter_especial() {
-	        funcionarioTeste.setId("@");
-	        assertThat(getErros(funcionarioTeste), hasItem("ID só pode conter números."));
-	    }
-	    
-	    @Test
-	    public void nao_deve_aceitar_id_com_espaco() {
-	        funcionarioTeste.setId("1 1");
-	        assertThat(getErros(funcionarioTeste), hasItem("ID só pode conter números."));
-	    }
-	
+
 	@Test
-    public void deve_rejeitar_cpf_nulo() {
+	public void deve_aceitar_id_valido() {
+		assertFalse(getErros(funcionarioTeste).contains("ID só pode conter números."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_id_invalido() {
+		funcionarioTeste.setId(null);
+		assertThat(getErros(funcionarioTeste), hasItem("ID não pode ser nulo."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_id_com_letras() {
+		funcionarioTeste.setId("a");
+		assertThat(getErros(funcionarioTeste), hasItem("ID só pode conter números."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_id_com_caracter_especial() {
+		funcionarioTeste.setId("@");
+		assertThat(getErros(funcionarioTeste), hasItem("ID só pode conter números."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_id_com_espaco() {
+		funcionarioTeste.setId("1 1");
+		assertThat(getErros(funcionarioTeste), hasItem("ID só pode conter números."));
+	}
+
+	@Test
+    public void nao_deve_aceitar_cpf_nulo() {
         funcionarioTeste.setCpf(null);
-		Set<ConstraintViolation<Funcionario>> violations = validator.validate(funcionarioTeste);
-        assertFalse(violations.isEmpty());
+        assertThat(getErros(funcionarioTeste), hasItem("CPF não pode ser nulo ou vazio."));
     }
 
-	@Test
-	public void deve_aceitar_cpf_valido() throws Exception {
-		assertNotNull("Cpf deve ser válido", funcionarioTeste.getCpf());
-	}
+    @Test
+    public void deve_aceitar_cpf_valido_digito_zero() {
+        funcionarioTeste.setCpf("46776847070");
+        assertFalse(getErros(funcionarioTeste).contains("CPF em formato inválido."));
+    }
 
-	@Test
-	public void deve_aceitar_cpf_valido_digito_zero() {
-		funcionarioTeste.setCpf("46776847070");
-		assertNotNull("Cpf deve ser válido", funcionarioTeste.getCpf());
-	}
+    @Test
+    public void deve_aceitar_cpf_valido_digito_zero_b() {
+        funcionarioTeste.setCpf("82533451002");
+        assertFalse(getErros(funcionarioTeste).contains("CPF em formato inválido."));
+    }
 
-	@Test
-	public void deve_aceitar_cpf_valido_digito_zero_b() {
-		funcionarioTeste.setCpf("82533451002");
-		assertNotNull("Cpf deve ser válido", funcionarioTeste.getCpf());
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_invalido_digito_k() {
+        funcionarioTeste.setCpf("65528642050");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_invalido_digito_k() {
-		funcionarioTeste.setCpf("65528642050");
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_invalido_digito_j() {
+        funcionarioTeste.setCpf("65528642041");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_invalido_digito_j() {
-		funcionarioTeste.setCpf("65528642041");
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_maior_11_digitos() {
+        funcionarioTeste.setCpf("1234567890123");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_nulo() {
-		funcionarioTeste.setCpf(null);
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_menor_11_digitos() {
+        funcionarioTeste.setCpf("1234567");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_maior_11_digitos() {
-		funcionarioTeste.setCpf("1234567890123");
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_letra() {
+        funcionarioTeste.setCpf("1234567890a");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_menor_11_digitos() {
-		funcionarioTeste.setCpf("1234567890");
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_caracter_especial() {
+        funcionarioTeste.setCpf("1234567890@");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_letra() {
-		funcionarioTeste.setCpf("1234567890a");
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_espaco() {
+        funcionarioTeste.setCpf("123456 8901");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_caracter_especial() {
-		funcionarioTeste.setCpf("1234567890@");
-	}
+    @Test
+    public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
+        funcionarioTeste.setCpf("11111111111");
+        assertThat(getErros(funcionarioTeste), hasItem("CPF não pode ter todos os dígitos iguais."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_espaco() {
-		funcionarioTeste.setCpf("123456 8901");
-	}
+    @Test
+    public void deve_aceitar_nome_conforme_regex() {
+        funcionarioTeste.setNome("André");
+        assertFalse(getErros(funcionarioTeste).contains("Nome com caracteres inválidos."));
+    }
+    
+    @Test
+    public void deve_aceitar_nome_extensao_correta() {
+        funcionarioTeste.setNome("André");
+        assertFalse(getErros(funcionarioTeste).contains("Nome deve ter entre 70 e 2 caracteres."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_nome_extensao_incorreta() {
+        funcionarioTeste.setNome("A");
+        assertTrue(getErros(funcionarioTeste).contains("Nome deve ter entre 70 e 2 caracteres."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
-		funcionarioTeste.setCpf("11111111111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_onze_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11111111112");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_dez_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11111111121");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_nove_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11111111211");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_oito_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11111112111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_sete_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11111121111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_seis_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11111211111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_cinco_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11112111111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_quatro_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11121111111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_tres_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("11211111111");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void digito_dois_diferente_nao_anula_a_priori() {
-		funcionarioTeste.setCpf("12111111111");
-	}
-
-	@Test
-	public void deve_aceitar_nome_valido_fixture() {
-		Funcionario funcaTeste = Fixture.from(Funcionario.class).gimme("funcionarioValido");
-		assertNotNull("Nome deve ser válido", funcaTeste.getNome());
-	}
-
-	@Test
-	public void deve_aceitar_nome_valido() {
-		funcionarioTeste.setNome("André");
-		assertNotNull("Nome deve ser válido", funcionarioTeste.getNome());
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_nulo() {
-		funcionarioTeste.setNome(null);
-	}
+    @Test
+    public void nao_deve_aceitar_nome_funcionario_nulo() {
+        funcionarioTeste.setNome(null);
+        assertThat(getErros(funcionarioTeste), hasItem("Nome não pode ser nulo ou vazio."));
+    }
 
 	@Test(expected = NullPointerException.class)
 	public void nao_deve_aceitar_data_nascimento_nula() throws ParseException {
@@ -387,7 +341,8 @@ public class FuncionarioTest {
 		funcionarioTeste.setNome("José");
 		funcionarioTeste.setSetor(setorTeste);
 		funcionarioTeste.setCargo("Estagiário");
-		assertTrue("Confere se nome está no toString", funcionarioTeste.toString().contains(funcionarioTeste.getNome()));
+		assertTrue("Confere se nome está no toString",
+				funcionarioTeste.toString().contains(funcionarioTeste.getNome()));
 	}
 
 	@Test
@@ -411,7 +366,8 @@ public class FuncionarioTest {
 		funcionarioTeste.setNome("José");
 		funcionarioTeste.setSetor(setorTeste);
 		funcionarioTeste.setCargo("Estagiário");
-		assertTrue("Confere se Cargo está no toString", funcionarioTeste.toString().contains(funcionarioTeste.getCargo()));
+		assertTrue("Confere se Cargo está no toString",
+				funcionarioTeste.toString().contains(funcionarioTeste.getCargo()));
 	}
 
 	@Test
