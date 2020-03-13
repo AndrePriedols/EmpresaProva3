@@ -75,10 +75,9 @@ public class ClienteTest {
         assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void nao_deve_aceitar_cpf_nulo() {
         clienteTeste.setCpf(null);
-        assertThat(getErros(clienteTeste), hasItem("CPF não pode ser nulo ou vazio."));
     }
 
     @Test
@@ -135,10 +134,9 @@ public class ClienteTest {
         assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
         clienteTeste.setCpf("11111111111");
-        assertThat(getErros(clienteTeste), hasItem("CPF não pode ter todos os dígitos iguais."));
     }
 
     @Test

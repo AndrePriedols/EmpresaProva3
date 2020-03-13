@@ -32,6 +32,16 @@ public class Telefone {
     public Telefone() {
     }
 
+    public Telefone(String id, EnumTipoTelefone tipoTelefone, String ddd, String numeroTelefone) {
+        super();
+        this.id = id;
+        this.tipoTelefone = tipoTelefone;
+        this.ddd = ddd;
+        this.numeroTelefone = numeroTelefone;
+    }
+
+
+
     public void setId(String id) {
         this.id = id;
     }

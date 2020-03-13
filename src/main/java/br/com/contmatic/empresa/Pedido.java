@@ -1,9 +1,8 @@
 package br.com.contmatic.empresa;
 
-import javax.annotation.Nonnegative;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -16,28 +15,18 @@ import br.com.contmatic.utils.Regex;
 
 public class Pedido {
 
-    private static final double VALOR_PEDIDO_ZERO = 0;
-
     @NotNull(message = "ID não pode ser nulo.")
     @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
 
     @NotNull(message = "Data Pedido não pode ser nula.")
-    @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
     private DateTime dataPedido;
 
-    @Future(message = "Data Previsão deve ser data futura.")
-    @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
-    private DateTime previsaoEntrega;
-
     @NotNull(message = "Data Entrega não pode ser nula.")
-    @Size(max = 8, min = 8)
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_DATA, message="Data aceita apenas números.")
+    @Future(message = "Data Entrega deve ser data futura.")
     private DateTime dataEntrega;
 
-    @Nonnegative
+    @Min(value=0, message="Valor deve ser positivo ou zero.")
     private double valor;
 
     public Pedido() {
@@ -52,7 +41,6 @@ public class Pedido {
     }
 
     public void setDataPedido(DateTime dataPedido) {
-        impedeDataPedidoNula(dataPedido);
         impedeDataPedidoPosteriorDataAtual(dataPedido);
         this.dataPedido = dataPedido;
     }
@@ -61,26 +49,12 @@ public class Pedido {
         Preconditions.checkArgument(dataPedido.isBeforeNow(), "Data pedido não pode ser posteior à atual.");
     }
 
-    private void impedeDataPedidoNula(DateTime dataPedido) {
-        Preconditions.checkNotNull(dataPedido, "Data pedido não pode ser nula");
-    }
-
     public DateTime getDataPedido() {
         return this.dataPedido;
     }
 
     public void setDataEntrega(DateTime dataEntrega) {
-        impedeDataEntregaNula(dataEntrega);
-        impedeDataEntregaPosteriorDataAtual(dataEntrega);
         this.dataEntrega = dataEntrega;
-    }
-
-    private void impedeDataEntregaPosteriorDataAtual(DateTime dataEntrega) {
-        Preconditions.checkArgument(dataEntrega.isBeforeNow(), "Data Entrega não pode ser posteior à atual.");
-    }
-
-    private void impedeDataEntregaNula(DateTime dataEntrega) {
-        Preconditions.checkNotNull(dataEntrega, "Data Entrega não pode ser nula");
     }
 
     public DateTime getDataEntrega() {
@@ -88,14 +62,7 @@ public class Pedido {
     }
 
     public void setValor(double valor) {
-        verificaValorPositivo(valor);
         this.valor = valor;
-    }
-
-    private void verificaValorPositivo(double valor) {
-        if (valor <= VALOR_PEDIDO_ZERO) {
-            throw new IllegalArgumentException("Valor deve ser maior que " + VALOR_PEDIDO_ZERO + ".");
-        }
     }
 
     public double getValor() {
