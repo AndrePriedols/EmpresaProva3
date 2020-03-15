@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.contmatic.utils.Regex;
+import br.com.contmatic.utils.ValidadorCpfNumerosIguais;
 
 public class Cliente {
 
@@ -53,6 +54,7 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
+        ValidadorCpfNumerosIguais.impedeCpfTodosDigitosIguais(cpf);
         this.cpf = cpf;
     }
 

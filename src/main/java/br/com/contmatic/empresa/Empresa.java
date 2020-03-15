@@ -91,8 +91,12 @@ public class Empresa {
     }
 
     public void setDataAbertura(DateTime dataAbertura) {
-        Preconditions.checkArgument(!dataAbertura.isAfterNow(), "Data de Abertura não pode ser posterior à data atual.");
+        impedeDataAberturaPosteriorAtual(dataAbertura);
         this.dataAbertura = dataAbertura;
+    }
+    
+    private void impedeDataAberturaPosteriorAtual(DateTime dataAbertura) {
+        Preconditions.checkArgument(dataAbertura.isBeforeNow(), "Data Abertura não pode ser posteior à atual.");
     }
 
     public DateTime getDataAbertura() {

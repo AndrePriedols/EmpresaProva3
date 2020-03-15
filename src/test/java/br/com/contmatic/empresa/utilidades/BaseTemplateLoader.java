@@ -12,6 +12,7 @@ import br.com.contmatic.empresa.Setor;
 import br.com.contmatic.empresa.Telefone;
 import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.contmatic.enums.EnumTipoEndereco;
+import br.com.contmatic.enums.EnumTipoEstadoCivil;
 import br.com.contmatic.enums.EnumTipoLogradouro;
 import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.contmatic.enums.EnumUF;
@@ -78,9 +79,8 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
         Fixture.of(Pedido.class).addTemplate("pedidoValido", new Rule() {
             {
                 add("id", random("1", "4"));
-                add("dataPedido", random(new DateTime()));
-                add("dataEntrega", random(new DateTime()));
-                add("previsaoEntrega", random(new DateTime()));
+                add("dataPedido", random(new DateTime(1970, 01, 01, 00, 00, 00), new DateTime(1990, 01, 01, 00, 00, 00)));
+                add("dataEntrega", random(new DateTime(2070, 01, 01, 00, 00, 00), new DateTime(2050, 01, 01, 00, 00, 00)));
                 add("valor", random(Double.class, range(1, 10000)));
             }
         });
@@ -114,10 +114,13 @@ public class BaseTemplateLoader implements br.com.six2six.fixturefactory.loader.
                 add("cpf", random("35819956893", "66356679034"));
                 add("nome", random("André", "José"));
                 add("dataNascimento", random(new DateTime()));
+                add("dataContratacao", random(new DateTime()));
+                add("estadoCivil", random(EnumTipoEstadoCivil.CASADO, EnumTipoEstadoCivil.SEPARADO));
                 add("endereco", (endereco));
                 add("telefone", (telefone));
                 add("setor", random(setor));
                 add("cargo", random("Estagiário", "Gerente"));
+                add("email", random("anitta@universalmusic.com", "ludmila@bmg.com"));
                 add("salario", random(Double.class, range(100, 500)));
             }
         });
