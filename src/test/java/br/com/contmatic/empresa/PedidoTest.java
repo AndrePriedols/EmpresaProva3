@@ -117,5 +117,13 @@ public class PedidoTest {
         pedidoTeste.setValor(10);
         assertFalse(getErros(pedidoTeste).contains("Valor deve ser positivo ou zero."));
     }
+    
+    @Test
+    public void nao_deve_aceitar_valor_negativo() {
+        pedidoTeste.setValor(-10);
+        assertThat(getErros(pedidoTeste), hasItem("Valor deve ser positivo ou zero."));
+    }
+    
+  
 
 }

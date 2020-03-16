@@ -141,7 +141,7 @@ public class FuncionarioTest {
         assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
         funcionarioTeste.setCpf("11111111111");
     }

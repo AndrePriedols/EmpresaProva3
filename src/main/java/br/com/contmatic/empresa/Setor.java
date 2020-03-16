@@ -1,20 +1,17 @@
 package br.com.contmatic.empresa;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.google.common.base.Preconditions;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.contmatic.enums.EnumNomeSetor;
 import br.com.contmatic.utils.Regex;
 
 public class Setor {
-
-    private static final int PRIMEIRO_DIGITO_RESPONSAVEL = 0;
 
     @NotNull(message = "ID não pode ser nulo.")
     @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
@@ -24,9 +21,12 @@ public class Setor {
     private EnumNomeSetor nome;
 
     @NotNull(message = "Ramal não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_RAMAL, message="Ramal só pode conter números.")
     private String ramal;
 
-    @NotNull(message = "Responsável não pode ser nulo.")
+    @NotEmpty(message = "Responsável não pode ser nulo ou vazio.")
+    @Size(max = 70, min = 2, message="Responsável deve ter entre 70 e 2 caracteres.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_NOME_VALIDO, message="Responsável com caracteres inválidos.")
     private String responsavel;
 
     public Setor(EnumNomeSetor nome) {
@@ -45,12 +45,7 @@ public class Setor {
     }
 
     public void setNome(EnumNomeSetor nome) {
-        impedeNomeNulo(nome);
         this.nome = nome;
-    }
-
-    private void impedeNomeNulo(EnumNomeSetor nome) {
-        Preconditions.checkArgument(StringUtils.isNotEmpty(nome.toString()), "Nome Setor não pode ser nulo");
     }
 
     public EnumNomeSetor getNome() {
@@ -58,23 +53,7 @@ public class Setor {
     }
 
     public void setRamal(String ramal) {
-        impedeRamalNulo(ramal);
-        impedeCaracteresNaoNumericosRamal(ramal);
         this.ramal = ramal;
-
-    }
-
-    private void impedeCaracteresNaoNumericosRamal(String ramal) {
-        char[] ramalComoArrayChars = ramal.toCharArray();
-        for(char caracterRamal : ramalComoArrayChars) {
-            if (!Character.isDigit(caracterRamal)) {
-                throw new IllegalArgumentException("Ramal apenas com Números.");
-            }
-        }
-    }
-
-    private void impedeRamalNulo(String ramal) {
-        Preconditions.checkArgument(StringUtils.isNotEmpty(ramal), "Ramal não pode ser nulo");
     }
 
     public String getRamal() {
@@ -82,21 +61,7 @@ public class Setor {
     }
 
     public void setResponsavel(String responsavel) {
-        impedeResponsavelNulo(responsavel);
-        impedeCaracteresNumericosResponsavel(responsavel);
         this.responsavel = responsavel;
-    }
-
-    private void impedeCaracteresNumericosResponsavel(String responsavel) {
-        for(int caracterResponsavel = PRIMEIRO_DIGITO_RESPONSAVEL ; caracterResponsavel < responsavel.length() ; caracterResponsavel++) {
-            if (Character.isDigit(responsavel.charAt(caracterResponsavel))) {
-                throw new IllegalArgumentException("Responsável não pode ter números.");
-            }
-        }
-    }
-
-    private void impedeResponsavelNulo(String responsavel) {
-        Preconditions.checkArgument(StringUtils.isNotEmpty(responsavel), "Responsável não pode ser nulo");
     }
 
     public String getResponsavel() {

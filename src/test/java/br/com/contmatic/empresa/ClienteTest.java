@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
+import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class ClienteTest {
@@ -48,6 +50,7 @@ public class ClienteTest {
     
     @Test
     public void deve_aceitar_id_valido() {
+    	assertNotNull(clienteTeste.getId());
         assertFalse(getErros(clienteTeste).contains("ID só pode conter números."));
     }
     
@@ -134,7 +137,7 @@ public class ClienteTest {
         assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
         clienteTeste.setCpf("11111111111");
     }
@@ -229,6 +232,26 @@ public class ClienteTest {
     public void deve_respeitar_o_get_set_email_cliente() {
         clienteTeste.setEmail("geovanemacuser@apple.com");
         assertTrue("Get e Set Email deve funcionar.", clienteTeste.getEmail().equals("geovanemacuser@apple.com"));
+    }
+    
+	@Test
+	public void deve_aceitar_telefone_cliente_valido() {
+		Telefone telefoneTeste = new Telefone();
+		clienteTeste.setTelefone(telefoneTeste);
+		assertFalse(getErros(clienteTeste).contains("Telefone não pode ser nulo."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_telefone_cliente_nulo() {
+		clienteTeste.setTelefone(null);
+		assertThat(getErros(clienteTeste), hasItem("Telefone não pode ser nulo."));
+	}
+
+	@Test
+	public void get_set_telefone_deve_funcionar() {
+	Telefone telefoneTeste = new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765");
+	clienteTeste.setTelefone(new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765"));
+	assertTrue(clienteTeste.getTelefone().equals(telefoneTeste));
     }
 
     @Test

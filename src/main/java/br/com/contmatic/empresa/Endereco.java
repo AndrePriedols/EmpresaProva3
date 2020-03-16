@@ -42,7 +42,7 @@ public class Endereco {
     @Size(max=30, message="Bairro só pode ter até 50 caracteres.")
     private String bairro;
 
-    @NotNull(message = "Cidade não pode ser nulo.")
+    @NotNull(message = "Cidade não pode ser nula.")
     private String cidade;
 
     @NotNull(message = "UF não pode ser nulo.")

@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
+import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.six2six.fixturefactory.Fixture;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -262,6 +263,26 @@ public class EmpresaTest {
     public void deve_respeitar_o_get_set_email_empresa() {
         empresaTeste.setEmail("geovanemacuser@apple.com");
         assertTrue("Get e Set Email deve funcionar.", empresaTeste.getEmail().equals("geovanemacuser@apple.com"));
+    }
+    
+	@Test
+	public void deve_aceitar_telefone_empresa_valido() {
+		Telefone telefoneTeste = new Telefone();
+		empresaTeste.setTelefone(telefoneTeste);
+		assertFalse(getErros(empresaTeste).contains("Telefone não pode ser nulo."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_telefone_empresae_nulo() {
+		empresaTeste.setTelefone(null);
+		assertThat(getErros(empresaTeste), hasItem("Telefone não pode ser nulo."));
+	}
+
+	@Test
+	public void get_set_telefone_deve_funcionar() {
+	Telefone telefoneTeste = new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765");
+	empresaTeste.setTelefone(new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765"));
+	assertTrue(empresaTeste.getTelefone().equals(telefoneTeste));
     }
 
     @Test

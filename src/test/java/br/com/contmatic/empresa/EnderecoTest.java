@@ -24,6 +24,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
+import br.com.contmatic.enums.EnumTipoEndereco;
+import br.com.contmatic.enums.EnumTipoLogradouro;
+import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.contmatic.enums.EnumUF;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class EnderecoTest {
@@ -95,6 +99,40 @@ public class EnderecoTest {
         enderecoTeste.setId("1 1");
         assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
     }
+    
+    @Test
+	public void nao_deve_aceitar_tipo_endereco_nulo() {
+    	enderecoTeste.setTipoEndereco(null);
+        assertThat(getErros(enderecoTeste), hasItem("Tipo Endereço não pode ser nulo."));
+	}
+	
+	@Test
+	public void deve_aceitar_nome_valido() {
+        assertFalse(getErros(enderecoTeste).contains("Tipo Endereço não pode ser nulo."));
+	}
+
+	@Test
+	public void deve_respeitar_o_get_set_tipo_endereco() {
+		enderecoTeste.setTipoEndereco(EnumTipoEndereco.CORRESPONDENCIA);
+		assertTrue("Get e Set Tipo Endereço deve funcionar.", enderecoTeste.getTipoEndereco().toString().equals("CORRESPONDENCIA"));
+	}
+    
+    @Test
+	public void nao_deve_aceitar_tipo_logradouro_nulo() {
+    	enderecoTeste.setTipoEndereco(null);
+        assertThat(getErros(enderecoTeste), hasItem("Tipo Endereço não pode ser nulo."));
+	}
+	
+	@Test
+	public void deve_aceitar_logradouro_valido() {
+        assertFalse(getErros(enderecoTeste).contains("Tipo Endereço não pode ser nulo."));
+	}
+
+	@Test
+	public void deve_respeitar_o_get_set_logradouro_setor() {
+		enderecoTeste.setTipoLogradouro(EnumTipoLogradouro.AEROPORTO);
+		assertTrue("Get e Set Tipo Telefone deve funcionar.", enderecoTeste.getTipoLogradouro().toString().equals("AEROPORTO"));
+	}
 
     @Test
     public void deve_aceitar_logradouro_com_numero_caracteres_corretos() {
@@ -203,6 +241,41 @@ public class EnderecoTest {
         enderecoTeste.setBairro("Jd França");
         assertEquals(enderecoTeste.getBairro(), bairro);
     }
+    
+    @Test
+    public void deve_aceitar_cidade_valida() {
+        enderecoTeste.setCidade("Vinhedo");
+        assertFalse(getErros(enderecoTeste).contains("Cidade não pode ser nula."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cidade_nula() {
+        enderecoTeste.setCidade(null);
+        assertThat(getErros(enderecoTeste), hasItem("Cidade não pode ser nula."));
+    }
+
+    @Test
+    public void deve_respeitar_o_get_set_cidade() {
+        enderecoTeste.setCidade("Vinhedo");
+        assertTrue(enderecoTeste.getCidade().equals("Vinhedo"));
+    }
+    
+    @Test
+	public void nao_deve_aceitar_uf_nulo() {
+    	enderecoTeste.setUF(null);
+        assertThat(getErros(enderecoTeste), hasItem("UF não pode ser nulo."));
+	}
+	
+	@Test
+	public void deve_aceitar_uf_valido() {
+        assertFalse(getErros(enderecoTeste).contains("UF não pode ser nulo."));
+	}
+
+	@Test
+	public void deve_respeitar_o_get_set_uf() {
+		enderecoTeste.setUF(EnumUF.BA);
+		assertTrue("Get e Set UF deve funcionar.", enderecoTeste.getUF().toString().equals("BA"));
+	}
 
     @Test
     public void deve_aceitar_cep_valido() {
