@@ -1,5 +1,8 @@
 package br.com.contmatic.empresa.utilidades;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 
 import br.com.contmatic.empresa.Cliente;

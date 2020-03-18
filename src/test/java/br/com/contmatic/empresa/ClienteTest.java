@@ -303,5 +303,33 @@ public class ClienteTest {
         clienteTeste.setEmail("geovanemacuser@apple.com");
         assertTrue("Confere se Email Cliente está no toString", clienteTeste.toString().contains(clienteTeste.getEmail()));
     }
+    
+    @Test
+    public void deve_aceitar_endereco_nao_repetido() {
+    	Endereco endereco = new Endereco();
+    	clienteTeste.addEndereco(endereco);
+    	clienteTeste.addEndereco(clienteTeste.getEndereco());
+    	assertTrue(clienteTeste.enderecos.size() == 2);
+    }
+    
+    @Test(expected = AssertionError.class)
+    public void nao_deve_aceitar_endereco_repetido() {
+    	clienteTeste.addEndereco(clienteTeste.getEndereco());
+    	clienteTeste.addEndereco(clienteTeste.getEndereco());
+    }
+    
+    @Test
+    public void deve_aceitar_telefone_nao_repetido() {
+    	Telefone telefone = new Telefone();
+    	clienteTeste.addTelefone(telefone);
+    	clienteTeste.addTelefone(clienteTeste.getTelefone());
+    	assertTrue(clienteTeste.telefones.size() == 2);
+    }
+    
+    @Test(expected = AssertionError.class)
+    public void nao_deve_aceitar_telefone_repetido() {
+    	clienteTeste.addTelefone(clienteTeste.getTelefone());
+    	clienteTeste.addTelefone(clienteTeste.getTelefone());
+    }
 
 }
