@@ -1,139 +1,86 @@
 package br.com.contmatic.empresa;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.google.common.base.Preconditions;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.contmatic.enums.EnumNomeSetor;
+import br.com.contmatic.utils.Regex;
 
 public class Setor {
 
-	private static final int QUANTIDADE_FUNCIONARIOS_ZERO = 0;
+    @NotNull(message = "ID não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
+    private String id;
 
-	private static final int PRIMEIRO_DIGITO_RESPONSAVEL = 0;
-	
-	@NotNull(message = "ID não pode ser nulo.")
-    private int id; 
-	
     @NotNull(message = "Nome Setor não pode ser nulo.")
-	private EnumNomeSetor nomeSetor;
+    private EnumNomeSetor nome;
 
     @NotNull(message = "Ramal não pode ser nulo.")
-	private String ramal;
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_RAMAL, message="Ramal só pode conter números.")
+    private String ramal;
 
-    @NotNull(message = "Responsável não pode ser nulo.")
-	private String responsavel;
+    @NotEmpty(message = "Responsável não pode ser nulo ou vazio.")
+    @Size(max = 70, min = 2, message="Responsável deve ter entre 70 e 2 caracteres.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_NOME_VALIDO, message="Responsável com caracteres inválidos.")
+    private String responsavel;
 
-	private int quantidadeFuncionarios;
-
-	public Setor(EnumNomeSetor nomeSetor) {
-		setNome(nomeSetor);
-	}
-	
-	public Setor() {
-		
-	}
-	
-	public int getId() {
-        return id;
+    public Setor(EnumNomeSetor nome) {
+        setNome(nome);
     }
 
-    public void setId(int id) {
+    public Setor() {
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
-	public void setNome(EnumNomeSetor nomeSetor) {
-		impedeNomeNulo(nomeSetor);
-		this.nomeSetor = nomeSetor;
-	}
+    public String getId() {
+        return id;
+    }
 
-	private void impedeNomeNulo(EnumNomeSetor nomeSetor) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(nomeSetor.toString()), "Nome Setor não pode ser nulo");
-	}
+    public void setNome(EnumNomeSetor nome) {
+        this.nome = nome;
+    }
 
-	public EnumNomeSetor getNome() {
-		return this.nomeSetor;
-	}
+    public EnumNomeSetor getNome() {
+        return this.nome;
+    }
 
-	public void setRamal(String ramal) {
-		impedeRamalNulo(ramal);
-		impedeCaracteresNaoNumericosRamal(ramal);
-		this.ramal = ramal;
+    public void setRamal(String ramal) {
+        this.ramal = ramal;
+    }
 
-	}
+    public String getRamal() {
+        return this.ramal;
+    }
 
-	private void impedeCaracteresNaoNumericosRamal(String ramal) {
-		char[] ramalComoArrayChars = ramal.toCharArray();
-		for (char caracterRamal: ramalComoArrayChars) {
-			if (!Character.isDigit(caracterRamal))  {
-				throw new IllegalArgumentException("Ramal apenas com Números.");
-			}
-		}		
-	}
+    public void setResponsavel(String responsavel) {
+        this.responsavel = responsavel;
+    }
 
-	private void impedeRamalNulo(String ramal) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(ramal), "Ramal não pode ser nulo");
-	}
+    public String getResponsavel() {
+        return this.responsavel;
+    }
 
-	public String getRamal() {
-		return this.ramal;
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	public void setResponsavel(String responsavel) {
-		impedeResponsavelNulo(responsavel);
-		impedeCaracteresNumericosResponsavel(responsavel);
-		this.responsavel = responsavel;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	private void impedeCaracteresNumericosResponsavel(String responsavel) {
-		for (int caracterResponsavel = PRIMEIRO_DIGITO_RESPONSAVEL; caracterResponsavel < responsavel.length(); caracterResponsavel++) {
-			if (Character.isDigit(responsavel.charAt(caracterResponsavel))) {
-				throw new IllegalArgumentException("Responsável não pode ter números.");
-			}
-		}
-	}
-
-	private void impedeResponsavelNulo(String responsavel) {
-		Preconditions.checkArgument(StringUtils.isNotEmpty(responsavel), "Responsável não pode ser nulo");
-	}
-
-	public String getResponsavel() {
-		return this.responsavel;
-	}
-
-	public void setQuantidadeFuncionarios(int quantidadeFuncionarios) {
-		impedeQuantidadeFuncionariosNegativa(quantidadeFuncionarios);
-		this.quantidadeFuncionarios = quantidadeFuncionarios;
-	}
-
-	private void impedeQuantidadeFuncionariosNegativa(int quantidadeFuncionarios) {
-		if (quantidadeFuncionarios < QUANTIDADE_FUNCIONARIOS_ZERO) {
-			throw new IllegalArgumentException("Quantidade de Funcionários deve ser maior ou igual a " + QUANTIDADE_FUNCIONARIOS_ZERO + ".");
-		}
-	}
-
-	public int getQuantidadeFuncionarios() {
-		return this.quantidadeFuncionarios;
-	}
-
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
-
-	@Override
-	 public boolean equals(Object obj) {
-	    return EqualsBuilder.reflectionEquals(this, obj);
-	  }
-
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}	
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }

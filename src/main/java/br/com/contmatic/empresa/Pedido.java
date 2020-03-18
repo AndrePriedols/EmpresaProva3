@@ -1,8 +1,9 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -10,45 +11,36 @@ import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
 
+import br.com.contmatic.utils.Regex;
+
 public class Pedido {
-    
-    private static final double VALOR_PEDIDO_ZERO = 0;
-    
-    @NotNull(message = "ID Pedido não pode ser nulo.")
+
+    @NotNull(message = "ID não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
     private String id;
-    
+
     @NotNull(message = "Data Pedido não pode ser nula.")
     private DateTime dataPedido;
-    
+
     @NotNull(message = "Data Entrega não pode ser nula.")
+    @Future(message = "Data Entrega deve ser data futura.")
     private DateTime dataEntrega;
-    
+
+    @Min(value=0, message="Valor deve ser positivo ou zero.")
     private double valor;
-    
-    public Pedido (String idPedido) {
-        setIdPedido(idPedido);
-    }
-        
-    public void setIdPedido(String idPedido) {
-        impedeIdPedidoNulo(idPedido);
-        permiteApenasCaracteresNumericosNoIdPedido(idPedido);
-        this.id = idPedido;
+
+    public Pedido() {
     }
 
-    private void permiteApenasCaracteresNumericosNoIdPedido(String id) {
-        Preconditions.checkArgument(StringUtils.isNumeric(id), "Apenas números no ID Pedido");
+    public void setId(String id) {
+        this.id = id;
     }
 
-    private void impedeIdPedidoNulo(String id) {
-        Preconditions.checkNotNull(id, "ID do Pedido não pode ser nulo");
-    }
-    
     public String getId() {
         return this.id;
     }
-    
+
     public void setDataPedido(DateTime dataPedido) {
-        impedeDataPedidoNula(dataPedido);
         impedeDataPedidoPosteriorDataAtual(dataPedido);
         this.dataPedido = dataPedido;
     }
@@ -57,60 +49,39 @@ public class Pedido {
         Preconditions.checkArgument(dataPedido.isBeforeNow(), "Data pedido não pode ser posteior à atual.");
     }
 
-    private void impedeDataPedidoNula(DateTime dataPedido) {
-        Preconditions.checkNotNull(dataPedido, "Data pedido não pode ser nula");
-    }
-    
     public DateTime getDataPedido() {
         return this.dataPedido;
     }
-    
+
     public void setDataEntrega(DateTime dataEntrega) {
-        impedeDataEntregaNula(dataEntrega);
-        impedeDataEntregaPosteriorDataAtual(dataEntrega);
         this.dataEntrega = dataEntrega;
     }
 
-    private void impedeDataEntregaPosteriorDataAtual(DateTime dataEntrega) {
-        Preconditions.checkArgument(dataEntrega.isBeforeNow(), "Data Entrega não pode ser posteior à atual.");
-    }
-
-    private void impedeDataEntregaNula(DateTime dataEntrega) {
-        Preconditions.checkNotNull(dataEntrega, "Data Entrega não pode ser nula");
-    }
-    
     public DateTime getDataEntrega() {
         return this.dataEntrega;
     }
-    
-    public void setValor(double valor) {
-        verificaValorPositivo(valor);
-        this.valor = valor;
-    }
 
-    private void verificaValorPositivo(double valor) {
-        if (valor<= VALOR_PEDIDO_ZERO) {
-            throw new IllegalArgumentException("Valor deve ser maior que " + VALOR_PEDIDO_ZERO + ".");
-        }
+    public void setValor(double valor) {
+        this.valor = valor;
     }
 
     public double getValor() {
         return this.valor;
     }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	@Override
-	 public boolean equals(Object obj) {
-	    return EqualsBuilder.reflectionEquals(this, obj);
-	  }
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	} 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
- }
+}

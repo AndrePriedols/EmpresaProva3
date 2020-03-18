@@ -1,20 +1,40 @@
 package br.com.contmatic.empresa;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
+import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class ClienteTest {
+
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+
+    public Set<String> getErros(Cliente cliente) {
+        Set<String> erros = new HashSet<>();
+        for (ConstraintViolation<Cliente> constraintViolation : validator.validate(cliente)) {
+            erros.add(constraintViolation.getMessageTemplate());
+            System.out.println(constraintViolation.getMessageTemplate()); 
+        }
+        return erros;
+    }
 
     @BeforeClass
     public static void chama_template_loader() {
@@ -24,137 +44,214 @@ public class ClienteTest {
     Cliente clienteTeste = Fixture.from(Cliente.class).gimme("clienteValido");
 
     @Test
-    public void deve_aceitar_nome_cpf_valido() {
-        assertNotNull(clienteTeste);
+    public void deve_aceitar_cliente_valido() {
+        assertTrue(getErros(clienteTeste).isEmpty());
+    }
+    
+    @Test
+    public void deve_aceitar_id_valido() {
+    	assertNotNull(clienteTeste.getId());
+        assertFalse(getErros(clienteTeste).contains("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_invalido() {
+        clienteTeste.setId(null);
+        assertThat(getErros(clienteTeste), hasItem("ID não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_letras() {
+        clienteTeste.setId("a");
+        assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_caracter_especial() {
+        clienteTeste.setId("@");
+        assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_id_com_espaco() {
+        clienteTeste.setId("1 1");
+        assertThat(getErros(clienteTeste), hasItem("ID só pode conter números."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void nao_deve_aceitar_cpf_nulo() {
-        new Cliente(null);
+        clienteTeste.setCpf(null);
     }
 
     @Test
     public void deve_aceitar_cpf_valido_digito_zero() {
         clienteTeste.setCpf("46776847070");
-        assertNotNull("Cpf deve ser válido", clienteTeste.getCpf());
+        assertFalse(getErros(clienteTeste).contains("CPF em formato inválido."));
     }
 
     @Test
     public void deve_aceitar_cpf_valido_digito_zero_b() {
         clienteTeste.setCpf("82533451002");
-        assertNotNull("Cpf deve ser válido", clienteTeste.getCpf());
+        assertFalse(getErros(clienteTeste).contains("CPF em formato inválido."));
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_invalido_digito_k() {
-        clienteTeste.setCpf("65528642050");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_invalido_digito_j() {
-        clienteTeste.setCpf("65528642041");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_maior_11_digitos() {
-        clienteTeste.setCpf("1234567890123");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_menor_11_digitos() {
-        clienteTeste.setCpf("1234567890");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_letra() {
-        clienteTeste.setCpf("1234567890a");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_caracter_especial() {
-        clienteTeste.setCpf("1234567890@");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_espaco() {
-        clienteTeste.setCpf("123456 8901");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
-        clienteTeste.setCpf("11111111111");
-    }  
 
     @Test
-    public void deve_aceitar_nome_valido() {
-        clienteTeste.setNome("André");
-        if (StringUtils.isNotEmpty(clienteTeste.getNome()))
-            assertNotNull("Nome deve ser válido", clienteTeste.getNome());
+    public void nao_deve_aceitar_cpf_invalido_digito_k() {
+        clienteTeste.setCpf("65528642050");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
+    public void nao_deve_aceitar_cpf_invalido_digito_j() {
+        clienteTeste.setCpf("65528642041");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cpf_maior_11_digitos() {
+        clienteTeste.setCpf("1234567890123");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cpf_menor_11_digitos() {
+        clienteTeste.setCpf("1234567");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cpf_letra() {
+        clienteTeste.setCpf("1234567890a");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cpf_caracter_especial() {
+        clienteTeste.setCpf("1234567890@");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
+    }
+
+    @Test
+    public void nao_deve_aceitar_cpf_espaco() {
+        clienteTeste.setCpf("123456 8901");
+        assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
+    }
+
+    @Test(expected = AssertionError.class)
+    public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
+        clienteTeste.setCpf("11111111111");
+    }
+
+    @Test
+    public void deve_aceitar_nome_conforme_regex() {
+        clienteTeste.setNome("André");
+        assertFalse(getErros(clienteTeste).contains("Nome com caracteres inválidos."));
+    }
+    
+    @Test
+    public void deve_aceitar_nome_extensao_correta() {
+        clienteTeste.setNome("André");
+        assertFalse(getErros(clienteTeste).contains("Nome deve ter entre 70 e 2 caracteres."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_nome_extensao_incorreta() {
+        clienteTeste.setNome("A");
+        assertTrue(getErros(clienteTeste).contains("Nome deve ter entre 70 e 2 caracteres."));
+    }
+
+    @Test
     public void nao_deve_aceitar_nome_cliente_nulo() {
         clienteTeste.setNome(null);
+        assertThat(getErros(clienteTeste), hasItem("Nome não pode ser nulo ou vazio."));
     }
 
     @Test
     public void deve_aceitar_endereco_cliente_valido() {
-        assertNotNull("Endereço deve ser válido.", clienteTeste.getEndereco());
+        Endereco enderecoTeste = new Endereco("Rua 1", "12", "casa 1", "02039020");
+        clienteTeste.setEndereco(enderecoTeste);
+        assertTrue(getErros(clienteTeste).isEmpty());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void nao_deve_aceitar_endereco_cliente_nulo() {
         clienteTeste.setEndereco(null);
+        assertThat(getErros(clienteTeste), hasItem("Endereço não pode ser nulo."));
     }
 
     @Test
     public void deve_respeitar_o_get_set_endereco_cliente() {
-        Endereco enderecoTeste = new Endereco("Rua 1", "12", "casa 1", "jd Miriam", "02039020");
+        Endereco enderecoTeste = new Endereco("Rua 1", "12", "casa 1", "02039020");
         clienteTeste.setEndereco(enderecoTeste);
         assertTrue(clienteTeste.getEndereco().equals(enderecoTeste));
     }
 
     @Test
     public void deve_aceitar_email_valido() {
-        clienteTeste.setEmailCliente("ge_ovan-ema.cuser@ap--ple.com.br");
-        assertNotNull(clienteTeste.getEmailCliente());
+        clienteTeste.setEmail("anitta.suellen@gmail.com");
+        assertTrue(getErros(clienteTeste).isEmpty());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_email_cliente_nulo() {
-        clienteTeste.setEmailCliente(null);
+        clienteTeste.setEmail(null);
+        assertThat(getErros(clienteTeste), hasItem("Email não pode ser nulo ou vazio."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_email_mais_de_uma_arroba() {
-        clienteTeste.setEmailCliente("@geovanemacuser@apple.com");
-        assertNull(clienteTeste.getEmailCliente());
+        clienteTeste.setEmail("@geovanemacuser@apple.com");
+        assertThat(getErros(clienteTeste), hasItem("Email em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_email_iniciando_arroba() {
-        clienteTeste.setEmailCliente("ge@ovanemacuser@apple.com");
+        clienteTeste.setEmail("ge@ovanemacuser@apple.com");
+        assertThat(getErros(clienteTeste), hasItem("Email em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_email_iniciando_ponto() {
-        clienteTeste.setEmailCliente(".geovanemacuser@apple.com");
+        clienteTeste.setEmail(".geovanemacuser@apple.com");
+        assertThat(getErros(clienteTeste), hasItem("Email em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_email_terminando_arroba() {
-        clienteTeste.setEmailCliente("geovanemacuser@apple.com@");
+        clienteTeste.setEmail("geovanemacuser@apple.com@");
+        assertThat(getErros(clienteTeste), hasItem("Email em formato inválido."));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void nao_deve_aceitar_email_terminando_ponto() {
-        clienteTeste.setEmailCliente("geovanemacuser@apple.com.");
+        clienteTeste.setEmail("geovanemacuser@apple.com.");
+        assertThat(getErros(clienteTeste), hasItem("Email em formato inválido."));
     }
 
     @Test
     public void deve_respeitar_o_get_set_email_cliente() {
-        clienteTeste.setEmailCliente("geovanemacuser@apple.com");
-        assertTrue("Get e Set Cnpj deve funcionar.", clienteTeste.getEmailCliente().equals("geovanemacuser@apple.com"));
+        clienteTeste.setEmail("geovanemacuser@apple.com");
+        assertTrue("Get e Set Email deve funcionar.", clienteTeste.getEmail().equals("geovanemacuser@apple.com"));
+    }
+    
+	@Test
+	public void deve_aceitar_telefone_cliente_valido() {
+		Telefone telefoneTeste = new Telefone();
+		clienteTeste.setTelefone(telefoneTeste);
+		assertFalse(getErros(clienteTeste).contains("Telefone não pode ser nulo."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_telefone_cliente_nulo() {
+		clienteTeste.setTelefone(null);
+		assertThat(getErros(clienteTeste), hasItem("Telefone não pode ser nulo."));
+	}
+
+	@Test
+	public void get_set_telefone_deve_funcionar() {
+	Telefone telefoneTeste = new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765");
+	clienteTeste.setTelefone(new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765"));
+	assertTrue(clienteTeste.getTelefone().equals(telefoneTeste));
     }
 
     @Test
@@ -203,8 +300,36 @@ public class ClienteTest {
 
     @Test
     public void to_string_deve_conter_email() {
-        clienteTeste.setEmailCliente("geovanemacuser@apple.com");
-        assertTrue("Confere se Email Cliente está no toString", clienteTeste.toString().contains(clienteTeste.getEmailCliente()));
+        clienteTeste.setEmail("geovanemacuser@apple.com");
+        assertTrue("Confere se Email Cliente está no toString", clienteTeste.toString().contains(clienteTeste.getEmail()));
+    }
+    
+    @Test
+    public void deve_aceitar_endereco_nao_repetido() {
+    	Endereco endereco = new Endereco();
+    	clienteTeste.addEndereco(endereco);
+    	clienteTeste.addEndereco(clienteTeste.getEndereco());
+    	assertTrue(clienteTeste.enderecos.size() == 2);
+    }
+    
+    @Test(expected = AssertionError.class)
+    public void nao_deve_aceitar_endereco_repetido() {
+    	clienteTeste.addEndereco(clienteTeste.getEndereco());
+    	clienteTeste.addEndereco(clienteTeste.getEndereco());
+    }
+    
+    @Test
+    public void deve_aceitar_telefone_nao_repetido() {
+    	Telefone telefone = new Telefone();
+    	clienteTeste.addTelefone(telefone);
+    	clienteTeste.addTelefone(clienteTeste.getTelefone());
+    	assertTrue(clienteTeste.telefones.size() == 2);
+    }
+    
+    @Test(expected = AssertionError.class)
+    public void nao_deve_aceitar_telefone_repetido() {
+    	clienteTeste.addTelefone(clienteTeste.getTelefone());
+    	clienteTeste.addTelefone(clienteTeste.getTelefone());
     }
 
 }

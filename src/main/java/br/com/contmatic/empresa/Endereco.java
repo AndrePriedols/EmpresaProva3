@@ -1,88 +1,100 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import br.com.contmatic.enums.EnumTipoEndereco;
 import br.com.contmatic.enums.EnumTipoLogradouro;
 import br.com.contmatic.enums.EnumUF;
+import br.com.contmatic.utils.Regex;
 
 public class Endereco {
 
-    //@NotNull(message = "ID não pode ser nulo.")
-    private int id;
-    
-    //@NotEmpty
+    @NotNull(message = "ID não pode ser nulo.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
+    private String id;
+
+    @NotNull(message = "Tipo Endereço não pode ser nulo.")
+    private EnumTipoEndereco tipoEndereco;
+
+    @NotNull(message = "Tipo Logradouro não pode ser vazio.")
     private EnumTipoLogradouro tipoLogradouro;
 
-    //@Size(max = 70)
-    //@NotNull(message = "Logradouro não pode ser nulo.")
+    @NotNull(message = "Logradouro não pode ser nulo.")
+    @Size(max = 70, min = 1, message="Logradouro deve ter entre 1 e 70 caracteres.")
     private String logradouro;
 
-    //@NotNull(message = "Número não pode ser nulo.")
+    @NotNull(message = "Número não pode ser nulo.")
+    @Size(max = 10, message="Número só pode ter até 10 caracteres.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_NUMERO, message="Número só aceita caracteres numéricos.")
     private String numero;
 
-    //@NotNull(message = "Complemento não pode ser nulo.")
+    @NotNull(message = "Complemento não pode ser nulo.")
+    @Size(max=30, message="Complemento só pode ter até 30 caracteres.")
     private String complemento;
 
-    //@NotNull(message = "Bairro não pode ser nulo.")
+    @NotNull(message = "Bairro não pode ser nulo.")
+    @Size(max=30, message="Bairro só pode ter até 50 caracteres.")
     private String bairro;
 
-    //@NotNull(message = "Cidade não pode ser nulo.")
+    @NotNull(message = "Cidade não pode ser nula.")
     private String cidade;
 
-    //@NotNull(message = "UF não pode ser nulo.")
+    @NotNull(message = "UF não pode ser nulo.")
     private EnumUF UF;
 
-    //@NotNull(message = "CEP não pode ser nulo.")
+    @NotNull(message = "CEP não pode ser nulo.")
+    @Size(max = 8, min = 8, message="CEP deve ter 8 dígitos.")
+    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_CEP, message="CEP só aceita caracteres numéricos.")
     private String cep;
 
-    Endereco(EnumTipoLogradouro tipoLogradouro, String logradouro, String numero, String complemento, String bairro, String cidade, EnumUF uf, String cep) {
-        setTipoLogradouro(tipoLogradouro);
-    	setLogradouro(logradouro);
+    Endereco(String logradouro, String numero, String complemento, String cep) {
+        setLogradouro(logradouro);
         setNumero(numero);
         setComplemento(complemento);
-        setBairro(bairro);
-        setCidade(cidade);
-        setUF(uf);
-        setCep(cep);        
+        setCep(cep);
     }
-    
-    Endereco(String logradouro, String numero, String complemento, String bairro, String cep) {
-    	setLogradouro(logradouro);
-        setNumero(numero);
-        setComplemento(complemento);
-        setBairro(bairro);
-        setCep(cep);        
+
+    public Endereco() {
     }
-    
-	public Endereco() {    	
+
+    public EnumTipoEndereco getTipoEndereco() {
+        return tipoEndereco;
     }
-    
+
+    public void setTipoEndereco(EnumTipoEndereco tipoEndereco) {
+        this.tipoEndereco = tipoEndereco;
+    }
+
     public String getCidade() {
-		return cidade;
-	}
+        return cidade;
+    }
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
 
-	public EnumUF getUF() {
-		return UF;
-	}
+    public EnumUF getUF() {
+        return UF;
+    }
 
-	public void setUF(EnumUF uF) {
-		UF = uF;
-	}
+    public void setUF(EnumUF uF) {
+        UF = uF;
+    }
 
-    public int getId() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-    
     public EnumTipoLogradouro getTipoLogradouro() {
         return tipoLogradouro;
     }
@@ -131,19 +143,19 @@ public class Endereco {
         return this.cep;
     }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	@Override
-	 public boolean equals(Object obj) {
-	    return EqualsBuilder.reflectionEquals(this, obj);
-	  }
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }
