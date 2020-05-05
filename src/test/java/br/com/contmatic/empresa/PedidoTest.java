@@ -112,8 +112,6 @@ public class PedidoTest {
     public void nao_deve_aceitar_valor_negativo() {
         pedidoTeste.setValor(-10);
         assertThat(getErros(pedidoTeste), hasItem("Valor deve ser positivo ou zero."));
-    }
-    
-  
+    } 
 
 }

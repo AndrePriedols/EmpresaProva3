@@ -134,10 +134,10 @@ public class ClienteTest {
 		assertThat(getErros(clienteTeste), hasItem("CPF em formato inválido."));
 	}
 
-	@Test(expected = AssertionError.class)
-	public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
-		clienteTeste.setCpf("11111111111");
-	}
+	@Test(expected = IllegalArgumentException.class)
+    public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
+        clienteTeste.setCpf("11111111111");
+    }
 
 	@Test
 	public void deve_aceitar_nome_conforme_regex() {
@@ -330,29 +330,31 @@ public class ClienteTest {
 	@Test
 	public void deve_aceitar_endereco_nao_repetido() {
 		Endereco endereco = new Endereco();
-		clienteTeste.addEndereco(endereco);
-		clienteTeste.addEndereco(clienteTeste.getEndereco());
+		clienteTeste.getEnderecos().add(endereco);
+		clienteTeste.getEnderecos().add(clienteTeste.getEndereco());
 		assertTrue(clienteTeste.getEnderecos().size() == 2);
 	}
 
-	@Test(expected = AssertionError.class)
+	@Test
 	public void nao_deve_aceitar_endereco_repetido() {
-		clienteTeste.addEndereco(clienteTeste.getEndereco());
-		clienteTeste.addEndereco(clienteTeste.getEndereco());
+	        clienteTeste.getEnderecos().add(clienteTeste.getEndereco());
+	        clienteTeste.getEnderecos().add(clienteTeste.getEndereco());
+	        assertTrue(clienteTeste.getEnderecos().size() == 1);
 	}
+
+    @Test
+    public void deve_aceitar_telefone_nao_repetido() {
+        Telefone telefone = new Telefone();
+        clienteTeste.getTelefones().add(telefone);
+        clienteTeste.getTelefones().add(clienteTeste.getTelefone());
+        assertTrue(clienteTeste.getTelefones().size() == 2);
+    }
 
 	@Test
-	public void deve_aceitar_telefone_nao_repetido() {
-		Telefone telefone = new Telefone();
-		clienteTeste.addTelefone(telefone);
-		clienteTeste.addTelefone(clienteTeste.getTelefone());
-		assertTrue(clienteTeste.getTelefones().size() == 2);
-	}
-
-	@Test(expected = AssertionError.class)
 	public void nao_deve_aceitar_telefone_repetido() {
-		clienteTeste.addTelefone(clienteTeste.getTelefone());
-		clienteTeste.addTelefone(clienteTeste.getTelefone());
+	       clienteTeste.getTelefones().add(clienteTeste.getTelefone());
+           clienteTeste.getTelefones().add(clienteTeste.getTelefone());
+	       assertTrue(clienteTeste.getTelefones().size() == 1);
 	}
 
 }

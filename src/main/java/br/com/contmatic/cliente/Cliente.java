@@ -1,7 +1,5 @@
 package br.com.contmatic.cliente;
 
-import static org.junit.Assert.assertFalse;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,12 +34,12 @@ public class Cliente {
 	@javax.validation.constraints.Pattern(regexp = Regex.REGEX_NOME_VALIDO, message = "Nome com caracteres inválidos.")
 	private String nome;
 
-	private Set<Endereco> enderecos = new HashSet<Endereco>();
+	private Set<Endereco> enderecos = new HashSet<>();
 
 	@NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
 
-	private Set<Telefone> telefones = new HashSet<Telefone>();
+	private Set<Telefone> telefones = new HashSet<>();
 
 	@NotNull(message = "Telefone não pode ser nulo.")
 	private Telefone telefone;
@@ -95,18 +93,6 @@ public class Cliente {
 
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
-	}
-
-	public void addEndereco(Endereco endereco) {
-		boolean enderecoRepetido = enderecos.contains(endereco);
-		assertFalse("Não aceita endereço repetido", enderecoRepetido);
-		enderecos.add(endereco);
-	}
-
-	public void addTelefone(Telefone telefone) {
-		boolean telefoneRepetido = telefones.contains(telefone);
-		assertFalse("Não aceita telefone repetido", telefoneRepetido);
-		telefones.add(telefone);
 	}
 
 	public String getEmail() {

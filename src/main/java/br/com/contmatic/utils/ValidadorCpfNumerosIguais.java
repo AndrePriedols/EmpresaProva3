@@ -1,6 +1,6 @@
 package br.com.contmatic.utils;
 
-import static org.junit.Assert.assertFalse;
+import com.google.common.base.Preconditions;
 
 public class ValidadorCpfNumerosIguais {
 
@@ -30,9 +30,7 @@ public class ValidadorCpfNumerosIguais {
 	}
 
 	public static String impedeCpfTodosDigitosIguais(String cpf) {
-
-		assertFalse("Cpf não pode ter todos os dígitos iguais.",
-				cpf.charAt(SEGUNDO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
+	    Preconditions.checkArgument(!(cpf.charAt(SEGUNDO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
 						&& cpf.charAt(TERCEIRO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
 						&& cpf.charAt(QUARTO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
 						&& cpf.charAt(QUINTO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
@@ -41,7 +39,8 @@ public class ValidadorCpfNumerosIguais {
 						&& cpf.charAt(OITAVO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
 						&& cpf.charAt(NONO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
 						&& cpf.charAt(DECIMO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)
-						&& cpf.charAt(DECIMO_PRIMEIRO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF));
+						&& cpf.charAt(DECIMO_PRIMEIRO_DIGITO_CPF) == cpf.charAt(PRIMEIRO_DIGITO_CPF)), "CPF não pode ter todos os dígitos iguais.");	       
+	    
 		return cpf;
 	}
 
