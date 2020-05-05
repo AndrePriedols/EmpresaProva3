@@ -1,4 +1,4 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.fornecedor;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -12,15 +12,12 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.br.CNPJ;
-import org.joda.time.DateTime;
-
-import com.google.common.base.Preconditions;
 
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.utils.Regex;
 import telefone.Telefone;
 
-public class Empresa {
+public class Fornecedor {
 
 	@Min(value = 1, message = "ID não pode ser menor que 1.")
 	private Integer id;
@@ -34,11 +31,11 @@ public class Empresa {
 	@javax.validation.constraints.Pattern(regexp = Regex.REGEX_RAZAO_SOCIAL_VALIDA, message = "Razão Social com caracteres inválidos.")
 	private String razaoSocial;
 
-	@NotNull(message = "Data Abertura não pode ser nula.")
-	private DateTime dataAbertura;
-
-	@Min(value = 1, message = "Capital Social deve ser maior ou igual a 1.")
-	private double capitalSocial;
+	@NotBlank(message = "Email não pode ser nulo ou vazio.")
+	@Length(min = 3)
+	@Email(message = "Email em formato inválido.")
+	@javax.validation.constraints.Pattern(regexp = Regex.REGEX_VALIDACAO_EMAIL, message = "Email em formato inválido.")
+	private String email;
 
 	@NotNull(message = "Endereço não pode ser nulo.")
 	private Endereco endereco;
@@ -46,25 +43,11 @@ public class Empresa {
 	@NotNull(message = "Telefone não pode ser nulo.")
 	private Telefone telefone;
 
-	@NotBlank(message = "Email não pode ser nulo ou vazio.")
-	@Length(min = 3)
-	@Email(message = "Email em formato inválido.")
-	@javax.validation.constraints.Pattern(regexp = Regex.REGEX_VALIDACAO_EMAIL, message = "Email em formato inválido.")
-	private String email;
-
 	@URL(message = "URL do Site inválida.")
 	private String website;
 
-	public Empresa(String cnpj) {
+	public Fornecedor(String cnpj) {
 		setCnpj(cnpj);
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getEmail() {
-		return email;
 	}
 
 	public void setId(Integer id) {
@@ -73,10 +56,6 @@ public class Empresa {
 
 	public Integer getId() {
 		return id;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
 	}
 
 	public String getCnpj() {
@@ -91,29 +70,20 @@ public class Empresa {
 		return razaoSocial;
 	}
 
-	public void setDataAbertura(DateTime dataAbertura) {
-		impedeDataAberturaPosteriorAtual(dataAbertura);
-		this.dataAbertura = dataAbertura;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	private void impedeDataAberturaPosteriorAtual(DateTime dataAbertura) {
-		Preconditions.checkArgument(dataAbertura.isBeforeNow(), "Data Abertura não pode ser posteior à atual.");
-	}
-
-	public DateTime getDataAbertura() {
-		return this.dataAbertura;
-	}
-
-	public void setCapitalSocial(double capitalSocial) {
-		this.capitalSocial = capitalSocial;
-	}
-
-	public double getCapitalSocial() {
-		return this.capitalSocial;
+	public String getEmail() {
+		return this.email;
 	}
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	public Endereco getEndereco() {

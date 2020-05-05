@@ -1,10 +1,8 @@
-package br.com.contmatic.enums;
+package telefone;
 
 public enum EnumTipoTelefone {
 
-	FIXO(1, "Fixo"), 
-	CELULAR(2, "Celular"), 
-	RECADO(3, "Recado");
+	FIXO(1, "Fixo"), CELULAR(2, "Celular"), RECADO(3, "Recado");
 
 	private int codigo;
 	private String descricao;

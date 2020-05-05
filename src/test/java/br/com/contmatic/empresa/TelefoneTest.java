@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -18,8 +19,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
-import br.com.contmatic.enums.EnumTipoTelefone;
 import br.com.six2six.fixturefactory.Fixture;
+import telefone.EnumTipoTelefone;
+import telefone.Telefone;
 
 public class TelefoneTest {
 	
@@ -44,31 +46,20 @@ public class TelefoneTest {
     
     @Test
     public void deve_aceitar_id_valido() {
-        assertFalse(getErros(telefoneTeste).contains("ID só pode conter números."));
+    	assertNotNull(telefoneTeste.getId());
+        assertFalse(getErros(telefoneTeste).contains("ID não pode ser menor que 1."));
     }
     
     @Test
-    public void nao_deve_aceitar_id_invalido() {
-        telefoneTeste.setId(null);
-        assertThat(getErros(telefoneTeste), hasItem("ID não pode ser nulo."));
+    public void deve_aceitar_id_nulo() {
+    	telefoneTeste.setId(null);
+    	assertTrue(getErros(telefoneTeste).isEmpty());
     }
     
     @Test
-    public void nao_deve_aceitar_id_com_letras() {
-        telefoneTeste.setId("a");
-        assertThat(getErros(telefoneTeste), hasItem("ID só pode conter números."));
-    }
-    
-    @Test
-    public void nao_deve_aceitar_id_com_caracter_especial() {
-        telefoneTeste.setId("@");
-        assertThat(getErros(telefoneTeste), hasItem("ID só pode conter números."));
-    }
-    
-    @Test
-    public void nao_deve_aceitar_id_com_espaco() {
-        telefoneTeste.setId("1 1");
-        assertThat(getErros(telefoneTeste), hasItem("ID só pode conter números."));
+    public void nao_deve_aceitar_id_menor_1() {
+        telefoneTeste.setId(0);
+		assertThat(getErros(telefoneTeste), hasItem("ID não pode ser menor que 1."));
     }
     
     @Test
@@ -78,7 +69,7 @@ public class TelefoneTest {
 	}
 	
 	@Test
-	public void deve_aceitar_nome_valido() {
+	public void deve_aceitar_telefone_valido() {
         assertFalse(getErros(telefoneTeste).contains("Tipo telefone não pode ser nulo."));
 	}
 
@@ -107,6 +98,18 @@ public class TelefoneTest {
     @Test
     public void nao_deve_aceitar_ddd_nulo() {
         telefoneTeste.setDdd(null);
+        assertThat(getErros(telefoneTeste), hasItem("DDD não pode ser deixado em branco."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_ddd_vazio() {
+        telefoneTeste.setDdd("");
+        assertThat(getErros(telefoneTeste), hasItem("DDD não pode ser deixado em branco."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_ddd_espacos() {
+        telefoneTeste.setDdd("   ");
         assertThat(getErros(telefoneTeste), hasItem("DDD não pode ser deixado em branco."));
     }
     
@@ -154,6 +157,18 @@ public class TelefoneTest {
     @Test
     public void nao_deve_aceitar_telefone_nulo() {
         telefoneTeste.setNumeroTelefone(null);
+        assertThat(getErros(telefoneTeste), hasItem("Telefone não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_telefone_vazio() {
+        telefoneTeste.setNumeroTelefone("");
+        assertThat(getErros(telefoneTeste), hasItem("Telefone não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_telefone_espacos() {
+        telefoneTeste.setNumeroTelefone("   ");
         assertThat(getErros(telefoneTeste), hasItem("Telefone não pode ser nulo."));
     }
     

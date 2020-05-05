@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
+import br.com.contmatic.pedido.Pedido;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class PedidoTest {
@@ -49,31 +50,20 @@ public class PedidoTest {
 
     @Test
     public void deve_aceitar_id_valido() {
-        assertFalse(getErros(pedidoTeste).contains("ID só pode conter números."));
+    	assertNotNull(pedidoTeste.getId());
+        assertFalse(getErros(pedidoTeste).contains("ID não pode ser menor que 1."));
     }
-
+    
     @Test
-    public void nao_deve_aceitar_id_nullo() {
-        pedidoTeste.setId(null);
-        assertThat(getErros(pedidoTeste), hasItem("ID não pode ser nulo."));
+    public void deve_aceitar_id_nulo() {
+    	pedidoTeste.setId(null);
+    	assertTrue(getErros(pedidoTeste).isEmpty());
     }
-
+    
     @Test
-    public void nao_deve_aceitar_id_com_letras() {
-        pedidoTeste.setId("a");
-        assertThat(getErros(pedidoTeste), hasItem("ID só pode conter números."));
-    }
-
-    @Test
-    public void nao_deve_aceitar_id_com_caracter_especial() {
-        pedidoTeste.setId("@");
-        assertThat(getErros(pedidoTeste), hasItem("ID só pode conter números."));
-    }
-
-    @Test
-    public void nao_deve_aceitar_id_com_espaco() {
-        pedidoTeste.setId("1 1");
-        assertThat(getErros(pedidoTeste), hasItem("ID só pode conter números."));
+    public void nao_deve_aceitar_id_menor_1() {
+        pedidoTeste.setId(0);
+		assertThat(getErros(pedidoTeste), hasItem("ID não pode ser menor que 1."));
     }
 
     @Test

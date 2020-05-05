@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
@@ -18,8 +19,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
-import br.com.contmatic.enums.EnumTipoTelefone;
+import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.fornecedor.Fornecedor;
 import br.com.six2six.fixturefactory.Fixture;
+import telefone.EnumTipoTelefone;
+import telefone.Telefone;
 
 public class FornecedorTest {
 
@@ -49,36 +53,31 @@ public class FornecedorTest {
 
 	@Test
 	public void deve_aceitar_id_valido() {
-		assertFalse(getErros(fornecedorTeste).contains("ID só pode conter números."));
+		assertNotNull(fornecedorTeste.getId());
+		assertFalse(getErros(fornecedorTeste).contains("ID não pode ser menor que 1."));
 	}
 
 	@Test
-	public void nao_deve_aceitar_id_invalido() {
+	public void deve_aceitar_id_nulo() {
 		fornecedorTeste.setId(null);
-		assertThat(getErros(fornecedorTeste), hasItem("ID não pode ser nulo."));
+		assertTrue(getErros(fornecedorTeste).isEmpty());
 	}
 
 	@Test
-	public void nao_deve_aceitar_id_com_letras() {
-		fornecedorTeste.setId("a");
-		assertThat(getErros(fornecedorTeste), hasItem("ID só pode conter números."));
-	}
-
-	@Test
-	public void nao_deve_aceitar_id_com_caracter_especial() {
-		fornecedorTeste.setId("@");
-		assertThat(getErros(fornecedorTeste), hasItem("ID só pode conter números."));
-	}
-
-	@Test
-	public void nao_deve_aceitar_id_com_espaco() {
-		fornecedorTeste.setId("1 1");
-		assertThat(getErros(fornecedorTeste), hasItem("ID só pode conter números."));
+	public void nao_deve_aceitar_id_menor_1() {
+		fornecedorTeste.setId(0);
+		assertThat(getErros(fornecedorTeste), hasItem("ID não pode ser menor que 1."));
 	}
 
 	@Test
 	public void nao_deve_aceitar_cnpj_nulo() {
 		fornecedorTeste.setCnpj(null);
+		assertThat(getErros(fornecedorTeste), hasItem("CNPJ não pode ser nulo."));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_cnpj_espacos() {
+		fornecedorTeste.setCnpj("   	       ");
 		assertThat(getErros(fornecedorTeste), hasItem("CNPJ não pode ser nulo."));
 	}
 
@@ -129,6 +128,18 @@ public class FornecedorTest {
 		fornecedorTeste.setRazaoSocial(null);
 		assertThat(getErros(fornecedorTeste), hasItem("Razão Social não pode ser nula."));
 	}
+	
+	@Test
+	public void k_nao_deve_aceitar_razao_social_vazia() {
+		fornecedorTeste.setRazaoSocial("");
+		assertThat(getErros(fornecedorTeste), hasItem("Razão Social não pode ser nula."));
+	}
+	
+	@Test
+	public void k_nao_deve_aceitar_razao_social_espacos() {
+		fornecedorTeste.setRazaoSocial("   ");
+		assertThat(getErros(fornecedorTeste), hasItem("Razão Social não pode ser nula."));
+	}
 
 	@Test
 	public void deve_respeitar_o_get_set_razao_social() {
@@ -145,6 +156,18 @@ public class FornecedorTest {
 	@Test
 	public void nao_deve_aceitar_email_fornecedor_nulo() {
 		fornecedorTeste.setEmail(null);
+		assertThat(getErros(fornecedorTeste), hasItem("Email não pode ser nulo ou vazio."));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_fornecedor_vazio() {
+		fornecedorTeste.setEmail("");
+		assertThat(getErros(fornecedorTeste), hasItem("Email não pode ser nulo ou vazio."));
+	}
+	
+	@Test
+	public void nao_deve_aceitar_email_fornecedor_espacos() {
+		fornecedorTeste.setEmail("   ");
 		assertThat(getErros(fornecedorTeste), hasItem("Email não pode ser nulo ou vazio."));
 	}
 
@@ -219,10 +242,10 @@ public class FornecedorTest {
 
 	@Test
 	public void get_set_telefone_deve_funcionar() {
-	Telefone telefoneTeste = new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765");
-	fornecedorTeste.setTelefone(new Telefone("1", EnumTipoTelefone.CELULAR, "11","934508765"));
-	assertTrue(fornecedorTeste.getTelefone().equals(telefoneTeste));
-    }
+		Telefone telefoneTeste = new Telefone(EnumTipoTelefone.CELULAR, "11", "934508765");
+		fornecedorTeste.setTelefone(new Telefone(EnumTipoTelefone.CELULAR, "11", "934508765"));
+		assertTrue(fornecedorTeste.getTelefone().equals(telefoneTeste));
+	}
 
 	@Test
 	public void deve_aceitar_url_valida() {

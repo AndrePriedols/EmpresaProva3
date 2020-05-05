@@ -1,23 +1,20 @@
-package br.com.contmatic.empresa;
+package br.com.contmatic.endereco;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
-import br.com.contmatic.enums.EnumTipoEndereco;
-import br.com.contmatic.enums.EnumTipoLogradouro;
-import br.com.contmatic.enums.EnumUF;
 import br.com.contmatic.utils.Regex;
 
 public class Endereco {
 
-    @NotNull(message = "ID não pode ser nulo.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ID, message="ID só pode conter números.")
-    private String id;
+	@Min(value=1, message="ID não pode ser menor que 1.")
+	private Integer id;
 
     @NotNull(message = "Tipo Endereço não pode ser nulo.")
     private EnumTipoEndereco tipoEndereco;
@@ -25,35 +22,35 @@ public class Endereco {
     @NotNull(message = "Tipo Logradouro não pode ser vazio.")
     private EnumTipoLogradouro tipoLogradouro;
 
-    @NotNull(message = "Logradouro não pode ser nulo.")
+    @NotBlank(message = "Logradouro não pode ser nulo.")
     @Size(max = 70, min = 1, message="Logradouro deve ter entre 1 e 70 caracteres.")
     private String logradouro;
 
-    @NotNull(message = "Número não pode ser nulo.")
+    @NotBlank(message = "Número não pode ser nulo.")
     @Size(max = 10, message="Número só pode ter até 10 caracteres.")
     @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_NUMERO, message="Número só aceita caracteres numéricos.")
     private String numero;
 
-    @NotNull(message = "Complemento não pode ser nulo.")
+    @NotBlank(message = "Complemento não pode ser nulo.")
     @Size(max=30, message="Complemento só pode ter até 30 caracteres.")
     private String complemento;
 
-    @NotNull(message = "Bairro não pode ser nulo.")
+    @NotBlank(message = "Bairro não pode ser nulo.")
     @Size(max=30, message="Bairro só pode ter até 50 caracteres.")
     private String bairro;
 
-    @NotNull(message = "Cidade não pode ser nula.")
+    @NotBlank(message = "Cidade não pode ser nula.")
     private String cidade;
 
     @NotNull(message = "UF não pode ser nulo.")
-    private EnumUF UF;
+    private EnumUF uf;
 
-    @NotNull(message = "CEP não pode ser nulo.")
+    @NotBlank(message = "CEP não pode ser nulo.")
     @Size(max = 8, min = 8, message="CEP deve ter 8 dígitos.")
     @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_CEP, message="CEP só aceita caracteres numéricos.")
     private String cep;
 
-    Endereco(String logradouro, String numero, String complemento, String cep) {
+    public Endereco(String logradouro, String numero, String complemento, String cep) {
         setLogradouro(logradouro);
         setNumero(numero);
         setComplemento(complemento);
@@ -80,18 +77,18 @@ public class Endereco {
     }
 
     public EnumUF getUF() {
-        return UF;
+		return uf;
     }
 
     public void setUF(EnumUF uF) {
-        UF = uF;
+        uf = uF;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

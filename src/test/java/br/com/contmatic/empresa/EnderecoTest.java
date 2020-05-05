@@ -20,14 +20,13 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
-import br.com.contmatic.enums.EnumTipoEndereco;
-import br.com.contmatic.enums.EnumTipoLogradouro;
-import br.com.contmatic.enums.EnumTipoTelefone;
-import br.com.contmatic.enums.EnumUF;
+import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.endereco.EnumTipoEndereco;
+import br.com.contmatic.endereco.EnumTipoLogradouro;
+import br.com.contmatic.endereco.EnumUF;
 import br.com.six2six.fixturefactory.Fixture;
 
 public class EnderecoTest {
@@ -73,31 +72,20 @@ public class EnderecoTest {
     
     @Test
     public void deve_aceitar_id_valido() {
-        assertFalse(getErros(enderecoTeste).contains("ID só pode conter números."));
+    	assertNotNull(enderecoTeste.getId());
+        assertFalse(getErros(enderecoTeste).contains("ID não pode ser menor que 1."));
     }
     
     @Test
-    public void nao_deve_aceitar_id_invalido() {
-        enderecoTeste.setId(null);
-        assertThat(getErros(enderecoTeste), hasItem("ID não pode ser nulo."));
+    public void deve_aceitar_id_nulo() {
+    	enderecoTeste.setId(null);
+    	assertTrue(getErros(enderecoTeste).isEmpty());
     }
     
     @Test
-    public void nao_deve_aceitar_id_com_letras() {
-        enderecoTeste.setId("a");
-        assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
-    }
-    
-    @Test
-    public void nao_deve_aceitar_id_com_caracter_especial() {
-        enderecoTeste.setId("@");
-        assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
-    }
-    
-    @Test
-    public void nao_deve_aceitar_id_com_espaco() {
-        enderecoTeste.setId("1 1");
-        assertThat(getErros(enderecoTeste), hasItem("ID só pode conter números."));
+    public void nao_deve_aceitar_id_menor_1() {
+        enderecoTeste.setId(0);
+		assertThat(getErros(enderecoTeste), hasItem("ID não pode ser menor que 1."));
     }
     
     @Test
@@ -107,7 +95,7 @@ public class EnderecoTest {
 	}
 	
 	@Test
-	public void deve_aceitar_nome_valido() {
+	public void deve_aceitar_endereco_valido() {
         assertFalse(getErros(enderecoTeste).contains("Tipo Endereço não pode ser nulo."));
 	}
 
@@ -143,7 +131,18 @@ public class EnderecoTest {
     public void nao_deve_aceitar_logradouro_nulo() {
         enderecoTeste.setLogradouro(null);
         assertThat(getErros(enderecoTeste), hasItem("Logradouro não pode ser nulo."));
-
+    }
+    
+    @Test
+    public void nao_deve_aceitar_logradouro_vazio() {
+        enderecoTeste.setLogradouro("");
+        assertThat(getErros(enderecoTeste), hasItem("Logradouro não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_logradouro_espacos() {
+        enderecoTeste.setLogradouro("     ");
+        assertThat(getErros(enderecoTeste), hasItem("Logradouro não pode ser nulo."));
     }
 
     @Test
@@ -172,6 +171,18 @@ public class EnderecoTest {
     @Test
     public void nao_deve_aceitar_numero_nulo() {
         enderecoTeste.setNumero(null);
+        assertThat(getErros(enderecoTeste), hasItem("Número não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_numero_vazio() {
+        enderecoTeste.setNumero("");
+        assertThat(getErros(enderecoTeste), hasItem("Número não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_numero_espacos() {
+        enderecoTeste.setNumero("   ");
         assertThat(getErros(enderecoTeste), hasItem("Número não pode ser nulo."));
     }
     
@@ -216,6 +227,18 @@ public class EnderecoTest {
         enderecoTeste.setComplemento(null);
         assertThat(getErros(enderecoTeste), hasItem("Complemento não pode ser nulo."));
     }
+    
+    @Test
+    public void nao_deve_aceitar_complemento_vazio() {
+        enderecoTeste.setComplemento("");
+        assertThat(getErros(enderecoTeste), hasItem("Complemento não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_complemento_espacos() {
+        enderecoTeste.setComplemento("    ");
+        assertThat(getErros(enderecoTeste), hasItem("Complemento não pode ser nulo."));
+    }
 
     @Test
     public void deve_respeitar_o_get_set_complemento() {
@@ -232,6 +255,18 @@ public class EnderecoTest {
     @Test
     public void nao_deve_aceitar_bairro_nulo() {
         enderecoTeste.setBairro(null);
+        assertThat(getErros(enderecoTeste), hasItem("Bairro não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_bairro_vazio() {
+        enderecoTeste.setBairro("");
+        assertThat(getErros(enderecoTeste), hasItem("Bairro não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_bairro_espacos() {
+        enderecoTeste.setBairro("   ");
         assertThat(getErros(enderecoTeste), hasItem("Bairro não pode ser nulo."));
     }
 
@@ -251,6 +286,18 @@ public class EnderecoTest {
     @Test
     public void nao_deve_aceitar_cidade_nula() {
         enderecoTeste.setCidade(null);
+        assertThat(getErros(enderecoTeste), hasItem("Cidade não pode ser nula."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_cidade_vazio() {
+        enderecoTeste.setCidade("");
+        assertThat(getErros(enderecoTeste), hasItem("Cidade não pode ser nula."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_cidade_espacos() {
+        enderecoTeste.setCidade("   ");
         assertThat(getErros(enderecoTeste), hasItem("Cidade não pode ser nula."));
     }
 
@@ -288,6 +335,18 @@ public class EnderecoTest {
     @Test
     public void nao_deve_aceitar_cep_nulo() {
         enderecoTeste.setCep(null);
+        assertThat(getErros(enderecoTeste), hasItem("CEP não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_cep_vazio() {
+        enderecoTeste.setCep("");
+        assertThat(getErros(enderecoTeste), hasItem("CEP não pode ser nulo."));
+    }
+    
+    @Test
+    public void nao_deve_aceitar_cep_espacos() {
+        enderecoTeste.setCep("   ");
         assertThat(getErros(enderecoTeste), hasItem("CEP não pode ser nulo."));
     }
 
