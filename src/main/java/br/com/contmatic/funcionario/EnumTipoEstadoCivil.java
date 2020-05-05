@@ -1,4 +1,4 @@
-package br.com.contmatic.enumEstadoCivil;
+package br.com.contmatic.funcionario;
 
 public enum EnumTipoEstadoCivil {
 

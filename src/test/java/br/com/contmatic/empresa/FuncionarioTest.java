@@ -22,7 +22,7 @@ import org.junit.Test;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.contmatic.endereco.Endereco;
-import br.com.contmatic.enumEstadoCivil.EnumTipoEstadoCivil;
+import br.com.contmatic.funcionario.EnumTipoEstadoCivil;
 import br.com.contmatic.funcionario.Funcionario;
 import br.com.contmatic.setor.EnumNomeSetor;
 import br.com.contmatic.setor.Setor;

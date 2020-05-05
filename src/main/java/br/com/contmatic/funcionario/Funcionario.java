@@ -16,7 +16,6 @@ import org.joda.time.DateTime;
 import com.google.common.base.Preconditions;
 
 import br.com.contmatic.endereco.Endereco;
-import br.com.contmatic.enumEstadoCivil.EnumTipoEstadoCivil;
 import br.com.contmatic.setor.Setor;
 import br.com.contmatic.utils.Regex;
 import br.com.contmatic.utils.ValidadorCpfNumerosIguais;
