@@ -156,7 +156,7 @@ public class EmpresaTest {
 	@Test
 	public void deve_respeitar_o_get_set_razao_social() {
 		empresaTeste.setRazaoSocial("Oliveiras");
-		assertTrue("Get e Set Cnpj deve funcionar.", empresaTeste.getRazaoSocial().equals("Oliveiras"));
+        assertTrue("Get e Set Cnpj deve funcionar.", empresaTeste.getRazaoSocial().equals("Oliveiras"));
 	}
 
 	@Test

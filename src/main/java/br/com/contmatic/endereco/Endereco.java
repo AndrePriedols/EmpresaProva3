@@ -13,8 +13,8 @@ import br.com.contmatic.utils.Regex;
 
 public class Endereco {
 
-	@Min(value=1, message="ID não pode ser menor que 1.")
-	private Integer id;
+    @Min(value = 1, message = "ID não pode ser menor que 1.")
+    private Integer id;
 
     @NotNull(message = "Tipo Endereço não pode ser nulo.")
     private EnumTipoEndereco tipoEndereco;
@@ -23,20 +23,20 @@ public class Endereco {
     private EnumTipoLogradouro tipoLogradouro;
 
     @NotBlank(message = "Logradouro não pode ser nulo.")
-    @Size(max = 70, min = 1, message="Logradouro deve ter entre 1 e 70 caracteres.")
+    @Size(max = 70, min = 1, message = "Logradouro deve ter entre 1 e 70 caracteres.")
     private String logradouro;
 
     @NotBlank(message = "Número não pode ser nulo.")
-    @Size(max = 10, message="Número só pode ter até 10 caracteres.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_NUMERO, message="Número só aceita caracteres numéricos.")
+    @Size(max = 10, message = "Número só pode ter até 10 caracteres.")
+    @javax.validation.constraints.Pattern(regexp = Regex.REGEX_ENDERECO_NUMERO, message = "Número só aceita caracteres numéricos.")
     private String numero;
 
     @NotBlank(message = "Complemento não pode ser nulo.")
-    @Size(max=30, message="Complemento só pode ter até 30 caracteres.")
+    @Size(max = 30, message = "Complemento só pode ter até 30 caracteres.")
     private String complemento;
 
     @NotBlank(message = "Bairro não pode ser nulo.")
-    @Size(max=30, message="Bairro só pode ter até 50 caracteres.")
+    @Size(max = 30, message = "Bairro só pode ter até 50 caracteres.")
     private String bairro;
 
     @NotBlank(message = "Cidade não pode ser nula.")
@@ -46,8 +46,8 @@ public class Endereco {
     private EnumUF uf;
 
     @NotBlank(message = "CEP não pode ser nulo.")
-    @Size(max = 8, min = 8, message="CEP deve ter 8 dígitos.")
-    @javax.validation.constraints.Pattern(regexp=Regex.REGEX_ENDERECO_CEP, message="CEP só aceita caracteres numéricos.")
+    @Size(max = 8, min = 8, message = "CEP deve ter 8 dígitos.")
+    @javax.validation.constraints.Pattern(regexp = Regex.REGEX_ENDERECO_CEP, message = "CEP só aceita caracteres numéricos.")
     private String cep;
 
     public Endereco(String logradouro, String numero, String complemento, String cep) {
@@ -77,7 +77,7 @@ public class Endereco {
     }
 
     public EnumUF getUF() {
-		return uf;
+        return uf;
     }
 
     public void setUF(EnumUF uF) {

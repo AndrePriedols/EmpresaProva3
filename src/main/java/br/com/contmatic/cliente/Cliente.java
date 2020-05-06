@@ -22,116 +22,116 @@ import telefone.Telefone;
 
 public class Cliente {
 
-	@Min(value = 1, message = "ID não pode ser menor que 1.")
-	private Integer id;
+    @Min(value = 1, message = "ID não pode ser menor que 1.")
+    private Integer id;
 
-	@NotBlank(message = "CPF não pode ser nulo ou vazio.")
-	@CPF(message = "CPF em formato inválido.")
-	private String cpf;
+    @NotBlank(message = "CPF não pode ser nulo ou vazio.")
+    @CPF(message = "CPF em formato inválido.")
+    private String cpf;
 
-	@NotBlank(message = "Nome não pode ser nulo ou vazio.")
-	@Size(max = 70, min = 2, message = "Nome deve ter entre 70 e 2 caracteres.")
-	@javax.validation.constraints.Pattern(regexp = Regex.REGEX_NOME_VALIDO, message = "Nome com caracteres inválidos.")
-	private String nome;
+    @NotBlank(message = "Nome não pode ser nulo ou vazio.")
+    @Size(max = 70, min = 2, message = "Nome deve ter entre 70 e 2 caracteres.")
+    @javax.validation.constraints.Pattern(regexp = Regex.REGEX_NOME_VALIDO, message = "Nome com caracteres inválidos.")
+    private String nome;
 
-	private Set<Endereco> enderecos = new HashSet<>();
+    private Set<Endereco> enderecos = new HashSet<>();
 
-	@NotNull(message = "Endereço não pode ser nulo.")
-	private Endereco endereco;
+    @NotNull(message = "Endereço não pode ser nulo.")
+    private Endereco endereco;
 
-	private Set<Telefone> telefones = new HashSet<>();
+    private Set<Telefone> telefones = new HashSet<>();
 
-	@NotNull(message = "Telefone não pode ser nulo.")
-	private Telefone telefone;
+    @NotNull(message = "Telefone não pode ser nulo.")
+    private Telefone telefone;
 
-	@NotBlank(message = "Email não pode ser nulo ou vazio.")
-	@Length(min = 3)
-	@Email(message = "Email em formato inválido.")
-	@javax.validation.constraints.Pattern(regexp = Regex.REGEX_VALIDACAO_EMAIL, message = "Email em formato inválido.")
-	private String email;
+    @NotBlank(message = "Email não pode ser nulo ou vazio.")
+    @Length(min = 3)
+    @Email(message = "Email em formato inválido.")
+    @javax.validation.constraints.Pattern(regexp = Regex.REGEX_VALIDACAO_EMAIL, message = "Email em formato inválido.")
+    private String email;
 
-	public Cliente(String cpf) {
-		setCpf(cpf);
-	}
+    public Cliente(String cpf) {
+        setCpf(cpf);
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setCpf(String cpf) {
-		ValidadorCpfNumerosIguais.impedeCpfTodosDigitosIguais(cpf);
-		this.cpf = cpf;
-	}
+    public void setCpf(String cpf) {
+        ValidadorCpfNumerosIguais.impedeCpfTodosDigitosIguais(cpf);
+        this.cpf = cpf;
+    }
 
-	public String getCpf() {
-		return this.cpf;
-	}
+    public String getCpf() {
+        return this.cpf;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public String getNome() {
-		return this.nome;
-	}
+    public String getNome() {
+        return this.nome;
+    }
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
 
-	public Endereco getEndereco() {
-		return this.endereco;
-	}
+    public Endereco getEndereco() {
+        return this.endereco;
+    }
 
-	public Telefone getTelefone() {
-		return telefone;
-	}
+    public Telefone getTelefone() {
+        return telefone;
+    }
 
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
+    public void setTelefone(Telefone telefone) {
+        this.telefone = telefone;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public Set<Endereco> getEnderecos() {
-		return enderecos;
-	}
+    public Set<Endereco> getEnderecos() {
+        return enderecos;
+    }
 
-	public void setEnderecos(Set<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
+    public void setEnderecos(Set<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
 
-	public Set<Telefone> getTelefones() {
-		return telefones;
-	}
+    public Set<Telefone> getTelefones() {
+        return telefones;
+    }
 
-	public void setTelefones(Set<Telefone> telefones) {
-		this.telefones = telefones;
-	}
+    public void setTelefones(Set<Telefone> telefones) {
+        this.telefones = telefones;
+    }
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 
 }

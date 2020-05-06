@@ -24,95 +24,95 @@ import telefone.EnumTipoTelefone;
 import telefone.Telefone;
 
 public class TelefoneTest {
-	
-	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-	Validator validator = factory.getValidator();
 
-	public Set<String> getErros(Telefone telefone) {
-		Set<String> erros = new HashSet<>();
-		for (ConstraintViolation<Telefone> constraintViolation : validator.validate(telefone)) {
-			erros.add(constraintViolation.getMessageTemplate());
-			System.out.println(constraintViolation.getMessageTemplate());
-		}
-		return erros;
-	}
-	
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+
+    public Set<String> getErros(Telefone telefone) {
+        Set<String> erros = new HashSet<>();
+        for(ConstraintViolation<Telefone> constraintViolation : validator.validate(telefone)) {
+            erros.add(constraintViolation.getMessageTemplate());
+            System.out.println(constraintViolation.getMessageTemplate());
+        }
+        return erros;
+    }
+
     @BeforeClass
     public static void chama_template_loader() {
         new BaseTemplateLoader().load();
-    }   
-    
+    }
+
     Telefone telefoneTeste = Fixture.from(Telefone.class).gimme("telefoneValido");
-    
+
     @Test
     public void deve_aceitar_id_valido() {
-    	assertNotNull(telefoneTeste.getId());
+        assertNotNull(telefoneTeste.getId());
         assertFalse(getErros(telefoneTeste).contains("ID não pode ser menor que 1."));
     }
-    
+
     @Test
     public void deve_aceitar_id_nulo() {
-    	telefoneTeste.setId(null);
-    	assertTrue(getErros(telefoneTeste).isEmpty());
+        telefoneTeste.setId(null);
+        assertTrue(getErros(telefoneTeste).isEmpty());
     }
-    
+
     @Test
     public void nao_deve_aceitar_id_menor_1() {
         telefoneTeste.setId(0);
-		assertThat(getErros(telefoneTeste), hasItem("ID não pode ser menor que 1."));
+        assertThat(getErros(telefoneTeste), hasItem("ID não pode ser menor que 1."));
     }
-    
-    @Test
-	public void nao_deve_aceitar_tipo_telefone_nulo() {
-    	telefoneTeste.setTipoTelefone(null);
-        assertThat(getErros(telefoneTeste), hasItem("Tipo telefone não pode ser nulo."));
-	}
-	
-	@Test
-	public void deve_aceitar_telefone_valido() {
-        assertFalse(getErros(telefoneTeste).contains("Tipo telefone não pode ser nulo."));
-	}
 
-	@Test
-	public void deve_respeitar_o_get_set_nome_setor() {
-		telefoneTeste.setTipoTelefone(EnumTipoTelefone.CELULAR);
-		assertTrue("Get e Set Tipo Telefone deve funcionar.", telefoneTeste.getTipoTelefone().toString().equals("CELULAR"));
-	}
-	
-	@Test
+    @Test
+    public void nao_deve_aceitar_tipo_telefone_nulo() {
+        telefoneTeste.setTipoTelefone(null);
+        assertThat(getErros(telefoneTeste), hasItem("Tipo telefone não pode ser nulo."));
+    }
+
+    @Test
+    public void deve_aceitar_telefone_valido() {
+        assertFalse(getErros(telefoneTeste).contains("Tipo telefone não pode ser nulo."));
+    }
+
+    @Test
+    public void deve_respeitar_o_get_set_nome_setor() {
+        telefoneTeste.setTipoTelefone(EnumTipoTelefone.CELULAR);
+        assertTrue("Get e Set Tipo Telefone deve funcionar.", telefoneTeste.getTipoTelefone().toString().equals("CELULAR"));
+    }
+
+    @Test
     public void deve_aceitar_ddd_quantidade_caracteres_correta() {
         assertFalse(getErros(telefoneTeste).contains("DDD no máximo com 3 dígitos."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_ddd_quantidade_caracteres_incorreta() {
         telefoneTeste.setDdd("9999");
         assertThat(getErros(telefoneTeste), hasItem("DDD no máximo com 3 dígitos."));
     }
-    
+
     @Test
     public void deve_aceitar_ddd_apenas_caracteres_numericos() {
         assertFalse(getErros(telefoneTeste).contains("DDD aceita apenas números."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_ddd_nulo() {
         telefoneTeste.setDdd(null);
         assertThat(getErros(telefoneTeste), hasItem("DDD não pode ser deixado em branco."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_ddd_vazio() {
         telefoneTeste.setDdd("");
         assertThat(getErros(telefoneTeste), hasItem("DDD não pode ser deixado em branco."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_ddd_espacos() {
         telefoneTeste.setDdd("   ");
         assertThat(getErros(telefoneTeste), hasItem("DDD não pode ser deixado em branco."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_ddd_com_letras() {
         telefoneTeste.setDdd("9a9c99");
@@ -136,42 +136,42 @@ public class TelefoneTest {
         String ddd = "12";
         telefoneTeste.setDdd("12");
         assertEquals(telefoneTeste.getDdd(), ddd);
-    }    
-    
-	@Test
+    }
+
+    @Test
     public void deve_aceitar_telefone_quantidade_caracteres_correta() {
         assertFalse(getErros(telefoneTeste).contains("Telefone entre 8 e 9 dígitos."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_telefone_quantidade_caracteres_incorreta() {
         telefoneTeste.setNumeroTelefone("9999");
         assertThat(getErros(telefoneTeste), hasItem("Telefone entre 8 e 9 dígitos."));
     }
-    
+
     @Test
     public void deve_aceitar_telefone_apenas_caracteres_numericos() {
         assertFalse(getErros(telefoneTeste).contains("Número Telefone apenas números."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_telefone_nulo() {
         telefoneTeste.setNumeroTelefone(null);
         assertThat(getErros(telefoneTeste), hasItem("Telefone não pode ser nulo."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_telefone_vazio() {
         telefoneTeste.setNumeroTelefone("");
         assertThat(getErros(telefoneTeste), hasItem("Telefone não pode ser nulo."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_telefone_espacos() {
         telefoneTeste.setNumeroTelefone("   ");
         assertThat(getErros(telefoneTeste), hasItem("Telefone não pode ser nulo."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_telefone_com_letras() {
         telefoneTeste.setNumeroTelefone("9a9c99");
@@ -196,5 +196,5 @@ public class TelefoneTest {
         telefoneTeste.setNumeroTelefone("98765432");
         assertEquals(telefoneTeste.getNumeroTelefone(), telefone);
     }
-    
+
 }

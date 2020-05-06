@@ -50,20 +50,20 @@ public class PedidoTest {
 
     @Test
     public void deve_aceitar_id_valido() {
-    	assertNotNull(pedidoTeste.getId());
+        assertNotNull(pedidoTeste.getId());
         assertFalse(getErros(pedidoTeste).contains("ID não pode ser menor que 1."));
     }
-    
+
     @Test
     public void deve_aceitar_id_nulo() {
-    	pedidoTeste.setId(null);
-    	assertTrue(getErros(pedidoTeste).isEmpty());
+        pedidoTeste.setId(null);
+        assertTrue(getErros(pedidoTeste).isEmpty());
     }
-    
+
     @Test
     public void nao_deve_aceitar_id_menor_1() {
         pedidoTeste.setId(0);
-		assertThat(getErros(pedidoTeste), hasItem("ID não pode ser menor que 1."));
+        assertThat(getErros(pedidoTeste), hasItem("ID não pode ser menor que 1."));
     }
 
     @Test
@@ -77,55 +77,55 @@ public class PedidoTest {
     public void nao_deve_aceitar_data_pedido_nula() {
         pedidoTeste.setDataPedido(null);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void nao_deve_aceitar_data_pedido_posterior_atual() {
         pedidoTeste.setDataPedido(new DateTime(2080, 01, 01, 00, 00, 00));
     }
-    
+
     @Test
     public void deve_aceitar_data_entrega_valida() {
         pedidoTeste.setDataEntrega(new DateTime(2070, 01, 01, 00, 00, 00));
         assertNotNull(pedidoTeste.getDataEntrega());
         assertFalse(getErros(pedidoTeste).contains("Data Entrega deve ser data futura."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_data_entrega_nula() {
         pedidoTeste.setDataEntrega(null);
         assertThat(getErros(pedidoTeste), hasItem("Data Entrega não pode ser nula."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_data_entrega_passada() {
         pedidoTeste.setDataEntrega(new DateTime(1070, 01, 01, 00, 00, 00));
         assertThat(getErros(pedidoTeste), hasItem("Data Entrega deve ser data futura."));
     }
-    
+
     @Test
     public void deve_aceitar_valor_valido() {
         pedidoTeste.setValor(10);
         assertFalse(getErros(pedidoTeste).contains("Valor deve ser positivo ou zero."));
     }
-    
+
     @Test
     public void nao_deve_aceitar_valor_negativo() {
         pedidoTeste.setValor(-10);
         assertThat(getErros(pedidoTeste), hasItem("Valor deve ser positivo ou zero."));
-    } 
-    
+    }
+
     @Test
     public void deve_respeitar_get_valor() {
         double valor = 10;
         pedidoTeste.setValor(valor);
         assertTrue(pedidoTeste.getValor() == valor);
     }
-    
+
     @Test
     public void to_string_deve_conter_data_pedido() {
         assertTrue(pedidoTeste.toString().contains(pedidoTeste.getDataPedido().toString()));
     }
-    
+
     @Test
     public void to_string_deve_conter_data_entrega() {
         assertTrue(pedidoTeste.toString().contains(pedidoTeste.getDataEntrega().toString()));

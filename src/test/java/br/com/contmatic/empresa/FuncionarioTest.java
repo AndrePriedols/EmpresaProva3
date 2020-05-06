@@ -138,12 +138,12 @@ public class FuncionarioTest {
 	@Test
 	public void nao_deve_aceitar_cpf_espaco() {
 		funcionarioTeste.setCpf("123456 8901");
-		assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
-	}
+        assertThat(getErros(funcionarioTeste), hasItem("CPF em formato inválido."));
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
-		funcionarioTeste.setCpf("11111111111");
+    @Test(expected = IllegalArgumentException.class)
+    public void nao_deve_aceitar_cpf_com_todos_digitos_iguais() {
+        funcionarioTeste.setCpf("11111111111");
 	}
 
 	@Test
