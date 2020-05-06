@@ -2,7 +2,6 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -18,8 +17,6 @@ import javax.validation.ValidatorFactory;
 import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.google.common.base.Preconditions;
 
 import br.com.contmatic.empresa.utilidades.BaseTemplateLoader;
 import br.com.contmatic.pedido.Pedido;

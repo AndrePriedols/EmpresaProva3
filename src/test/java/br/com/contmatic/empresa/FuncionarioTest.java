@@ -2,6 +2,7 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -440,6 +441,27 @@ public class FuncionarioTest {
 		funcionarioTeste.setCargo("Estagiário");
 		String a = "Funcionário: José, 65528642051, Desenvolvimento, Estagiário";
 		assertNotEquals(a, funcionarioTeste.toString());
+	}
+	
+	@Test
+	public void get_data_contratacao_funciona() {
+		DateTime data = new DateTime("2010-10-03");
+		funcionarioTeste.setDataContratacao(data);
+		assertEquals(data, funcionarioTeste.getDataContratacao());
+	}
+	
+	@Test
+	public void get_data_nascimento_funciona() {
+		DateTime data = new DateTime("2010-10-03");
+		funcionarioTeste.setDataNascimento(data);
+		assertEquals(data, funcionarioTeste.getDataNascimento());
+	}
+	
+	@Test
+	public void enum_estado_civil_funciona() {
+		String estadoCivil = "Casado";
+		funcionarioTeste.setEstadoCivil(EnumTipoEstadoCivil.CASADO);
+		assertEquals(estadoCivil, funcionarioTeste.getEstadoCivil().getDescricao());
 	}
 
 }

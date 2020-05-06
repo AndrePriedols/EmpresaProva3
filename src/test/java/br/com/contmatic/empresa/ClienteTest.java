@@ -2,6 +2,7 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -355,6 +356,24 @@ public class ClienteTest {
 	       clienteTeste.getTelefones().add(clienteTeste.getTelefone());
            clienteTeste.getTelefones().add(clienteTeste.getTelefone());
 	       assertTrue(clienteTeste.getTelefones().size() == 1);
+	}
+	
+	@Test
+	public void testa_get_set_telefones() {
+		Set<Telefone> telefones = new HashSet<>();
+		Telefone telefone = new Telefone();
+		telefones.add(telefone);
+		clienteTeste.setTelefones(telefones);
+		assertEquals(telefones, clienteTeste.getTelefones());
+	}
+	
+	@Test
+	public void testa_get_set_enderecos() {
+		Set<Endereco> enderecos = new HashSet<>();
+		Endereco endereco = new Endereco();
+		enderecos.add(endereco);
+		clienteTeste.setEnderecos(enderecos);
+		assertEquals(enderecos, clienteTeste.getEnderecos());
 	}
 
 }

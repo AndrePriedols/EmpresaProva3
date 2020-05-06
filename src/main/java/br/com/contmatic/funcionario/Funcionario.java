@@ -23,8 +23,6 @@ import telefone.Telefone;
 
 public class Funcionario {
 
-	private static final int SALARIO_ZERO = 0;
-
 	@Min(value = 1, message = "ID não pode ser menor que 1.")
 	private Integer id;
 
@@ -179,14 +177,7 @@ public class Funcionario {
 	}
 
 	public void setSalario(double salario) {
-		obrigaSalarioPositivo(salario);
 		this.salario = salario;
-	}
-
-	private void obrigaSalarioPositivo(double salario) {
-		if (salario <= SALARIO_ZERO) {
-			throw new IllegalArgumentException("Salário deve ser maior que " + SALARIO_ZERO + ".");
-		}
 	}
 
 	public double getSalario() {

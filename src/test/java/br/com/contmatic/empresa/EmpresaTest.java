@@ -3,6 +3,7 @@ package br.com.contmatic.empresa;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -79,13 +80,13 @@ public class EmpresaTest {
 		empresaTeste.setCnpj(null);
 		assertThat(getErros(empresaTeste), hasItem("CNPJ não pode ser nulo."));
 	}
-	
+
 	@Test
 	public void nao_deve_aceitar_cnpj_vazio() {
 		empresaTeste.setCnpj("");
 		assertThat(getErros(empresaTeste), hasItem("CNPJ não pode ser nulo."));
 	}
-	
+
 	@Test
 	public void nao_deve_aceitar_cnpj_espacos() {
 		empresaTeste.setCnpj("   ");
@@ -139,13 +140,13 @@ public class EmpresaTest {
 		empresaTeste.setRazaoSocial(null);
 		assertThat(getErros(empresaTeste), hasItem("Razão Social não pode ser nula."));
 	}
-	
+
 	@Test
 	public void k_nao_deve_aceitar_razao_social_espacos() {
 		empresaTeste.setRazaoSocial("     ");
 		assertThat(getErros(empresaTeste), hasItem("Razão Social não pode ser nula."));
 	}
-	
+
 	@Test
 	public void k_nao_deve_aceitar_razao_social_vazia() {
 		empresaTeste.setRazaoSocial("");
@@ -233,18 +234,18 @@ public class EmpresaTest {
 		empresaTeste.setEmail(null);
 		assertThat(getErros(empresaTeste), hasItem("Email não pode ser nulo ou vazio."));
 	}
-	
-    @Test
-    public void nao_deve_aceitar_email_vazio() {
-        empresaTeste.setEmail("");
-        assertThat(getErros(empresaTeste), hasItem("Email não pode ser nulo ou vazio."));
-    }
-    
-    @Test
-    public void nao_deve_aceitar_email_espacos() {
-        empresaTeste.setEmail("   ");
-        assertThat(getErros(empresaTeste), hasItem("Email não pode ser nulo ou vazio."));
-    }
+
+	@Test
+	public void nao_deve_aceitar_email_vazio() {
+		empresaTeste.setEmail("");
+		assertThat(getErros(empresaTeste), hasItem("Email não pode ser nulo ou vazio."));
+	}
+
+	@Test
+	public void nao_deve_aceitar_email_espacos() {
+		empresaTeste.setEmail("   ");
+		assertThat(getErros(empresaTeste), hasItem("Email não pode ser nulo ou vazio."));
+	}
 
 	@Test
 	public void nao_deve_aceitar_email_mais_de_uma_arroba() {
@@ -362,6 +363,20 @@ public class EmpresaTest {
 	public void z10_atesta_que_cnpj_do_construtor_e_recebido() {
 		Empresa empresaTeste = new Empresa("12345678901234");
 		assertThat(empresaTeste.getCnpj(), is("12345678901234"));
+	}
+
+	@Test
+	public void z11_get_set_website() {
+		String website = "http://www.andrepriedols.com";
+		empresaTeste.setWebsite(website);
+		assertEquals(website, empresaTeste.getWebsite());
+	}
+
+	@Test
+	public void testa_get_set_data_abertura() {
+		DateTime dataAbertura = new DateTime("2010-04-02");
+		empresaTeste.setDataAbertura(dataAbertura);
+		assertEquals(dataAbertura, empresaTeste.getDataAbertura());
 	}
 
 }
